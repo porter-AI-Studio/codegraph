@@ -1,0 +1,92 @@
+<!DOCTYPE html><html lang="zh-TW" data-astro-cid-mw7aashj> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>SQLite 技術解析 | </title><link rel="stylesheet" href="/codegraph/_astro/DocsLayout.Bujtu5J-.css"></head>CodeGraph 完整指南 <meta name="description" content="深入了解 SQLite 在本地端代碼索引的關鍵優勢，涵蓋 WAL 併發模式、FTS5 全文索引以及 CodeGraph 專案 Schema。"> <link rel="icon" href="/codegraph/favicon.svg" type="image/svg+xml"> <script>
+    (function () {
+      const s = localStorage.getItem('cc-theme');
+      const d = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (s === 'dark' || (!s && d)) document.documentElement.classList.add('dark');
+    })();
+  </script>  </html> <body data-astro-cid-mw7aashj> <div id="pb" data-astro-cid-mw7aashj></div> <header data-astro-cid-mw7aashj> <div class="hi" data-astro-cid-mw7aashj> <div class="hl" data-astro-cid-mw7aashj> <button id="mbtn" class="ibtn" aria-label="選單" data-astro-cid-mw7aashj> <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" data-astro-cid-mw7aashj></path> </svg> </button> <a href="/codegraph/" class="site-name" data-astro-cid-mw7aashj> <span class="logo" data-astro-cid-mw7aashj>CG</span>&nbsp;&nbsp;CodeGraph 完整指南
+</a> </div> <div class="hr" data-astro-cid-mw7aashj> <button id="tt" class="ibtn" aria-label="切換主題" data-astro-cid-mw7aashj> <svg id="isun" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="display:none" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364-.707-.707M6.343 6.343l-.707-.707m12.728 0-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0z" data-astro-cid-mw7aashj></path> </svg> <svg id="imoon" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 0 1 8.646 3.646 9.003 9.003 0 0 0 12 21a9.003 9.003 0 0 0 8.354-5.646z" data-astro-cid-mw7aashj></path> </svg> </button> </div> </div> </header> <div id="layout" data-astro-cid-mw7aashj> <nav id="sb" data-astro-cid-mw7aashj> <div class="np" data-astro-cid-mw7aashj> <button class="pt open" data-pid="0" data-astro-cid-mw7aashj> <span data-astro-cid-mw7aashj>Part 0：前言</span> <svg class="arr" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" data-astro-cid-mw7aashj></path> </svg> </button> <ul class="nl" data-pl="0" data-astro-cid-mw7aashj> <li data-astro-cid-mw7aashj> <a href="/codegraph/preface" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>0.</span> <span data-astro-cid-mw7aashj>為什麼你需要 CodeGraph</span>  </a> </li> </ul> </div><div class="np" data-astro-cid-mw7aashj> <button class="pt open" data-pid="1" data-astro-cid-mw7aashj> <span data-astro-cid-mw7aashj>Part 1：基礎與概念</span> <svg class="arr" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" data-astro-cid-mw7aashj></path> </svg> </button> <ul class="nl" data-pl="1" data-astro-cid-mw7aashj> <li data-astro-cid-mw7aashj> <a href="/codegraph/ch01-intro" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>1.</span> <span data-astro-cid-mw7aashj>什麼是 CodeGraph</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ch02-why-codegraph" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>2.</span> <span data-astro-cid-mw7aashj>為什麼 AI Agent 需要 CodeGraph</span>  </a> </li> </ul> </div><div class="np" data-astro-cid-mw7aashj> <button class="pt open" data-pid="2" data-astro-cid-mw7aashj> <span data-astro-cid-mw7aashj>Part 2：核心功能與效能</span> <svg class="arr" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" data-astro-cid-mw7aashj></path> </svg> </button> <ul class="nl" data-pl="2" data-astro-cid-mw7aashj> <li data-astro-cid-mw7aashj> <a href="/codegraph/ch03-features" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>3.</span> <span data-astro-cid-mw7aashj>CodeGraph 核心特點與優勢</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ch04-benchmarks" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>4.</span> <span data-astro-cid-mw7aashj>效能基準測試與省代幣分析</span>  </a> </li> </ul> </div><div class="np" data-astro-cid-mw7aashj> <button class="pt open" data-pid="3" data-astro-cid-mw7aashj> <span data-astro-cid-mw7aashj>Part 3：安裝與代理程式整合</span> <svg class="arr" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" data-astro-cid-mw7aashj></path> </svg> </button> <ul class="nl" data-pl="3" data-astro-cid-mw7aashj> <li data-astro-cid-mw7aashj> <a href="/codegraph/ch05-installation" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>5.</span> <span data-astro-cid-mw7aashj>快速安裝與版本升級</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ch06-integration" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>6.</span> <span data-astro-cid-mw7aashj>整合與配置主流 AI 代理程式</span>  </a> </li> </ul> </div><div class="np" data-astro-cid-mw7aashj> <button class="pt" data-pid="4" data-astro-cid-mw7aashj> <span data-astro-cid-mw7aashj>Part 4：實戰應用與進階</span> <svg class="arr" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" data-astro-cid-mw7aashj></path> </svg> </button> <ul class="nl closed" data-pl="4" data-astro-cid-mw7aashj> <li data-astro-cid-mw7aashj> <a href="/codegraph/ch07-init-sync" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>7.</span> <span data-astro-cid-mw7aashj>專案初始化與自動同步機制</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ch08-search-impact" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>8.</span> <span data-astro-cid-mw7aashj>搜尋與影響力分析實踐</span>  </a> </li> </ul> </div><div class="np" data-astro-cid-mw7aashj> <button class="pt open" data-pid="5" data-astro-cid-mw7aashj> <span data-astro-cid-mw7aashj>Part 5：附錄</span> <svg class="arr" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" data-astro-cid-mw7aashj></path> </svg> </button> <ul class="nl" data-pl="5" data-astro-cid-mw7aashj> <li data-astro-cid-mw7aashj> <a href="/codegraph/glossary" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>10.</span> <span data-astro-cid-mw7aashj>名詞解釋</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ap-neo4j" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>11.</span> <span data-astro-cid-mw7aashj>Neo4j 技術解析</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ap-sqlite" class="active" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>12.</span> <span data-astro-cid-mw7aashj>SQLite 技術解析</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ap-mcp" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>13.</span> <span data-astro-cid-mw7aashj>MCP 協定解析</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ap-tree-sitter" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>14.</span> <span data-astro-cid-mw7aashj>Tree-sitter 技術解析</span>  </a> </li> </ul> </div> </nav> <div id="ov" data-astro-cid-mw7aashj></div> <main data-astro-cid-mw7aashj> <div class="cb" data-astro-cid-mw7aashj>  <span class="clabel">附錄 12 · SQLite 技術解析</span> <h1>SQLite 技術解析</h1> <p class="cdesc">輕量嵌入式關係引擎與本地全文檢索優勢</p> <h2>一、 為什麼本地 Code Graph 選擇 SQLite？</h2> <p>
+許多面向 AI Agent 的工具，其底層索引往往需要在幾毫秒內響應多次查詢。相較於客戶端-伺服器端資料庫（如 PostgreSQL），SQLite 具備以下三大核心優勢：
+</p> <ol> <li><strong>零配置部署 (Zero Configuration)</strong>：資料庫完全由單一的本地檔案（如 <code>codegraph.db</code>）表示，無須在主機上安裝、執行或授權任何資料庫伺服器行程。</li> <li><strong>嵌入式讀取 (In-Process Call)</strong>：無須通過 TCP/IP 網絡插座 (Socket) 進行通訊，所有 SQL 呼叫均在當前處理的記憶體邊界內完成，免除了昂貴的網絡來回時間。</li> <li><strong>ACID 安全性</strong>：採用原子性、一致性、隔離性、持久性設計，即使在 Agent 寫入代碼到一半、強制中斷或斷電時，也能保證圖資料庫檔案不毀損。</li> </ol> <h2>二、 併發的核心：WAL (Write-Ahead Logging) 模式</h2> <p>
+SQLite 預設採用 <code>Rollback Journal</code> 模式，寫入時會鎖定整張表，讀取行程必須等待。這對需要即時同步的 AI Agent 非常不利。CodeGraph 預設啟用 <strong>WAL 併發模式</strong>：
+</p> <ul> <li>當有新的代碼索引要寫入時，變更會先寫入一個獨立的 <code>-wal</code> 日誌暫存檔中。</li> <li>此時，讀取 SQLite 的 AI Agent 行程可以直接跳過暫存，直接讀取原始 <code>.db</code> 庫，並動態合併 wal 的紀錄。</li> <li><strong>優勢</strong>：實現了讀寫行程互不阻塞，支持一邊進行 Tree-sitter 背景增量索引，一邊給 Agent 提供圖譜查詢。</li> </ul> <h2>三、 全文索引：FTS5 (Full-Text Search) 虛擬表</h2> <p>
+為了能夠在一瞬間從數萬行代碼中找到符號名稱或 docstring，SQLite 內建了 <strong>FTS5</strong> 全文檢索引擎虛擬表。
+</p> <p>FTS5 採用倒排索引（Inverted Index）記錄單字在哪些行、哪些欄位中出現。以下為其實現 Schema 與模糊查詢的實戰 SQL 寫法：</p> <pre style="background: var(--bg2); padding: 1rem; border-radius: 6px; font-family: var(--mono); font-size: 0.82rem; border: 1px solid var(--border); overflow-x: auto; margin: 1rem 0;">// 1. 建立基於 FTS5 的虛擬表，將我們關心的欄位註冊進去
+CREATE VIRTUAL TABLE nodes_fts USING fts5(
+    name,
+    signature,
+    docstring,
+    content='nodes' -- 指向原始實體表
+);
+
+// 2. 當 nodes 插入新符號時，更新 FTS5 倒排索引
+INSERT INTO nodes_fts(rowid, name, signature, docstring) 
+VALUES (last_insert_rowid(), 'validateToken', 'function validateToken(token: string)', 'Validate JWT');
+
+// 3. AI 呼叫 MCP search 工具時，進行超高速匹配
+SELECT rowid, name FROM nodes_fts WHERE nodes_fts MATCH 'validate AND JWT';
+  </pre> <h2>四、 CodeGraph 的資料表 Schema</h2> <p>CodeGraph 在本地端 SQLite 建立的資料結構精確且輕量：</p> <pre style="background: var(--bg2); padding: 1rem; border-radius: 6px; font-family: var(--mono); font-size: 0.82rem; border: 1px solid var(--border); overflow-x: auto; margin: 1rem 0;">CREATE TABLE nodes (
+    id TEXT PRIMARY KEY,          -- 符號路徑 (如 func:src/auth.ts:validateToken:45)
+    kind TEXT NOT NULL,           -- class, function, method 等
+    name TEXT NOT NULL,           -- 符號短名稱
+    qualified_name TEXT,          -- 全稱 (包含命名空間)
+    file_path TEXT NOT NULL,      -- 所屬檔案路徑
+    start_line INTEGER,           -- 起始行號
+    end_line INTEGER,             -- 結束行號
+    language TEXT,                -- 代碼語言
+    signature TEXT,               -- 宣告簽名 (如 function validateToken(t: string))
+    docstring TEXT,               -- 註釋文檔
+    code_snippet TEXT             -- 原始碼片段
+);
+
+CREATE TABLE edges (
+    source_id TEXT,               -- 關係起點節點 ID
+    target_id TEXT,               -- 關係終點節點 ID
+    kind TEXT NOT NULL,           -- calls, imports, extends 等
+    resolved INTEGER DEFAULT 0,   -- 是否已成功尋找到定義
+    line_number INTEGER           -- 在第幾行發生調用
+);
+  </pre>  </div> <nav class="cnav" data-astro-cid-mw7aashj> <a href="/codegraph/ap-neo4j" class="prev" data-astro-cid-mw7aashj> <span class="nd" data-astro-cid-mw7aashj>← 上一章</span> <span class="nt" data-astro-cid-mw7aashj>Neo4j 技術解析</span> </a> <a href="/codegraph/ap-mcp" class="next" data-astro-cid-mw7aashj> <span class="nd" data-astro-cid-mw7aashj>下一章 →</span> <span class="nt" data-astro-cid-mw7aashj>MCP 協定解析</span> </a> </nav> </main> </div> <script>
+    // Theme
+    const html = document.documentElement;
+    const tt = document.getElementById('tt');
+    const isun = document.getElementById('isun');
+    const imoon = document.getElementById('imoon');
+    function syncIcons() {
+      const dk = html.classList.contains('dark');
+      isun.style.display = dk ? 'block' : 'none';
+      imoon.style.display = dk ? 'none' : 'block';
+    }
+    syncIcons();
+    tt?.addEventListener('click', () => {
+      html.classList.toggle('dark');
+      localStorage.setItem('cc-theme', html.classList.contains('dark') ? 'dark' : 'light');
+      syncIcons();
+    });
+
+    // Progress
+    const pb = document.getElementById('pb');
+    window.addEventListener('scroll', () => {
+      const t = document.documentElement.scrollHeight - window.innerHeight;
+      pb.style.width = t > 0 ? `${(window.scrollY / t) * 100}%` : '0%';
+    }, { passive: true });
+
+    // Sidebar part toggles
+    document.querySelectorAll('.pt').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.dataset.pid;
+        const list = document.querySelector(`[data-pl="${id}"]`);
+        btn.classList.toggle('open');
+        list?.classList.toggle('closed');
+      });
+    });
+
+    // Mobile menu
+    const sb = document.getElementById('sb');
+    const ov = document.getElementById('ov');
+    const mb = document.getElementById('mbtn');
+    const open = () => { sb.classList.add('open'); ov.classList.add('open'); document.body.style.overflow='hidden'; };
+    const close = () => { sb.classList.remove('open'); ov.classList.remove('open'); document.body.style.overflow=''; };
+    mb?.addEventListener('click', open);
+    ov?.addEventListener('click', close);
+  </script> </body> 

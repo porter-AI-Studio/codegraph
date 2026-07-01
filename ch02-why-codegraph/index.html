@@ -1,0 +1,122 @@
+<!DOCTYPE html><html lang="zh-TW" data-astro-cid-mw7aashj> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>為什麼 AI Agent 需要 CodeGraph | </title><link rel="stylesheet" href="/codegraph/_astro/DocsLayout.Bujtu5J-.css"></head>CodeGraph 完整指南 <meta name="description" content="深度解析傳統 AI 代理在探索大型代碼庫時的 Token 浪費與重複查詢痛點，以及 CodeGraph 是如何解決這些問題的。"> <link rel="icon" href="/codegraph/favicon.svg" type="image/svg+xml"> <script>
+    (function () {
+      const s = localStorage.getItem('cc-theme');
+      const d = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (s === 'dark' || (!s && d)) document.documentElement.classList.add('dark');
+    })();
+  </script>  </html> <body data-astro-cid-mw7aashj> <div id="pb" data-astro-cid-mw7aashj></div> <header data-astro-cid-mw7aashj> <div class="hi" data-astro-cid-mw7aashj> <div class="hl" data-astro-cid-mw7aashj> <button id="mbtn" class="ibtn" aria-label="選單" data-astro-cid-mw7aashj> <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" data-astro-cid-mw7aashj></path> </svg> </button> <a href="/codegraph/" class="site-name" data-astro-cid-mw7aashj> <span class="logo" data-astro-cid-mw7aashj>CG</span>&nbsp;&nbsp;CodeGraph 完整指南
+</a> </div> <div class="hr" data-astro-cid-mw7aashj> <button id="tt" class="ibtn" aria-label="切換主題" data-astro-cid-mw7aashj> <svg id="isun" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="display:none" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364-.707-.707M6.343 6.343l-.707-.707m12.728 0-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0z" data-astro-cid-mw7aashj></path> </svg> <svg id="imoon" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 0 1 8.646 3.646 9.003 9.003 0 0 0 12 21a9.003 9.003 0 0 0 8.354-5.646z" data-astro-cid-mw7aashj></path> </svg> </button> </div> </div> </header> <div id="layout" data-astro-cid-mw7aashj> <nav id="sb" data-astro-cid-mw7aashj> <div class="np" data-astro-cid-mw7aashj> <button class="pt open" data-pid="0" data-astro-cid-mw7aashj> <span data-astro-cid-mw7aashj>Part 0：前言</span> <svg class="arr" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" data-astro-cid-mw7aashj></path> </svg> </button> <ul class="nl" data-pl="0" data-astro-cid-mw7aashj> <li data-astro-cid-mw7aashj> <a href="/codegraph/preface" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>0.</span> <span data-astro-cid-mw7aashj>為什麼你需要 CodeGraph</span>  </a> </li> </ul> </div><div class="np" data-astro-cid-mw7aashj> <button class="pt open" data-pid="1" data-astro-cid-mw7aashj> <span data-astro-cid-mw7aashj>Part 1：基礎與概念</span> <svg class="arr" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" data-astro-cid-mw7aashj></path> </svg> </button> <ul class="nl" data-pl="1" data-astro-cid-mw7aashj> <li data-astro-cid-mw7aashj> <a href="/codegraph/ch01-intro" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>1.</span> <span data-astro-cid-mw7aashj>什麼是 CodeGraph</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ch02-why-codegraph" class="active" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>2.</span> <span data-astro-cid-mw7aashj>為什麼 AI Agent 需要 CodeGraph</span>  </a> </li> </ul> </div><div class="np" data-astro-cid-mw7aashj> <button class="pt open" data-pid="2" data-astro-cid-mw7aashj> <span data-astro-cid-mw7aashj>Part 2：核心功能與效能</span> <svg class="arr" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" data-astro-cid-mw7aashj></path> </svg> </button> <ul class="nl" data-pl="2" data-astro-cid-mw7aashj> <li data-astro-cid-mw7aashj> <a href="/codegraph/ch03-features" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>3.</span> <span data-astro-cid-mw7aashj>CodeGraph 核心特點與優勢</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ch04-benchmarks" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>4.</span> <span data-astro-cid-mw7aashj>效能基準測試與省代幣分析</span>  </a> </li> </ul> </div><div class="np" data-astro-cid-mw7aashj> <button class="pt open" data-pid="3" data-astro-cid-mw7aashj> <span data-astro-cid-mw7aashj>Part 3：安裝與代理程式整合</span> <svg class="arr" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" data-astro-cid-mw7aashj></path> </svg> </button> <ul class="nl" data-pl="3" data-astro-cid-mw7aashj> <li data-astro-cid-mw7aashj> <a href="/codegraph/ch05-installation" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>5.</span> <span data-astro-cid-mw7aashj>快速安裝與版本升級</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ch06-integration" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>6.</span> <span data-astro-cid-mw7aashj>整合與配置主流 AI 代理程式</span>  </a> </li> </ul> </div><div class="np" data-astro-cid-mw7aashj> <button class="pt" data-pid="4" data-astro-cid-mw7aashj> <span data-astro-cid-mw7aashj>Part 4：實戰應用與進階</span> <svg class="arr" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" data-astro-cid-mw7aashj></path> </svg> </button> <ul class="nl closed" data-pl="4" data-astro-cid-mw7aashj> <li data-astro-cid-mw7aashj> <a href="/codegraph/ch07-init-sync" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>7.</span> <span data-astro-cid-mw7aashj>專案初始化與自動同步機制</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ch08-search-impact" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>8.</span> <span data-astro-cid-mw7aashj>搜尋與影響力分析實踐</span>  </a> </li> </ul> </div><div class="np" data-astro-cid-mw7aashj> <button class="pt" data-pid="5" data-astro-cid-mw7aashj> <span data-astro-cid-mw7aashj>Part 5：附錄</span> <svg class="arr" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" data-astro-cid-mw7aashj></path> </svg> </button> <ul class="nl closed" data-pl="5" data-astro-cid-mw7aashj> <li data-astro-cid-mw7aashj> <a href="/codegraph/glossary" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>10.</span> <span data-astro-cid-mw7aashj>名詞解釋</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ap-neo4j" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>11.</span> <span data-astro-cid-mw7aashj>Neo4j 技術解析</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ap-sqlite" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>12.</span> <span data-astro-cid-mw7aashj>SQLite 技術解析</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ap-mcp" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>13.</span> <span data-astro-cid-mw7aashj>MCP 協定解析</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ap-tree-sitter" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>14.</span> <span data-astro-cid-mw7aashj>Tree-sitter 技術解析</span>  </a> </li> </ul> </div> </nav> <div id="ov" data-astro-cid-mw7aashj></div> <main data-astro-cid-mw7aashj> <div class="cb" data-astro-cid-mw7aashj>  <span class="clabel">第 2 章 · Part 1：基礎與概念</span> <h1>為什麼 AI Agent 需要 CodeGraph</h1> <p class="cdesc">打破「重做尋路」的 Token 消耗黑洞</p> <h2>一、 森林中的尋路者：傳統 Agent 的探索痛點</h2> <p>
+在使用 Claude Code (cc) 或 Cursor 的 Agent 模式來修改一個陌生或龐大的專案時，你可能經常會看見以下的一幕：
+</p> <p>
+當你提出一個高階架構問題（例如「<em>請幫我查出用戶登入驗證的完整生命週期？</em>」）時，Agent 為了找出跨文件的調用鏈，會立刻啟動一個 Subagent (子代理) 開始瘋狂調用工具：
+</p> <pre style="background: var(--bg2); padding: 1rem; border-radius: 6px; font-family: var(--mono); font-size: 0.85rem; border: 1px solid var(--border); overflow-x: auto; margin: 1rem 0;">grep -r "login" src/
+➔ 發現 120 處符合，嘗試列出檔案
+➔ ls src/auth/
+➔ 讀取 src/auth/service.ts 1-200 行
+➔ 發現引用了 TokenValidator
+➔ grep -r "TokenValidator" src/
+➔ 讀取 src/auth/validator.ts ...
+➔ (重複執行這個流程 20~50 次)
+  </pre> <p>在這個循環中，Agent 可能累積消耗了 <strong>60 次以上的 Tool Call、數十萬的 Token，以及數分鐘的等待時間</strong>，僅僅是為了在它的「工作記憶（Working Memory）」中，拼湊出一張極其脆弱、離散的「代碼靜態結構圖」。</p> <div style="border:1px solid var(--border);border-radius:12px;padding:1.75rem;background:var(--bg2);margin:1.5rem 0"> <div style="display:flex;gap:1.25rem;align-items:flex-start;font-size:.82rem"> <!-- Left: Agent --> <div style="flex-shrink:0;text-align:center;padding:.6rem .9rem;background:var(--bg);border:1px solid var(--border);border-radius:8px;min-width:90px"> <div style="font-size:1.5rem">🤖</div> <div style="font-weight:700;margin-top:.25rem">AI Agent</div> <div style="font-size:.72rem;color:var(--muted);margin-top:.15rem">工作記憶：空</div> </div> <!-- Middle: Loop --> <div style="flex:1;position:relative"> <div style="border:1.5px dashed #c0533a;border-radius:10px;padding:.9rem 1rem;position:relative"> <div style="position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--bg2);padding:0 .5rem;font-size:.72rem;color:var(--accent);font-weight:700;white-space:nowrap">🔄 惡性探索迴圈（60+ Tool Calls）</div> <div style="display:flex;flex-direction:column;gap:.35rem;font-family:var(--mono);font-size:.78rem"> <div style="padding:.3rem .7rem;background:var(--bg3);border-radius:5px;color:var(--text)">① grep -r "login" src/ <span style="color:#c0533a;float:right">→ 120 matches</span></div> <div style="text-align:center;color:var(--muted);font-size:.72rem">↓</div> <div style="padding:.3rem .7rem;background:var(--bg3);border-radius:5px;color:var(--text)">② Read src/auth/service.ts <span style="color:#c0533a;float:right">200 行</span></div> <div style="text-align:center;color:var(--muted);font-size:.72rem">↓</div> <div style="padding:.3rem .7rem;background:var(--bg3);border-radius:5px;color:var(--text)">③ 發現引用 <span style="color:var(--accent)">TokenValidator</span> ...</div> <div style="text-align:center;color:var(--muted);font-size:.72rem">↓</div> <div style="padding:.3rem .7rem;background:var(--bg3);border-radius:5px;color:var(--text)">④ grep -r "TokenValidator" <span style="color:#c0533a;float:right">→ 再探索</span></div> <div style="text-align:center;font-size:.78rem;margin-top:.1rem">⤴ 重複 20～50 次 ⤴</div> </div> </div> <!-- Cost labels --> <div style="display:flex;gap:.5rem;margin-top:.6rem;font-size:.74rem;color:var(--muted)"> <div style="flex:1;padding:.3rem .5rem;background:var(--bg3);border-radius:5px;text-align:center">⏱ 數分鐘等待</div> <div style="flex:1;padding:.3rem .5rem;background:var(--bg3);border-radius:5px;text-align:center">📊 數十萬 Tokens</div> <div style="flex:1;padding:.3rem .5rem;background:var(--bg3);border-radius:5px;text-align:center">💸 費用暴增</div> </div> </div> <!-- Right: Codebase --> <div style="flex-shrink:0;text-align:center;padding:.6rem .9rem;background:var(--bg);border:1px solid var(--border);border-radius:8px;min-width:90px"> <div style="font-size:1.5rem">📂</div> <div style="font-weight:700;margin-top:.25rem">代碼庫</div> <div style="font-size:.72rem;color:var(--muted);margin-top:.15rem">~10k 檔案</div> </div> </div> </div> <h2>二、 工作記憶 vs 確定性結構</h2> <p>
+這種探索流程本質上是<strong>在使用極其昂貴的 LLM 推理運算，去反覆重新計算那些在本地早已確定、可被靜態分析推導出來的靜態結構資訊</strong>。這在軟體工程中是極大的浪費。
+</p> <p>
+代碼與代碼之間的調用關係（如 A 函數在 line 40 調用了 B 函數，或 Class C 繼承了 Class D）是 100% 確定的。我們不應該要求 LLM 每次都在黑箱中用字串比對去「重新發掘」這些邊界。
+</p> <p> <strong>CodeGraph 的核心思想</strong>：在本地一次性算好這張「關係網絡地圖」，以 SQLite 檔案格式落地儲存，並透過 MCP (Model Context Protocol) 將查詢工具直接掛載給 Agent。當 Agent 需要分析架構時，只需一次 API Query（如 <code>codegraph_trace</code>），就能精準拿到一條橫跨多個檔案的調用鏈。
+</p> <h2>三、 核心對決：Code RAG 不等於 Document RAG</h2> <p>
+許多人會問：我們為什麼不直接把整個代碼庫切片（Chunking）、算出向量值（Vector Embeddings）並存進向量資料庫中，讓 AI 透過語義搜尋就好了？
+</p> <p>
+CodeGraph 做出了一個非常有趣的技術反思。在早期版本中，CodeGraph 的確包含過基於向量檢索（Vector Search）的模組。然而，作者在實際測試後，<strong>主動將向量功能徹底移除</strong>。
+</p> <p>
+這是因為代碼檢索與一般的文檔問答（Document RAG）有本質上的不同：
+</p> <table style="width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.9rem;"> <thead> <tr style="border-bottom: 2px solid var(--border); text-align: left; background: var(--bg2);"> <th style="padding: 0.75rem;">維度</th> <th style="padding: 0.75rem;">Document RAG (文件問答)</th> <th style="padding: 0.75rem;">Code RAG (代碼探索)</th> </tr> </thead> <tbody> <tr style="border-bottom: 1px solid var(--border);"> <td style="padding: 0.75rem; font-weight: 600;">底層依賴</td> <td style="padding: 0.75rem;">語義相似度 (模糊統計)</td> <td style="padding: 0.75rem;">語法樹與引用關係 (精確幾何)</td> </tr> <tr style="border-bottom: 1px solid var(--border);"> <td style="padding: 0.75rem; font-weight: 600;">容錯度</td> <td style="padding: 0.75rem;">高 (大意相近即可)</td> <td style="padding: 0.75rem;">極低 (符號對錯一個字即失效)</td> </tr> <tr style="border-bottom: 1px solid var(--border);"> <td style="padding: 0.75rem; font-weight: 600;">主導技術</td> <td style="padding: 0.75rem;">Vector Embedding</td> <td style="padding: 0.75rem;">AST 解析 + 全文檢索 + 圖遍歷</td> </tr> <tr style="border-bottom: 1px solid var(--border);"> <td style="padding: 0.75rem; font-weight: 600;">典型問題</td> <td style="padding: 0.75rem;">「本公司休假福利是什麼？」</td> <td style="padding: 0.75rem;">「誰調用了 <code>validateSessionToken</code>？」</td> </tr> </tbody> </table> <p>
+在代碼世界中，關係的<strong>精確性</strong>高於語義的<strong>相似度</strong>。如果僅使用向量檢索，當你搜尋 <code>validateToken</code>，向量庫可能會因為語義相近，把 <code>checkAuth</code> 或 <code>verifyUser</code> 也排在前面，卻唯獨漏掉了真正有硬性 Import 關係的變數名稱。
+</p> <p>
+CodeGraph 證實了：在本地端，僅依靠 <strong>Tree-sitter 靜態解析出的調用圖 + SQLite FTS5 全文搜尋 + 經典圖遍歷算法 (DFS/BFS)</strong>，就能解決 95% 以上 AI 尋路的問題，且成本極低，反應速度達到亞毫秒級。
+</p> <figure class="svg-fig"> <svg viewBox="0 0 800 350" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arr-cg02" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#2d7a4f" />
+    </marker>
+  </defs>
+  <!-- Left panel: Vector RAG (red glassmorphism) -->
+  <rect x="20" y="40" width="340" height="272" rx="12" fill="rgba(192,83,58,0.07)" stroke="#c0533a" stroke-width="1.5" />
+  <text x="190" y="68" text-anchor="middle" fill="#c0533a" font-size="13" font-weight="700">向量 RAG（Vector Search）</text>
+  <rect x="40" y="80" width="300" height="26" rx="5" fill="rgba(192,83,58,0.12)" stroke="#c0533a" stroke-width="1" />
+  <text x="190" y="97" text-anchor="middle" fill="#c0533a" font-size="11">搜尋：validateToken</text>
+  <rect x="40" y="117" width="300" height="27" rx="4" fill="rgba(255,247,237,0.9)" stroke="#fed7aa" stroke-width="1" />
+  <text x="55" y="134" text-anchor="start" fill="#7c2d12" font-size="11">checkAuth()</text>
+  <text x="330" y="134" text-anchor="end" fill="#7c2d12" font-size="11">相似度 0.87</text>
+  <rect x="40" y="151" width="300" height="27" rx="4" fill="rgba(255,247,237,0.9)" stroke="#fed7aa" stroke-width="1" />
+  <text x="55" y="168" text-anchor="start" fill="#7c2d12" font-size="11">verifyUser()</text>
+  <text x="330" y="168" text-anchor="end" fill="#7c2d12" font-size="11">相似度 0.85</text>
+  <rect x="40" y="185" width="300" height="27" rx="4" fill="rgba(255,247,237,0.9)" stroke="#fed7aa" stroke-width="1" />
+  <text x="55" y="202" text-anchor="start" fill="#7c2d12" font-size="11">authMiddleware()</text>
+  <text x="330" y="202" text-anchor="end" fill="#7c2d12" font-size="11">相似度 0.83</text>
+  <rect x="40" y="222" width="300" height="44" rx="4" fill="rgba(254,226,226,0.8)" stroke="#fca5a5" stroke-width="1" stroke-dasharray="4,2" />
+  <text x="190" y="241" text-anchor="middle" fill="#dc2626" font-size="10">真正有 import 關係的目標</text>
+  <text x="190" y="257" text-anchor="middle" fill="#dc2626" font-size="10">可能排在第 5 位後</text>
+  <!-- VS divider -->
+  <text x="400" y="182" text-anchor="middle" fill="var(--muted)" font-size="16" font-weight="700">vs</text>
+  <!-- Right panel: CodeGraph (green glassmorphism) -->
+  <rect x="440" y="40" width="340" height="272" rx="12" fill="rgba(45,122,79,0.07)" stroke="#2d7a4f" stroke-width="1.5" />
+  <text x="610" y="68" text-anchor="middle" fill="#2d7a4f" font-size="13" font-weight="700">CodeGraph（圖譜遍歷）</text>
+  <rect x="460" y="80" width="300" height="26" rx="5" fill="rgba(45,122,79,0.12)" stroke="#2d7a4f" stroke-width="1" />
+  <text x="610" y="97" text-anchor="middle" fill="#2d7a4f" font-size="11">搜尋：validateToken</text>
+  <rect x="515" y="118" width="190" height="30" rx="5" fill="#dcfce7" stroke="#86efac" stroke-width="1.5" />
+  <text x="610" y="137" text-anchor="middle" fill="#166534" font-size="12">User.login()</text>
+  <line x1="610" y1="150" x2="610" y2="162" stroke="#2d7a4f" stroke-width="1.5" marker-end="url(#arr-cg02)" />
+  <text x="617" y="159" fill="#16a34a" font-size="9">calls</text>
+  <rect x="515" y="168" width="190" height="30" rx="5" fill="#dcfce7" stroke="#22c55e" stroke-width="2" />
+  <text x="610" y="187" text-anchor="middle" fill="#166534" font-size="12" font-weight="700">validateToken() ✓</text>
+  <line x1="610" y1="200" x2="610" y2="212" stroke="#2d7a4f" stroke-width="1.5" marker-end="url(#arr-cg02)" />
+  <text x="617" y="209" fill="#16a34a" font-size="9">calls</text>
+  <rect x="515" y="218" width="190" height="30" rx="5" fill="#dcfce7" stroke="#86efac" stroke-width="1.5" />
+  <text x="610" y="237" text-anchor="middle" fill="#166534" font-size="12">DB.query()</text>
+  <text x="610" y="268" text-anchor="middle" fill="#16a34a" font-size="10">精確符號路徑 · 無歧義</text>
+  <text x="610" y="282" text-anchor="middle" fill="var(--muted)" font-size="9">1 次 Query = 完整調用鏈，無需重複探索</text>
+</svg> <figcaption>圖 2-1：向量語意搜尋 vs 圖譜精確遍歷——Code RAG 的本質差異</figcaption> </figure> <p>
+在下一章中，我們將介紹 CodeGraph 是如何利用其特有的 10 個 MCP 工具對 AI 進行「智慧分流」，主動引導 Agent 減少直接閱讀檔案，進而達到極佳的省 Token 與省時間成效。
+</p>  </div> <nav class="cnav" data-astro-cid-mw7aashj> <a href="/codegraph/ch01-intro" class="prev" data-astro-cid-mw7aashj> <span class="nd" data-astro-cid-mw7aashj>← 上一章</span> <span class="nt" data-astro-cid-mw7aashj>什麼是 CodeGraph</span> </a> <a href="/codegraph/ch03-features" class="next" data-astro-cid-mw7aashj> <span class="nd" data-astro-cid-mw7aashj>下一章 →</span> <span class="nt" data-astro-cid-mw7aashj>CodeGraph 核心特點與優勢</span> </a> </nav> </main> </div> <script>
+    // Theme
+    const html = document.documentElement;
+    const tt = document.getElementById('tt');
+    const isun = document.getElementById('isun');
+    const imoon = document.getElementById('imoon');
+    function syncIcons() {
+      const dk = html.classList.contains('dark');
+      isun.style.display = dk ? 'block' : 'none';
+      imoon.style.display = dk ? 'none' : 'block';
+    }
+    syncIcons();
+    tt?.addEventListener('click', () => {
+      html.classList.toggle('dark');
+      localStorage.setItem('cc-theme', html.classList.contains('dark') ? 'dark' : 'light');
+      syncIcons();
+    });
+
+    // Progress
+    const pb = document.getElementById('pb');
+    window.addEventListener('scroll', () => {
+      const t = document.documentElement.scrollHeight - window.innerHeight;
+      pb.style.width = t > 0 ? `${(window.scrollY / t) * 100}%` : '0%';
+    }, { passive: true });
+
+    // Sidebar part toggles
+    document.querySelectorAll('.pt').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.dataset.pid;
+        const list = document.querySelector(`[data-pl="${id}"]`);
+        btn.classList.toggle('open');
+        list?.classList.toggle('closed');
+      });
+    });
+
+    // Mobile menu
+    const sb = document.getElementById('sb');
+    const ov = document.getElementById('ov');
+    const mb = document.getElementById('mbtn');
+    const open = () => { sb.classList.add('open'); ov.classList.add('open'); document.body.style.overflow='hidden'; };
+    const close = () => { sb.classList.remove('open'); ov.classList.remove('open'); document.body.style.overflow=''; };
+    mb?.addEventListener('click', open);
+    ov?.addEventListener('click', close);
+  </script> </body> 

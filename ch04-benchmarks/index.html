@@ -1,0 +1,136 @@
+<!DOCTYPE html><html lang="zh-TW" data-astro-cid-mw7aashj> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>效能基準測試與省代幣分析 | </title><link rel="stylesheet" href="/codegraph/_astro/DocsLayout.Bujtu5J-.css"></head>CodeGraph 完整指南 <meta name="description" content="分析 CodeGraph 在 7 大熱門開源專案中的效能表現，包含節省 Token 數量、工具調用次數以及真實費用的對比數據。"> <link rel="icon" href="/codegraph/favicon.svg" type="image/svg+xml"> <script>
+    (function () {
+      const s = localStorage.getItem('cc-theme');
+      const d = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (s === 'dark' || (!s && d)) document.documentElement.classList.add('dark');
+    })();
+  </script>  </html> <body data-astro-cid-mw7aashj> <div id="pb" data-astro-cid-mw7aashj></div> <header data-astro-cid-mw7aashj> <div class="hi" data-astro-cid-mw7aashj> <div class="hl" data-astro-cid-mw7aashj> <button id="mbtn" class="ibtn" aria-label="選單" data-astro-cid-mw7aashj> <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" data-astro-cid-mw7aashj></path> </svg> </button> <a href="/codegraph/" class="site-name" data-astro-cid-mw7aashj> <span class="logo" data-astro-cid-mw7aashj>CG</span>&nbsp;&nbsp;CodeGraph 完整指南
+</a> </div> <div class="hr" data-astro-cid-mw7aashj> <button id="tt" class="ibtn" aria-label="切換主題" data-astro-cid-mw7aashj> <svg id="isun" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="display:none" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364-.707-.707M6.343 6.343l-.707-.707m12.728 0-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0z" data-astro-cid-mw7aashj></path> </svg> <svg id="imoon" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 0 1 8.646 3.646 9.003 9.003 0 0 0 12 21a9.003 9.003 0 0 0 8.354-5.646z" data-astro-cid-mw7aashj></path> </svg> </button> </div> </div> </header> <div id="layout" data-astro-cid-mw7aashj> <nav id="sb" data-astro-cid-mw7aashj> <div class="np" data-astro-cid-mw7aashj> <button class="pt open" data-pid="0" data-astro-cid-mw7aashj> <span data-astro-cid-mw7aashj>Part 0：前言</span> <svg class="arr" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" data-astro-cid-mw7aashj></path> </svg> </button> <ul class="nl" data-pl="0" data-astro-cid-mw7aashj> <li data-astro-cid-mw7aashj> <a href="/codegraph/preface" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>0.</span> <span data-astro-cid-mw7aashj>為什麼你需要 CodeGraph</span>  </a> </li> </ul> </div><div class="np" data-astro-cid-mw7aashj> <button class="pt open" data-pid="1" data-astro-cid-mw7aashj> <span data-astro-cid-mw7aashj>Part 1：基礎與概念</span> <svg class="arr" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" data-astro-cid-mw7aashj></path> </svg> </button> <ul class="nl" data-pl="1" data-astro-cid-mw7aashj> <li data-astro-cid-mw7aashj> <a href="/codegraph/ch01-intro" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>1.</span> <span data-astro-cid-mw7aashj>什麼是 CodeGraph</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ch02-why-codegraph" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>2.</span> <span data-astro-cid-mw7aashj>為什麼 AI Agent 需要 CodeGraph</span>  </a> </li> </ul> </div><div class="np" data-astro-cid-mw7aashj> <button class="pt open" data-pid="2" data-astro-cid-mw7aashj> <span data-astro-cid-mw7aashj>Part 2：核心功能與效能</span> <svg class="arr" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" data-astro-cid-mw7aashj></path> </svg> </button> <ul class="nl" data-pl="2" data-astro-cid-mw7aashj> <li data-astro-cid-mw7aashj> <a href="/codegraph/ch03-features" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>3.</span> <span data-astro-cid-mw7aashj>CodeGraph 核心特點與優勢</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ch04-benchmarks" class="active" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>4.</span> <span data-astro-cid-mw7aashj>效能基準測試與省代幣分析</span>  </a> </li> </ul> </div><div class="np" data-astro-cid-mw7aashj> <button class="pt open" data-pid="3" data-astro-cid-mw7aashj> <span data-astro-cid-mw7aashj>Part 3：安裝與代理程式整合</span> <svg class="arr" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" data-astro-cid-mw7aashj></path> </svg> </button> <ul class="nl" data-pl="3" data-astro-cid-mw7aashj> <li data-astro-cid-mw7aashj> <a href="/codegraph/ch05-installation" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>5.</span> <span data-astro-cid-mw7aashj>快速安裝與版本升級</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ch06-integration" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>6.</span> <span data-astro-cid-mw7aashj>整合與配置主流 AI 代理程式</span>  </a> </li> </ul> </div><div class="np" data-astro-cid-mw7aashj> <button class="pt" data-pid="4" data-astro-cid-mw7aashj> <span data-astro-cid-mw7aashj>Part 4：實戰應用與進階</span> <svg class="arr" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" data-astro-cid-mw7aashj></path> </svg> </button> <ul class="nl closed" data-pl="4" data-astro-cid-mw7aashj> <li data-astro-cid-mw7aashj> <a href="/codegraph/ch07-init-sync" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>7.</span> <span data-astro-cid-mw7aashj>專案初始化與自動同步機制</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ch08-search-impact" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>8.</span> <span data-astro-cid-mw7aashj>搜尋與影響力分析實踐</span>  </a> </li> </ul> </div><div class="np" data-astro-cid-mw7aashj> <button class="pt" data-pid="5" data-astro-cid-mw7aashj> <span data-astro-cid-mw7aashj>Part 5：附錄</span> <svg class="arr" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" data-astro-cid-mw7aashj></path> </svg> </button> <ul class="nl closed" data-pl="5" data-astro-cid-mw7aashj> <li data-astro-cid-mw7aashj> <a href="/codegraph/glossary" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>10.</span> <span data-astro-cid-mw7aashj>名詞解釋</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ap-neo4j" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>11.</span> <span data-astro-cid-mw7aashj>Neo4j 技術解析</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ap-sqlite" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>12.</span> <span data-astro-cid-mw7aashj>SQLite 技術解析</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ap-mcp" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>13.</span> <span data-astro-cid-mw7aashj>MCP 協定解析</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ap-tree-sitter" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>14.</span> <span data-astro-cid-mw7aashj>Tree-sitter 技術解析</span>  </a> </li> </ul> </div> </nav> <div id="ov" data-astro-cid-mw7aashj></div> <main data-astro-cid-mw7aashj> <div class="cb" data-astro-cid-mw7aashj>  <span class="clabel">第 4 章 · Part 2：核心功能與效能</span> <h1>效能基準測試與省代幣分析</h1> <p class="cdesc">用數據證實本地圖譜能為開發費用「減重」</p> <h2>一、 效能測試方法論</h2> <p>
+為了驗證 CodeGraph 的真實成效，作者採用了極為嚴謹的測試模型。測試環境採用 <code>claude -p</code> (以無介面 Headless 模式運行 Claude Opus 4.8)，對多個著名開源專案提出高度複雜的架構探索問題：
+</p> <ul> <li><strong>WITH 组 (啟用 CodeGraph)</strong>：啟用 CodeGraph 的 MCP 伺服器，同時 Agent 仍可自由選擇調用原生的 Read/Grep/Bash。</li> <li><strong>WITHOUT 组 (對照組)</strong>：停用 CodeGraph 的 MCP 設定，Agent 僅能依靠傳統的 find/grep/Read 進行代碼檢索。</li> </ul> <p>
+每組均運行 4 次並取其中位數，以得出最貼近日常開發的統計學表現。
+</p> <h2>二、 7 大開源代碼庫實測總表 (Opus 4.8 數據)</h2> <p>
+以下為官方於 2026 年中發佈的最新基準測試表現，橫跨 7 種程式語言與多種專案規模：
+</p> <table style="width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.85rem;"> <thead> <tr style="border-bottom: 2px solid var(--border); text-align: left; background: var(--bg2);"> <th style="padding: 0.6rem;">代碼庫 (專案規模)</th> <th style="padding: 0.6rem;">語言</th> <th style="padding: 0.6rem;">費用節省</th> <th style="padding: 0.6rem;">Token 減少</th> <th style="padding: 0.6rem;">速度提升</th> <th style="padding: 0.6rem;">工具調用減少</th> </tr> </thead> <tbody> <tr style="border-bottom: 1px solid var(--border);"> <td style="padding: 0.6rem; font-weight:600;">VS Code (~10k 檔案)</td> <td style="padding: 0.6rem;">TypeScript</td> <td style="padding: 0.6rem; color:#2d7a4f; font-weight:600;">↓ 18%</td> <td style="padding: 0.6rem; color:#2d7a4f; font-weight:600;">↓ 64%</td> <td style="padding: 0.6rem;">↑ 11%</td> <td style="padding: 0.6rem; color:#2d7a4f; font-weight:600;">↓ 81%</td> </tr> <tr style="border-bottom: 1px solid var(--border);"> <td style="padding: 0.6rem; font-weight:600;">Excalidraw (~640 檔案)</td> <td style="padding: 0.6rem;">TypeScript</td> <td style="padding: 0.6rem;">持平</td> <td style="padding: 0.6rem; color:#2d7a4f;">↓ 25%</td> <td style="padding: 0.6rem;">↑ 27%</td> <td style="padding: 0.6rem; color:#2d7a4f;">↓ 40%</td> </tr> <tr style="border-bottom: 1px solid var(--border);"> <td style="padding: 0.6rem; font-weight:600;">Django (~3k 檔案)</td> <td style="padding: 0.6rem;">Python</td> <td style="padding: 0.6rem; color:#2d7a4f;">↓ 8%</td> <td style="padding: 0.6rem; color:#2d7a4f;">↓ 60%</td> <td style="padding: 0.6rem;">↑ 13%</td> <td style="padding: 0.6rem; color:#2d7a4f; font-weight:600;">↓ 77%</td> </tr> <tr style="border-bottom: 1px solid var(--border);"> <td style="padding: 0.6rem; font-weight:600;">Tokio (~790 檔案)</td> <td style="padding: 0.6rem;">Rust</td> <td style="padding: 0.6rem;">持平</td> <td style="padding: 0.6rem; color:#2d7a4f;">↓ 38%</td> <td style="padding: 0.6rem;">↑ 18%</td> <td style="padding: 0.6rem; color:#2d7a4f;">↓ 57%</td> </tr> <tr style="border-bottom: 1px solid var(--border);"> <td style="padding: 0.6rem; font-weight:600;">OkHttp (~645 檔案)</td> <td style="padding: 0.6rem;">Java</td> <td style="padding: 0.6rem; color:#2d7a4f; font-weight:600;">↓ 25%</td> <td style="padding: 0.6rem; color:#2d7a4f; font-weight:600;">↓ 54%</td> <td style="padding: 0.6rem;">↑ 31%</td> <td style="padding: 0.6rem; color:#2d7a4f;">↓ 50%</td> </tr> <tr style="border-bottom: 1px solid var(--border);"> <td style="padding: 0.6rem; font-weight:600;">Gin (~110 檔案)</td> <td style="padding: 0.6rem;">Go</td> <td style="padding: 0.6rem; color:#2d7a4f;">↓ 19%</td> <td style="padding: 0.6rem;">↓ 23%</td> <td style="padding: 0.6rem;">↑ 24%</td> <td style="padding: 0.6rem; color:#2d7a4f;">↓ 44%</td> </tr> <tr style="border-bottom: 1px solid var(--border);"> <td style="padding: 0.6rem; font-weight:600;">Alamofire (~110 檔案)</td> <td style="padding: 0.6rem;">Swift</td> <td style="padding: 0.6rem; color:#2d7a4f; font-weight:600;">↓ 40%</td> <td style="padding: 0.6rem; color:#2d7a4f; font-weight:600;">↓ 64%</td> <td style="padding: 0.6rem;">↑ 33%</td> <td style="padding: 0.6rem; color:#2d7a4f;">↓ 58%</td> </tr> </tbody> </table> <h2>三、 深度解讀：VS Code 專案實測指標對比</h2> <p>
+針對超大型專案（VS Code，內含近 1 萬個原始碼檔案），AI 在有無配置 CodeGraph 時的回答行為有著天壤之別：
+</p> <table style="width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.9rem;"> <thead> <tr style="border-bottom: 2px solid var(--border); text-align: left; background: var(--bg2);"> <th style="padding: 0.75rem;">指標項目</th> <th style="padding: 0.75rem;">WITH (配置 CodeGraph)</th> <th style="padding: 0.75rem;">WITHOUT (對照組)</th> <th style="padding: 0.75rem;">改進幅度</th> </tr> </thead> <tbody> <tr style="border-bottom: 1px solid var(--border);"> <td style="padding: 0.75rem; font-weight: 600;">總對話時間 (Wall-clock Time)</td> <td style="padding: 0.75rem;">1 分 59 秒</td> <td style="padding: 0.75rem;">2 分 13 秒</td> <td style="padding: 0.75rem; color:#2d7a4f; font-weight:600;">快 11%</td> </tr> <tr style="border-bottom: 1px solid var(--border);"> <td style="padding: 0.75rem; font-weight: 600;">工具呼叫次數 (Tool Calls)</td> <td style="padding: 0.75rem; font-weight:600; color:#2d7a4f;">4 次</td> <td style="padding: 0.75rem;">21 次</td> <td style="padding: 0.75rem; color:#2d7a4f; font-weight:600;">減少 81%</td> </tr> <tr style="border-bottom: 1px solid var(--border);"> <td style="padding: 0.75rem; font-weight: 600;">檔案直接讀取次數 (File Reads)</td> <td style="padding: 0.75rem; font-weight:600; color:#2d7a4f;">0 次</td> <td style="padding: 0.75rem;">9 次</td> <td style="padding: 0.75rem;">-9 次讀取</td> </tr> <tr style="border-bottom: 1px solid var(--border);"> <td style="padding: 0.75rem; font-weight: 600;">Grep/Bash 執行次數</td> <td style="padding: 0.75rem; font-weight:600; color:#2d7a4f;">0 次</td> <td style="padding: 0.75rem;">11 次</td> <td style="padding: 0.75rem;">-11 次調用</td> </tr> <tr style="border-bottom: 1px solid var(--border);"> <td style="padding: 0.75rem; font-weight: 600;">對話總消耗 Token 數</td> <td style="padding: 0.75rem; font-weight:600; color:#2d7a4f;">640k</td> <td style="padding: 0.75rem;">1.79M</td> <td style="padding: 0.75rem; color:#2d7a4f; font-weight:600;">省 64%</td> </tr> <tr style="border-bottom: 1px solid var(--border);"> <td style="padding: 0.75rem; font-weight: 600;">真實 API 費用 (美金)</td> <td style="padding: 0.75rem; font-weight:600; color:#2d7a4f;">$0.68</td> <td style="padding: 0.75rem;">$0.83</td> <td style="padding: 0.75rem; color:#2d7a4f; font-weight:600;">省 18%</td> </tr> </tbody> </table> <div style="border:1px solid var(--border);border-radius:12px;padding:1.75rem;background:var(--bg2);margin:1.5rem 0;font-size:.83rem"> <div style="font-weight:700;color:var(--text);margin-bottom:1.25rem;text-align:center">VS Code 專案 — CodeGraph 啟用前後對比（Opus 4.8）</div> <!-- Token Comparison --> <div style="margin-bottom:1.1rem"> <div style="font-size:.75rem;color:var(--muted);margin-bottom:.4rem;font-weight:600">📊 總 Token 消耗</div> <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.35rem"> <div style="width:80px;text-align:right;font-size:.75rem;color:var(--muted)">WITHOUT</div> <div style="flex:1;background:var(--bg3);border-radius:4px;overflow:hidden;height:22px"> <div style="width:100%;height:100%;background:#c0533a;border-radius:4px;display:flex;align-items:center;padding-left:.5rem"> <span style="color:#fff;font-size:.75rem;font-weight:700">1.79M tokens</span> </div> </div> </div> <div style="display:flex;align-items:center;gap:.6rem"> <div style="width:80px;text-align:right;font-size:.75rem;color:#2d7a4f;font-weight:700">WITH ✓</div> <div style="flex:1;background:var(--bg3);border-radius:4px;overflow:hidden;height:22px"> <div style="width:35.8%;height:100%;background:#2d7a4f;border-radius:4px;display:flex;align-items:center;padding-left:.5rem"> <span style="color:#fff;font-size:.75rem;font-weight:700">640k</span> </div> </div> <span style="font-size:.75rem;color:#2d7a4f;font-weight:700;flex-shrink:0">省 64%</span> </div> </div> <!-- Tool Calls Comparison --> <div style="margin-bottom:1.1rem"> <div style="font-size:.75rem;color:var(--muted);margin-bottom:.4rem;font-weight:600">🔧 工具呼叫次數（Tool Calls）</div> <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.35rem"> <div style="width:80px;text-align:right;font-size:.75rem;color:var(--muted)">WITHOUT</div> <div style="flex:1;background:var(--bg3);border-radius:4px;overflow:hidden;height:22px"> <div style="width:100%;height:100%;background:#c0533a;border-radius:4px;display:flex;align-items:center;padding-left:.5rem"> <span style="color:#fff;font-size:.75rem;font-weight:700">21 次</span> </div> </div> </div> <div style="display:flex;align-items:center;gap:.6rem"> <div style="width:80px;text-align:right;font-size:.75rem;color:#2d7a4f;font-weight:700">WITH ✓</div> <div style="flex:1;background:var(--bg3);border-radius:4px;overflow:hidden;height:22px"> <div style="width:19.1%;height:100%;background:#2d7a4f;border-radius:4px;display:flex;align-items:center;padding-left:.5rem"> <span style="color:#fff;font-size:.75rem;font-weight:700">4 次</span> </div> </div> <span style="font-size:.75rem;color:#2d7a4f;font-weight:700;flex-shrink:0">省 81%</span> </div> </div> <!-- File Reads & Grep --> <div style="margin-bottom:1.1rem"> <div style="font-size:.75rem;color:var(--muted);margin-bottom:.4rem;font-weight:600">📁 檔案讀取 + Grep 次數</div> <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.35rem"> <div style="width:80px;text-align:right;font-size:.75rem;color:var(--muted)">WITHOUT</div> <div style="flex:1;background:var(--bg3);border-radius:4px;overflow:hidden;height:22px"> <div style="width:100%;height:100%;background:#c0533a;border-radius:4px;display:flex;align-items:center;padding-left:.5rem"> <span style="color:#fff;font-size:.75rem;font-weight:700">20 次（9 reads + 11 grep）</span> </div> </div> </div> <div style="display:flex;align-items:center;gap:.6rem"> <div style="width:80px;text-align:right;font-size:.75rem;color:#2d7a4f;font-weight:700">WITH ✓</div> <div style="flex:1;background:var(--bg3);border-radius:4px;overflow:hidden;height:22px"> <div style="width:5%;min-width:36px;height:100%;background:#2d7a4f;border-radius:4px"></div> </div> <span style="font-size:.75rem;color:#2d7a4f;font-weight:700;flex-shrink:0">0 次 🎉</span> </div> </div> <!-- Cost --> <div style="display:flex;gap:1rem;margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border)"> <div style="flex:1;text-align:center;padding:.6rem;background:var(--bg3);border-radius:8px;border-left:3px solid #c0533a"> <div style="font-size:.72rem;color:var(--muted)">WITHOUT</div> <div style="font-size:1.1rem;font-weight:700;color:#c0533a">$0.83</div> <div style="font-size:.7rem;color:var(--muted)">2分13秒</div> </div> <div style="display:flex;align-items:center;color:var(--muted);font-size:1rem">→</div> <div style="flex:1;text-align:center;padding:.6rem;background:var(--bg3);border-radius:8px;border-left:3px solid #2d7a4f"> <div style="font-size:.72rem;color:#2d7a4f;font-weight:600">WITH CodeGraph</div> <div style="font-size:1.1rem;font-weight:700;color:#2d7a4f">$0.68</div> <div style="font-size:.7rem;color:var(--muted)">1分59秒 · 省18%</div> </div> </div> </div> <h2>四、 邊際效益：項目規模與 Token 節省的相關性</h2> <p>
+從基準測試數據中可以發現一個顯著的工程規律：<strong>專案代碼規模越龐大，CodeGraph 帶來的 Token 節省與費用降幅就越驚人</strong>。
+</p> <p>
+在小型專案（如 Gin，約 110 個檔案）中，由於程式結構簡單，Agent 僅靠原生 Grep 也能在較短時間內摸清脈絡，此時 Token 節省約為 23%。然而，一旦專案規模上升到萬個檔案的超大型代碼庫（如 VS Code），傳統 Agent 為了「尋路」而產生的上下文堆疊呈指數級膨脹，此時 CodeGraph 本地圖譜就能發揮極強的防迷路能力，將 Token 消耗直接降低 64%。
+</p> <figure class="svg-fig"> 
+<svg viewBox="0 0 800 280" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bar-gin" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#a7f3d0" />
+      <stop offset="100%" stop-color="#6ee7b7" />
+    </linearGradient>
+    <linearGradient id="bar-tokio" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#6ee7b7" />
+      <stop offset="100%" stop-color="#34d399" />
+    </linearGradient>
+    <linearGradient id="bar-django" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#34d399" />
+      <stop offset="100%" stop-color="#10b981" />
+    </linearGradient>
+    <linearGradient id="bar-vscode" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#10b981" />
+      <stop offset="100%" stop-color="#047857" />
+    </linearGradient>
+  </defs>
+
+  <!-- Y axis -->
+  <line x1="80" y1="20" x2="80" y2="190" stroke="var(--border)" stroke-width="1.5" />
+  <!-- X axis -->
+  <line x1="80" y1="190" x2="760" y2="190" stroke="var(--border)" stroke-width="1.5" />
+
+  <!-- Y axis gridlines & labels -->
+  <line x1="80" y1="190" x2="760" y2="190" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="4 3" />
+  <line x1="80" y1="148" x2="760" y2="148" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="4 3" />
+  <line x1="80" y1="106" x2="760" y2="106" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="4 3" />
+  <line x1="80" y1="64"  x2="760" y2="64"  stroke="var(--border)" stroke-width="0.5" stroke-dasharray="4 3" />
+  <line x1="80" y1="22"  x2="760" y2="22"  stroke="var(--border)" stroke-width="0.5" stroke-dasharray="4 3" />
+  <text x="70" y="194" text-anchor="end" font-size="11" fill="var(--muted)">0%</text>
+  <text x="70" y="152" text-anchor="end" font-size="11" fill="var(--muted)">20%</text>
+  <text x="70" y="110" text-anchor="end" font-size="11" fill="var(--muted)">40%</text>
+  <text x="70" y="68"  text-anchor="end" font-size="11" fill="var(--muted)">60%</text>
+  <text x="70" y="26"  text-anchor="end" font-size="11" fill="var(--muted)">80%</text>
+
+  <!-- Bar: Gin 23% → height = 23/80*168 = 48 -->
+  <rect x="130" y="142" width="80" height="48" rx="5 5 0 0"
+        fill="url(#bar-gin)" stroke="#34d399" stroke-width="1" />
+  <text x="170" y="136" text-anchor="middle" font-size="13" font-weight="700" fill="var(--muted)">↓ 23%</text>
+  <text x="170" y="210" text-anchor="middle" font-size="12" fill="var(--text)">Gin</text>
+  <text x="170" y="224" text-anchor="middle" font-size="10" fill="var(--muted)">(110 檔案)</text>
+
+  <!-- Bar: Tokio 38% → height = 38/80*168 = 80 -->
+  <rect x="290" y="110" width="80" height="80" rx="5 5 0 0"
+        fill="url(#bar-tokio)" stroke="#10b981" stroke-width="1" />
+  <text x="330" y="104" text-anchor="middle" font-size="13" font-weight="700" fill="var(--muted)">↓ 38%</text>
+  <text x="330" y="210" text-anchor="middle" font-size="12" fill="var(--text)">Tokio</text>
+  <text x="330" y="224" text-anchor="middle" font-size="10" fill="var(--muted)">(790 檔案)</text>
+
+  <!-- Bar: Django 54% → height = 54/80*168 = 113 -->
+  <rect x="450" y="77" width="80" height="113" rx="5 5 0 0"
+        fill="url(#bar-django)" stroke="#059669" stroke-width="1" />
+  <text x="490" y="71" text-anchor="middle" font-size="13" font-weight="700" fill="var(--muted)">↓ 54%</text>
+  <text x="490" y="210" text-anchor="middle" font-size="12" fill="var(--text)">Django</text>
+  <text x="490" y="224" text-anchor="middle" font-size="10" fill="var(--muted)">(3k 檔案)</text>
+
+  <!-- Bar: VS Code 64% → height = 64/80*168 = 134, glow -->
+  <rect x="610" y="56" width="80" height="134" rx="5 5 0 0"
+        fill="url(#bar-vscode)" stroke="#047857" stroke-width="1.5"
+        filter="drop-shadow(0 0 6px rgba(5,150,105,0.45))" />
+  <text x="650" y="49" text-anchor="middle" font-size="14" font-weight="700" fill="#047857">↓ 64%</text>
+  <text x="650" y="210" text-anchor="middle" font-size="12" font-weight="600" fill="var(--text)">VS Code</text>
+  <text x="650" y="224" text-anchor="middle" font-size="10" fill="var(--muted)">(10k 檔案)</text>
+
+  <!-- Title -->
+  <text x="420" y="258" text-anchor="middle" font-size="12" fill="var(--muted)">圖 4-2：代碼庫規模越大，CodeGraph 的 Token 節省率越高（邊際效益遞增）</text>
+</svg>
+ <figcaption>代碼庫規模與 Token 節省率的關係：從小型 Gin（110 檔案，節省 23%）到超大型 VS Code（10k 檔案，節省 64%），呈現顯著的邊際效益遞增趨勢。</figcaption> </figure> <h2>五、 為什麼 CodeGraph 能帶來如此高的降幅？</h2> <ol> <li> <strong>拒絕大範圍掃查</strong>：啟用 CodeGraph 後，Agent 面對架構問題時通常只需要呼叫 1~2 次 <code>codegraph_explore</code> 或 <code>codegraph_trace</code> 工具，即可透過本地索引精準解析出跨檔案的調用邏輯，完全省去了反覆 Grep 與遍歷檔案的上下文堆疊。
+</li> <li> <strong>精確控制上下文大小</strong>：CodeGraph 會自動壓縮過濾無關的函數內部代碼，僅向模型返回符號簽章（Signature）與必要的關聯邊資訊。模型不需要被動吞下大片無用的重複程式碼。
+</li> <li> <strong>預防 Explore Agent 溢出</strong>：在沒有 CodeGraph 的情況下，Agent 時常會派生出大量的 Subagent 去並行 Grep，每個子代理都會攜帶大份上下文，這會導致費用隨運行時間呈指數型（Exponential）增長。
+</li> </ol> <p>掌握了 CodeGraph 的優勢與底層原理後，下一 Part 我們將進入實戰，學習如何快速在本地端安裝並升級你的 CodeGraph CLI 工具。</p>  </div> <nav class="cnav" data-astro-cid-mw7aashj> <a href="/codegraph/ch03-features" class="prev" data-astro-cid-mw7aashj> <span class="nd" data-astro-cid-mw7aashj>← 上一章</span> <span class="nt" data-astro-cid-mw7aashj>CodeGraph 核心特點與優勢</span> </a> <a href="/codegraph/ch05-installation" class="next" data-astro-cid-mw7aashj> <span class="nd" data-astro-cid-mw7aashj>下一章 →</span> <span class="nt" data-astro-cid-mw7aashj>快速安裝與版本升級</span> </a> </nav> </main> </div> <script>
+    // Theme
+    const html = document.documentElement;
+    const tt = document.getElementById('tt');
+    const isun = document.getElementById('isun');
+    const imoon = document.getElementById('imoon');
+    function syncIcons() {
+      const dk = html.classList.contains('dark');
+      isun.style.display = dk ? 'block' : 'none';
+      imoon.style.display = dk ? 'none' : 'block';
+    }
+    syncIcons();
+    tt?.addEventListener('click', () => {
+      html.classList.toggle('dark');
+      localStorage.setItem('cc-theme', html.classList.contains('dark') ? 'dark' : 'light');
+      syncIcons();
+    });
+
+    // Progress
+    const pb = document.getElementById('pb');
+    window.addEventListener('scroll', () => {
+      const t = document.documentElement.scrollHeight - window.innerHeight;
+      pb.style.width = t > 0 ? `${(window.scrollY / t) * 100}%` : '0%';
+    }, { passive: true });
+
+    // Sidebar part toggles
+    document.querySelectorAll('.pt').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.dataset.pid;
+        const list = document.querySelector(`[data-pl="${id}"]`);
+        btn.classList.toggle('open');
+        list?.classList.toggle('closed');
+      });
+    });
+
+    // Mobile menu
+    const sb = document.getElementById('sb');
+    const ov = document.getElementById('ov');
+    const mb = document.getElementById('mbtn');
+    const open = () => { sb.classList.add('open'); ov.classList.add('open'); document.body.style.overflow='hidden'; };
+    const close = () => { sb.classList.remove('open'); ov.classList.remove('open'); document.body.style.overflow=''; };
+    mb?.addEventListener('click', open);
+    ov?.addEventListener('click', close);
+  </script> </body> 

@@ -1,0 +1,128 @@
+<!DOCTYPE html><html lang="zh-TW" data-astro-cid-mw7aashj> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>快速安裝與版本升級 | </title><link rel="stylesheet" href="/codegraph/_astro/DocsLayout.Bujtu5J-.css"></head>CodeGraph 完整指南 <meta name="description" content="學習如何在不同作業系統上安裝 CodeGraph CLI，以及如何使用內建升級機制保持工具最新。"> <link rel="icon" href="/codegraph/favicon.svg" type="image/svg+xml"> <script>
+    (function () {
+      const s = localStorage.getItem('cc-theme');
+      const d = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (s === 'dark' || (!s && d)) document.documentElement.classList.add('dark');
+    })();
+  </script>  </html> <body data-astro-cid-mw7aashj> <div id="pb" data-astro-cid-mw7aashj></div> <header data-astro-cid-mw7aashj> <div class="hi" data-astro-cid-mw7aashj> <div class="hl" data-astro-cid-mw7aashj> <button id="mbtn" class="ibtn" aria-label="選單" data-astro-cid-mw7aashj> <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" data-astro-cid-mw7aashj></path> </svg> </button> <a href="/codegraph/" class="site-name" data-astro-cid-mw7aashj> <span class="logo" data-astro-cid-mw7aashj>CG</span>&nbsp;&nbsp;CodeGraph 完整指南
+</a> </div> <div class="hr" data-astro-cid-mw7aashj> <button id="tt" class="ibtn" aria-label="切換主題" data-astro-cid-mw7aashj> <svg id="isun" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="display:none" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364-.707-.707M6.343 6.343l-.707-.707m12.728 0-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0z" data-astro-cid-mw7aashj></path> </svg> <svg id="imoon" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 0 1 8.646 3.646 9.003 9.003 0 0 0 12 21a9.003 9.003 0 0 0 8.354-5.646z" data-astro-cid-mw7aashj></path> </svg> </button> </div> </div> </header> <div id="layout" data-astro-cid-mw7aashj> <nav id="sb" data-astro-cid-mw7aashj> <div class="np" data-astro-cid-mw7aashj> <button class="pt open" data-pid="0" data-astro-cid-mw7aashj> <span data-astro-cid-mw7aashj>Part 0：前言</span> <svg class="arr" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" data-astro-cid-mw7aashj></path> </svg> </button> <ul class="nl" data-pl="0" data-astro-cid-mw7aashj> <li data-astro-cid-mw7aashj> <a href="/codegraph/preface" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>0.</span> <span data-astro-cid-mw7aashj>為什麼你需要 CodeGraph</span>  </a> </li> </ul> </div><div class="np" data-astro-cid-mw7aashj> <button class="pt open" data-pid="1" data-astro-cid-mw7aashj> <span data-astro-cid-mw7aashj>Part 1：基礎與概念</span> <svg class="arr" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" data-astro-cid-mw7aashj></path> </svg> </button> <ul class="nl" data-pl="1" data-astro-cid-mw7aashj> <li data-astro-cid-mw7aashj> <a href="/codegraph/ch01-intro" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>1.</span> <span data-astro-cid-mw7aashj>什麼是 CodeGraph</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ch02-why-codegraph" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>2.</span> <span data-astro-cid-mw7aashj>為什麼 AI Agent 需要 CodeGraph</span>  </a> </li> </ul> </div><div class="np" data-astro-cid-mw7aashj> <button class="pt open" data-pid="2" data-astro-cid-mw7aashj> <span data-astro-cid-mw7aashj>Part 2：核心功能與效能</span> <svg class="arr" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" data-astro-cid-mw7aashj></path> </svg> </button> <ul class="nl" data-pl="2" data-astro-cid-mw7aashj> <li data-astro-cid-mw7aashj> <a href="/codegraph/ch03-features" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>3.</span> <span data-astro-cid-mw7aashj>CodeGraph 核心特點與優勢</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ch04-benchmarks" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>4.</span> <span data-astro-cid-mw7aashj>效能基準測試與省代幣分析</span>  </a> </li> </ul> </div><div class="np" data-astro-cid-mw7aashj> <button class="pt open" data-pid="3" data-astro-cid-mw7aashj> <span data-astro-cid-mw7aashj>Part 3：安裝與代理程式整合</span> <svg class="arr" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" data-astro-cid-mw7aashj></path> </svg> </button> <ul class="nl" data-pl="3" data-astro-cid-mw7aashj> <li data-astro-cid-mw7aashj> <a href="/codegraph/ch05-installation" class="active" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>5.</span> <span data-astro-cid-mw7aashj>快速安裝與版本升級</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ch06-integration" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>6.</span> <span data-astro-cid-mw7aashj>整合與配置主流 AI 代理程式</span>  </a> </li> </ul> </div><div class="np" data-astro-cid-mw7aashj> <button class="pt" data-pid="4" data-astro-cid-mw7aashj> <span data-astro-cid-mw7aashj>Part 4：實戰應用與進階</span> <svg class="arr" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" data-astro-cid-mw7aashj></path> </svg> </button> <ul class="nl closed" data-pl="4" data-astro-cid-mw7aashj> <li data-astro-cid-mw7aashj> <a href="/codegraph/ch07-init-sync" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>7.</span> <span data-astro-cid-mw7aashj>專案初始化與自動同步機制</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ch08-search-impact" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>8.</span> <span data-astro-cid-mw7aashj>搜尋與影響力分析實踐</span>  </a> </li> </ul> </div><div class="np" data-astro-cid-mw7aashj> <button class="pt" data-pid="5" data-astro-cid-mw7aashj> <span data-astro-cid-mw7aashj>Part 5：附錄</span> <svg class="arr" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" data-astro-cid-mw7aashj></path> </svg> </button> <ul class="nl closed" data-pl="5" data-astro-cid-mw7aashj> <li data-astro-cid-mw7aashj> <a href="/codegraph/glossary" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>10.</span> <span data-astro-cid-mw7aashj>名詞解釋</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ap-neo4j" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>11.</span> <span data-astro-cid-mw7aashj>Neo4j 技術解析</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ap-sqlite" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>12.</span> <span data-astro-cid-mw7aashj>SQLite 技術解析</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ap-mcp" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>13.</span> <span data-astro-cid-mw7aashj>MCP 協定解析</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ap-tree-sitter" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>14.</span> <span data-astro-cid-mw7aashj>Tree-sitter 技術解析</span>  </a> </li> </ul> </div> </nav> <div id="ov" data-astro-cid-mw7aashj></div> <main data-astro-cid-mw7aashj> <div class="cb" data-astro-cid-mw7aashj>  <span class="clabel">第 5 章 · Part 3：安裝與代理程式整合</span> <h1>快速安裝與版本升級</h1> <p class="cdesc">跨平台一鍵化配置本地 CLI 執行環境</p> <h2>一、 本地端安裝條件與優勢</h2> <p>
+CodeGraph 內部捆綁了自己的 Node.js 執行期環境（Runtime），這意味著即使你的開發機上完全沒有安裝 Node.js，或者是處於特殊的版本限制下，CodeGraph 也能順暢運作，並且不會與你原本的全局 Node.js 版本產生任何衝突。
+</p> <h2>二、 跨平台安裝指令與途徑選擇</h2> <p>根據你目前的開發環境，請參考下方決策樹選擇最適合的安裝途徑，然後開啟終端機執行對應指令：</p> <figure class="svg-fig"> 
+<svg viewBox="0 0 800 340" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arr-ch05" viewBox="0 0 10 10" refX="8" refY="5"
+            markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="var(--border)" />
+    </marker>
+  </defs>
+
+  <!-- Root diamond: center (400, 52) -->
+  <polygon points="400,18 515,52 400,86 285,52"
+           fill="var(--accent-light)" stroke="var(--accent)" stroke-width="2"/>
+  <text x="400" y="47" text-anchor="middle" fill="var(--text)" font-size="13" font-weight="700">已安裝 Node.js？</text>
+  <text x="400" y="64" text-anchor="middle" fill="var(--muted)" font-size="10">選擇安裝途徑</text>
+
+  <!-- LEFT branch: No — OS scripts -->
+  <path d="M 285,52 L 170,52 L 170,112" fill="none" stroke="var(--border)" stroke-width="1.5" marker-end="url(#arr-ch05)"/>
+  <text x="228" y="45" text-anchor="middle" fill="var(--muted)" font-size="11">否 (No)</text>
+
+  <rect x="90" y="120" width="160" height="50" rx="8" fill="rgba(139,92,246,0.07)" stroke="#8b5cf6" stroke-width="2"/>
+  <text x="170" y="140" text-anchor="middle" fill="#8b5cf6" font-size="12" font-weight="700">使用 OS 腳本</text>
+  <text x="170" y="157" text-anchor="middle" fill="var(--text)" font-size="10">選擇作業系統</text>
+
+  <!-- macOS/Linux → cURL -->
+  <path d="M 170,170 L 90,170 L 90,232" fill="none" stroke="var(--border)" stroke-width="1.5" marker-end="url(#arr-ch05)"/>
+  <text x="130" y="163" text-anchor="middle" fill="var(--muted)" font-size="9.5">macOS/Linux</text>
+  <rect x="25" y="240" width="130" height="65" rx="8" fill="rgba(239,68,68,0.07)" stroke="#ef4444" stroke-width="2"/>
+  <text x="90" y="260" text-anchor="middle" fill="#ef4444" font-size="12" font-weight="700">cURL 腳本</text>
+  <text x="90" y="276" text-anchor="middle" fill="var(--text)" font-size="10">curl -fsSL</text>
+  <text x="90" y="292" text-anchor="middle" fill="var(--text)" font-size="10">install.sh | sh</text>
+
+  <!-- Windows → PowerShell -->
+  <path d="M 170,170 L 250,170 L 250,232" fill="none" stroke="var(--border)" stroke-width="1.5" marker-end="url(#arr-ch05)"/>
+  <text x="210" y="163" text-anchor="middle" fill="var(--muted)" font-size="9.5">Windows</text>
+  <rect x="185" y="240" width="130" height="65" rx="8" fill="rgba(239,68,68,0.07)" stroke="#ef4444" stroke-width="2"/>
+  <text x="250" y="260" text-anchor="middle" fill="#ef4444" font-size="12" font-weight="700">PowerShell</text>
+  <text x="250" y="276" text-anchor="middle" fill="var(--text)" font-size="10">irm install.ps1</text>
+  <text x="250" y="292" text-anchor="middle" fill="var(--text)" font-size="10">| iex</text>
+
+  <!-- RIGHT branch: Yes — Node.js present -->
+  <path d="M 515,52 L 630,52 L 630,107" fill="none" stroke="var(--border)" stroke-width="1.5" marker-end="url(#arr-ch05)"/>
+  <text x="572" y="45" text-anchor="middle" fill="var(--muted)" font-size="11">是 (Yes)</text>
+
+  <!-- Blue diamond: center (630, 140) -->
+  <polygon points="630,115 710,140 630,165 550,140"
+           fill="rgba(59,130,246,0.07)" stroke="#3b82f6" stroke-width="2"/>
+  <text x="630" y="136" text-anchor="middle" fill="#3b82f6" font-size="12" font-weight="700">想要全域安裝？</text>
+  <text x="630" y="152" text-anchor="middle" fill="var(--text)" font-size="10">安裝範圍選擇</text>
+
+  <!-- Yes → npm global -->
+  <path d="M 710,140 L 740,140 L 740,232" fill="none" stroke="var(--border)" stroke-width="1.5" marker-end="url(#arr-ch05)"/>
+  <text x="726" y="133" text-anchor="middle" fill="var(--muted)" font-size="10">是</text>
+  <rect x="685" y="240" width="110" height="65" rx="8" fill="rgba(16,185,129,0.08)" stroke="#10b981" stroke-width="2"/>
+  <text x="740" y="260" text-anchor="middle" fill="#10b981" font-size="12" font-weight="700">NPM 全域</text>
+  <text x="740" y="276" text-anchor="middle" fill="var(--text)" font-size="10">npm i -g</text>
+  <text x="740" y="292" text-anchor="middle" fill="var(--text)" font-size="10">@codegraph</text>
+
+  <!-- No → npx -->
+  <path d="M 550,140 L 490,140 L 490,232" fill="none" stroke="var(--border)" stroke-width="1.5" marker-end="url(#arr-ch05)"/>
+  <text x="520" y="133" text-anchor="middle" fill="var(--muted)" font-size="10">否</text>
+  <rect x="425" y="240" width="130" height="65" rx="8" fill="rgba(234,179,8,0.08)" stroke="#ca8a04" stroke-width="2"/>
+  <text x="490" y="260" text-anchor="middle" fill="#ca8a04" font-size="12" font-weight="700">npx 執行</text>
+  <text x="490" y="276" text-anchor="middle" fill="var(--text)" font-size="10">npx @codegraph</text>
+  <text x="490" y="292" text-anchor="middle" fill="var(--text)" font-size="10">免全域安裝</text>
+
+</svg>
+ <figcaption>圖 5-1：CodeGraph 安裝途徑決策樹——根據系統是否已有 Node.js 及安裝範圍偏好，分為 cURL 腳本、PowerShell、NPM 全域安裝、npx 免安裝執行四條路徑。</figcaption> </figure> <h3>1. macOS / Linux (cURL 方式)</h3> <p>利用官方腳本下載並將二進位檔自動加入環境變數：</p> <pre style="background: var(--bg2); padding: 1rem; border-radius: 6px; font-family: var(--mono); font-size: 0.85rem; border: 1px solid var(--border); overflow-x: auto; margin: 1rem 0;">curl -fsSL https://raw.githubusercontent.com/colbymchenry/codegraph/main/install.sh | sh
+  </pre> <h3>2. Windows (PowerShell 方式)</h3> <p>使用管理員或一般權限開啟 PowerShell 執行以下 Web 請求指令：</p> <pre style="background: var(--bg2); padding: 1rem; border-radius: 6px; font-family: var(--mono); font-size: 0.85rem; border: 1px solid var(--border); overflow-x: auto; margin: 1rem 0;">irm https://raw.githubusercontent.com/colbymchenry/codegraph/main/install.ps1 | iex
+  </pre> <h3>3. 通用 NPM 安裝方式</h3> <p>如果你已經具備 Node.js 環境，亦可透過 NPM 進行全域安裝：</p> <pre style="background: var(--bg2); padding: 1rem; border-radius: 6px; font-family: var(--mono); font-size: 0.85rem; border: 1px solid var(--border); overflow-x: auto; margin: 1rem 0;">npm i -g @colbymchenry/codegraph
+  </pre> <div class="call warning"> <p><strong>⚠️ 重要提醒</strong>：安裝腳本將 <code>codegraph</code> 指令添加至你的 <code>PATH</code> 環境變數中，但它不會立刻更新你當前已開啟的終端機視窗。<strong>請在安裝後重新開啟一個新的終端機視窗</strong>，指令才能被成功解析。</p> </div> <h2>三、 CLI 版本升級與管理</h2> <p>
+CodeGraph 提供了高度自動化的內建升級器，它會智慧辨識你當初的安裝途徑（Bundle 腳本、NPM 或 npx），並執行原地更新：
+</p> <h3>1. 自動檢查與升級</h3> <p>直接執行以下指令進行在線更新：</p> <pre style="background: var(--bg2); padding: 1rem; border-radius: 6px; font-family: var(--mono); font-size: 0.85rem; border: 1px solid var(--border); overflow-x: auto; margin: 1rem 0;">codegraph upgrade
+  </pre> <h3>2. 僅檢查是否有新版本</h3> <p>加上 <code>--check</code> 參數，僅輸出版本對照，不執行寫入：</p> <pre style="background: var(--bg2); padding: 1rem; border-radius: 6px; font-family: var(--mono); font-size: 0.85rem; border: 1px solid var(--border); overflow-x: auto; margin: 1rem 0;">codegraph upgrade --check
+  </pre> <h3>3. 鎖定並安裝特定版本</h3> <p>若需要回滾或鎖定特定的發行版本：</p> <pre style="background: var(--bg2); padding: 1rem; border-radius: 6px; font-family: var(--mono); font-size: 0.85rem; border: 1px solid var(--border); overflow-x: auto; margin: 1rem 0;">codegraph upgrade 0.9.4
+  </pre> <div class="img-placeholder" style="background: var(--bg2); border: 2px dashed var(--accent); padding: 2rem; border-radius: 8px; text-align: center; margin: 2rem 0;"> <img src="/codegraph/img/ch05-install-success.png" alt="Windows PowerShell 安裝 CodeGraph 成功畫面" style="max-width: 100%; border-radius: 8px; margin-bottom: 1.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.15);"> <h4 style="color: var(--accent); margin-bottom: 0.5rem;">📷 【預留圖檔位置 5-1：Windows PowerShell 安裝 CodeGraph 成功畫面】</h4> <p style="font-size: 0.9rem; color: var(--text2); max-width: 500px; margin: 0 auto;"> <strong>Gemini 補圖說明：</strong>請提供一張終端機截圖，展示執行 `irm ... | iex` 成功後，終端機顯示 `CodeGraph installed successfully! Path updated.` 的綠色成功提示。
+</p> </div> <p>在成功將 CodeGraph 佈署至本地 Path 後，下一章我們將引導你如何透過一鍵命令，直接將其掛載為主流 AI Agent 的 MCP 插件。</p>  </div> <nav class="cnav" data-astro-cid-mw7aashj> <a href="/codegraph/ch04-benchmarks" class="prev" data-astro-cid-mw7aashj> <span class="nd" data-astro-cid-mw7aashj>← 上一章</span> <span class="nt" data-astro-cid-mw7aashj>效能基準測試與省代幣分析</span> </a> <a href="/codegraph/ch06-integration" class="next" data-astro-cid-mw7aashj> <span class="nd" data-astro-cid-mw7aashj>下一章 →</span> <span class="nt" data-astro-cid-mw7aashj>整合與配置主流 AI 代理程式</span> </a> </nav> </main> </div> <script>
+    // Theme
+    const html = document.documentElement;
+    const tt = document.getElementById('tt');
+    const isun = document.getElementById('isun');
+    const imoon = document.getElementById('imoon');
+    function syncIcons() {
+      const dk = html.classList.contains('dark');
+      isun.style.display = dk ? 'block' : 'none';
+      imoon.style.display = dk ? 'none' : 'block';
+    }
+    syncIcons();
+    tt?.addEventListener('click', () => {
+      html.classList.toggle('dark');
+      localStorage.setItem('cc-theme', html.classList.contains('dark') ? 'dark' : 'light');
+      syncIcons();
+    });
+
+    // Progress
+    const pb = document.getElementById('pb');
+    window.addEventListener('scroll', () => {
+      const t = document.documentElement.scrollHeight - window.innerHeight;
+      pb.style.width = t > 0 ? `${(window.scrollY / t) * 100}%` : '0%';
+    }, { passive: true });
+
+    // Sidebar part toggles
+    document.querySelectorAll('.pt').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.dataset.pid;
+        const list = document.querySelector(`[data-pl="${id}"]`);
+        btn.classList.toggle('open');
+        list?.classList.toggle('closed');
+      });
+    });
+
+    // Mobile menu
+    const sb = document.getElementById('sb');
+    const ov = document.getElementById('ov');
+    const mb = document.getElementById('mbtn');
+    const open = () => { sb.classList.add('open'); ov.classList.add('open'); document.body.style.overflow='hidden'; };
+    const close = () => { sb.classList.remove('open'); ov.classList.remove('open'); document.body.style.overflow=''; };
+    mb?.addEventListener('click', open);
+    ov?.addEventListener('click', close);
+  </script> </body> 

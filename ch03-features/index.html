@@ -1,0 +1,179 @@
+<!DOCTYPE html><html lang="zh-TW" data-astro-cid-mw7aashj> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>CodeGraph 核心特點與優勢 | </title><link rel="stylesheet" href="/codegraph/_astro/DocsLayout.Bujtu5J-.css"></head>CodeGraph 完整指南 <meta name="description" content="深入探討 CodeGraph 的底層核心特點，包含 SQLite+FTS5 儲存設計、動態分發橋接、Web 框架路由感知與即時增量防抖同步。"> <link rel="icon" href="/codegraph/favicon.svg" type="image/svg+xml"> <script>
+    (function () {
+      const s = localStorage.getItem('cc-theme');
+      const d = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (s === 'dark' || (!s && d)) document.documentElement.classList.add('dark');
+    })();
+  </script>  </html> <body data-astro-cid-mw7aashj> <div id="pb" data-astro-cid-mw7aashj></div> <header data-astro-cid-mw7aashj> <div class="hi" data-astro-cid-mw7aashj> <div class="hl" data-astro-cid-mw7aashj> <button id="mbtn" class="ibtn" aria-label="選單" data-astro-cid-mw7aashj> <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" data-astro-cid-mw7aashj></path> </svg> </button> <a href="/codegraph/" class="site-name" data-astro-cid-mw7aashj> <span class="logo" data-astro-cid-mw7aashj>CG</span>&nbsp;&nbsp;CodeGraph 完整指南
+</a> </div> <div class="hr" data-astro-cid-mw7aashj> <button id="tt" class="ibtn" aria-label="切換主題" data-astro-cid-mw7aashj> <svg id="isun" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="display:none" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364-.707-.707M6.343 6.343l-.707-.707m12.728 0-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0z" data-astro-cid-mw7aashj></path> </svg> <svg id="imoon" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 0 1 8.646 3.646 9.003 9.003 0 0 0 12 21a9.003 9.003 0 0 0 8.354-5.646z" data-astro-cid-mw7aashj></path> </svg> </button> </div> </div> </header> <div id="layout" data-astro-cid-mw7aashj> <nav id="sb" data-astro-cid-mw7aashj> <div class="np" data-astro-cid-mw7aashj> <button class="pt open" data-pid="0" data-astro-cid-mw7aashj> <span data-astro-cid-mw7aashj>Part 0：前言</span> <svg class="arr" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" data-astro-cid-mw7aashj></path> </svg> </button> <ul class="nl" data-pl="0" data-astro-cid-mw7aashj> <li data-astro-cid-mw7aashj> <a href="/codegraph/preface" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>0.</span> <span data-astro-cid-mw7aashj>為什麼你需要 CodeGraph</span>  </a> </li> </ul> </div><div class="np" data-astro-cid-mw7aashj> <button class="pt open" data-pid="1" data-astro-cid-mw7aashj> <span data-astro-cid-mw7aashj>Part 1：基礎與概念</span> <svg class="arr" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" data-astro-cid-mw7aashj></path> </svg> </button> <ul class="nl" data-pl="1" data-astro-cid-mw7aashj> <li data-astro-cid-mw7aashj> <a href="/codegraph/ch01-intro" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>1.</span> <span data-astro-cid-mw7aashj>什麼是 CodeGraph</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ch02-why-codegraph" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>2.</span> <span data-astro-cid-mw7aashj>為什麼 AI Agent 需要 CodeGraph</span>  </a> </li> </ul> </div><div class="np" data-astro-cid-mw7aashj> <button class="pt open" data-pid="2" data-astro-cid-mw7aashj> <span data-astro-cid-mw7aashj>Part 2：核心功能與效能</span> <svg class="arr" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" data-astro-cid-mw7aashj></path> </svg> </button> <ul class="nl" data-pl="2" data-astro-cid-mw7aashj> <li data-astro-cid-mw7aashj> <a href="/codegraph/ch03-features" class="active" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>3.</span> <span data-astro-cid-mw7aashj>CodeGraph 核心特點與優勢</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ch04-benchmarks" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>4.</span> <span data-astro-cid-mw7aashj>效能基準測試與省代幣分析</span>  </a> </li> </ul> </div><div class="np" data-astro-cid-mw7aashj> <button class="pt open" data-pid="3" data-astro-cid-mw7aashj> <span data-astro-cid-mw7aashj>Part 3：安裝與代理程式整合</span> <svg class="arr" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" data-astro-cid-mw7aashj></path> </svg> </button> <ul class="nl" data-pl="3" data-astro-cid-mw7aashj> <li data-astro-cid-mw7aashj> <a href="/codegraph/ch05-installation" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>5.</span> <span data-astro-cid-mw7aashj>快速安裝與版本升級</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ch06-integration" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>6.</span> <span data-astro-cid-mw7aashj>整合與配置主流 AI 代理程式</span>  </a> </li> </ul> </div><div class="np" data-astro-cid-mw7aashj> <button class="pt" data-pid="4" data-astro-cid-mw7aashj> <span data-astro-cid-mw7aashj>Part 4：實戰應用與進階</span> <svg class="arr" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" data-astro-cid-mw7aashj></path> </svg> </button> <ul class="nl closed" data-pl="4" data-astro-cid-mw7aashj> <li data-astro-cid-mw7aashj> <a href="/codegraph/ch07-init-sync" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>7.</span> <span data-astro-cid-mw7aashj>專案初始化與自動同步機制</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ch08-search-impact" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>8.</span> <span data-astro-cid-mw7aashj>搜尋與影響力分析實踐</span>  </a> </li> </ul> </div><div class="np" data-astro-cid-mw7aashj> <button class="pt" data-pid="5" data-astro-cid-mw7aashj> <span data-astro-cid-mw7aashj>Part 5：附錄</span> <svg class="arr" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" data-astro-cid-mw7aashj></path> </svg> </button> <ul class="nl closed" data-pl="5" data-astro-cid-mw7aashj> <li data-astro-cid-mw7aashj> <a href="/codegraph/glossary" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>10.</span> <span data-astro-cid-mw7aashj>名詞解釋</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ap-neo4j" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>11.</span> <span data-astro-cid-mw7aashj>Neo4j 技術解析</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ap-sqlite" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>12.</span> <span data-astro-cid-mw7aashj>SQLite 技術解析</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ap-mcp" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>13.</span> <span data-astro-cid-mw7aashj>MCP 協定解析</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ap-tree-sitter" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>14.</span> <span data-astro-cid-mw7aashj>Tree-sitter 技術解析</span>  </a> </li> </ul> </div> </nav> <div id="ov" data-astro-cid-mw7aashj></div> <main data-astro-cid-mw7aashj> <div class="cb" data-astro-cid-mw7aashj>  <span class="clabel">第 3 章 · Part 2：核心功能與效能</span> <h1>CodeGraph 核心特點與優勢</h1> <p class="cdesc">解析 CodeGraph 實現極致本地代碼 RAG 的技術支柱</p> <h2>一、 儲存架構：SQLite + FTS5，拒絕圖資料庫的繁瑣</h2> <p>
+與許多使用 Neo4j 等重型圖資料庫或雲端向量庫的 Code RAG 工具不同，CodeGraph 採取了極度精簡的本地架構：<strong>全圖資料皆儲存在一個本地 SQLite 檔案中</strong>。
+</p> <p>
+CodeGraph 採用 SQLite WAL (Write-Ahead Logging) 模式，讀寫互不阻塞。以下是其核心的資料表設計：
+</p> <ul> <li><code>nodes</code>：儲存代碼符號實體。包含 <code>id</code> (以字串路徑為唯一值，例如 <code>func:src/auth.ts:validateToken:45</code>)、<code>kind</code>、<code>name</code>、<code>file_path</code>、<code>signature</code> 及原始碼片段 <code>code_snippet</code>。</li> <li><code>edges</code>：儲存符號之間的關係邊。包含 <code>source_id</code>、<code>target_id</code>、關係種類 <code>kind</code> 以及是否已被成功解析的 <code>resolved</code> 標記。</li> <li><code>nodes_fts (FTS5 全文索引)</code>：專門用於極速進行符號名稱與文檔字串模糊搜尋的虛擬表。</li> </ul> <p>
+由於圖的規模限制在單一專案內（通常小於 10 萬個節點），SQLite 的索引結構在進行深度優先搜尋 (DFS) 或廣度優先搜尋 (BFS) 時，查詢耗時皆小於 1 毫秒，效能甚至優於許多企業級的圖資料庫。
+</p> <h2>二、 跨越靜態分析邊界：動態分發橋接 (Synthesizers)</h2> <p>
+傳統的靜態分析工具最害怕遇到「非硬編碼調用」，例如：運行時的事件監聽（EventEmitter）、回呼函數（Callback）或動態反射綁定。這往往會導致代碼調用鏈（Call Chain）斷裂。
+</p> <p>
+CodeGraph 透過手寫的<strong>動態解析器（Synthesizers）</strong>解決了這個痛點。它能智能識別特定代碼模式，並在圖譜中手動加上一條標記為啟發式的合成邊（<code>provenance: 'heuristic'</code>）：
+</p> <ul> <li><strong>EventEmitter 橋接</strong>：當偵測到 <code>emitter.emit('event_name')</code> 與 <code>emitter.on('event_name', handler)</code> 時，自動建立 <code>calls</code> 邊。</li> <li><strong>前端組件傳播</strong>：識別 React / Vue 的 JSX 宣告，穿透組件的 Props 傳遞與渲染邊界，將 <code>render</code> 與子組件連成一體。</li> <li><strong>ORM 關係穿透</strong>：對 Django 或 Prisma 的資料庫 Model 描述符進行語意關聯，使 Agent 能順利從資料庫操作查出對應的欄位模型。</li> </ul> <figure class="svg-fig"> 
+<svg viewBox="0 0 800 220" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arr-syn" viewBox="0 0 10 10" refX="8" refY="5"
+            markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="var(--border)" />
+    </marker>
+    <marker id="arr-syn-accent" viewBox="0 0 10 10" refX="8" refY="5"
+            markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10b981" />
+    </marker>
+  </defs>
+
+  <!-- Node 1: 偵測代碼模式 -->
+  <rect x="30" y="55" width="200" height="110" rx="10"
+        fill="rgba(59,130,246,0.07)" stroke="#3b82f6" stroke-width="1.5" />
+  <text x="130" y="85" text-anchor="middle" font-size="13" font-weight="700" fill="#3b82f6">1. 偵測代碼模式</text>
+  <rect x="46" y="94" width="168" height="56" rx="5"
+        fill="var(--bg)" stroke="var(--border)" stroke-width="1" />
+  <text x="130" y="112" text-anchor="middle" font-family="monospace" font-size="11" fill="var(--muted)">emitter.emit('login')</text>
+  <text x="130" y="128" text-anchor="middle" font-family="monospace" font-size="11" fill="var(--muted)">emitter.on('login', cb)</text>
+  <text x="130" y="144" text-anchor="middle" font-family="monospace" font-size="10" fill="var(--muted)">// EventEmitter 模式</text>
+
+  <!-- Arrow 1→2 -->
+  <path d="M 230 110 L 288 110" stroke="var(--border)" stroke-width="2"
+        fill="none" marker-end="url(#arr-syn)" />
+
+  <!-- Node 2: 啟發式規則分析 -->
+  <rect x="296" y="55" width="208" height="110" rx="10"
+        fill="rgba(139,92,246,0.07)" stroke="#8b5cf6" stroke-width="1.5" />
+  <text x="400" y="85" text-anchor="middle" font-size="13" font-weight="700" fill="#8b5cf6">2. 啟發式規則分析</text>
+  <text x="400" y="108" text-anchor="middle" font-size="11" fill="var(--text)">Synthesizer 自動比對</text>
+  <text x="400" y="125" text-anchor="middle" font-size="11" fill="var(--text)">事件名稱，預判並串聯</text>
+  <text x="400" y="142" text-anchor="middle" font-size="11" fill="var(--text)">運行期的調用路徑</text>
+
+  <!-- Arrow 2→3 -->
+  <path d="M 504 110 L 562 110" stroke="#10b981" stroke-width="2"
+        fill="none" marker-end="url(#arr-syn-accent)" />
+
+  <!-- Node 3: 生成合成邊 -->
+  <rect x="570" y="55" width="200" height="110" rx="10"
+        fill="rgba(16,185,129,0.08)" stroke="#10b981" stroke-width="1.5" />
+  <text x="670" y="82" text-anchor="middle" font-size="13" font-weight="700" fill="#10b981">3. 生成合成邊</text>
+  <text x="670" y="97" text-anchor="middle" font-size="10" fill="var(--muted)">(Heuristic Edge)</text>
+  <rect x="586" y="106" width="168" height="46" rx="5"
+        fill="var(--bg)" stroke="#86efac" stroke-width="1" />
+  <text x="670" y="123" text-anchor="middle" font-family="monospace" font-size="10" fill="#166534">edgeKind: 'calls'</text>
+  <text x="670" y="137" text-anchor="middle" font-family="monospace" font-size="10" fill="#166534">provenance: 'heuristic'</text>
+  <text x="670" y="151" text-anchor="middle" font-family="monospace" font-size="10" fill="#166534">resolved: true</text>
+
+  <!-- Bottom label -->
+  <text x="400" y="192" text-anchor="middle" font-size="12" fill="var(--muted)">靜態分析邊界之外的動態調用，透過 Synthesizer 建立啟發式連線，修補斷裂的調用鏈</text>
+</svg>
+ <figcaption>圖 3-2：Synthesizer 邊界穿透機制——偵測代碼模式後透過啟發式規則分析，在 SQLite 圖譜中生成 provenance: 'heuristic' 的合成邊，修補靜態分析無法捕捉的動態調用關係。</figcaption> </figure> <h2>三、 Web 框架感知路由 (Framework-aware Routes)</h2> <p>
+CodeGraph 內建了對 <strong>14 種主流 Web 框架</strong>路由宣告的語意抽取模組。這使得它在處理 Web 專案時極具優勢。
+</p> <p>
+當 Tree-sitter 掃描到路由設定檔時，會將路由路徑與請求方法（例如 <code>POST /api/v1/auth/login</code>）抽象為一個 <code>kind: 'route'</code> 的節點，並直接連結到負責處理該請求的後端 Controller 或 Handler 函式節點。
+</p> <div style="border:1px solid var(--border);border-radius:12px;padding:1.5rem;background:var(--bg2);margin:1.5rem 0;overflow-x:auto"> <div style="display:flex;align-items:center;gap:0;min-width:480px;font-size:.82rem"> <!-- HTTP Request --> <div style="flex-shrink:0;padding:.65rem 1rem;background:var(--accent);color:#fff;border-radius:7px;text-align:center"> <div style="font-size:.72rem;font-weight:700;letter-spacing:.05em;margin-bottom:.2rem">HTTP 請求</div> <div style="font-family:var(--mono);font-size:.8rem;font-weight:600">POST /api/users</div> </div> <!-- Arrow --> <div style="display:flex;flex-direction:column;align-items:center;padding:0 .6rem;flex-shrink:0;color:var(--muted)"> <div style="font-size:.7rem;white-space:nowrap">Tree-sitter 掃描</div> <div style="font-size:1.1rem">→</div> </div> <!-- Route Node --> <div style="flex-shrink:0;padding:.65rem 1rem;background:var(--bg);border:1.5px solid #6c8ebf;border-radius:7px;text-align:center;background:#dae8fc"> <div style="font-size:.7rem;font-weight:700;color:#336699;margin-bottom:.2rem">SQLite 節點</div> <div style="font-family:var(--mono);font-size:.78rem;color:#1a1908;font-weight:600">kind: 'route'</div> <div style="font-family:var(--mono);font-size:.72rem;color:#336699">POST /api/users</div> </div> <!-- Arrow with edge label --> <div style="display:flex;flex-direction:column;align-items:center;padding:0 .6rem;flex-shrink:0;color:var(--muted)"> <div style="font-size:.7rem;font-family:var(--mono);color:#2d6a2d;white-space:nowrap">calls 邊</div> <div style="font-size:1.1rem">→</div> </div> <!-- Handler Node --> <div style="flex-shrink:0;padding:.65rem 1rem;background:#d5e8d4;border:1.5px solid #82b366;border-radius:7px;text-align:center"> <div style="font-size:.7rem;font-weight:700;color:#2d6a2d;margin-bottom:.2rem">SQLite 節點</div> <div style="font-family:var(--mono);font-size:.78rem;color:#1a1908;font-weight:600">kind: 'method'</div> <div style="font-family:var(--mono);font-size:.72rem;color:#2d6a2d">UserController.create</div> </div> <!-- Arrow --> <div style="display:flex;flex-direction:column;align-items:center;padding:0 .6rem;flex-shrink:0;color:var(--muted)"> <div style="font-size:.7rem;white-space:nowrap">AI 直達</div> <div style="font-size:1.1rem">→</div> </div> <!-- Result --> <div style="flex:1;padding:.65rem 1rem;background:var(--bg);border:1px solid var(--border);border-radius:7px;text-align:center"> <div style="font-size:.7rem;color:var(--muted);margin-bottom:.2rem">Agent 結果</div> <div style="font-size:.8rem;font-weight:600;color:#2d7a4f">1 次查詢 · 精準定位</div> <div style="font-size:.72rem;color:var(--muted)">無需 Grep 掃描</div> </div> </div> </div> <p><strong>支援的框架清單：</strong></p> <ul> <li><strong>Python</strong>: Django, Flask, FastAPI</li> <li><strong>Node.js / JS</strong>: Express, NestJS (含 GraphQL/WebSocket), React Router, SvelteKit</li> <li><strong>PHP / Ruby / Go</strong>: Laravel, Rails, Gin, Chi, Axum, Actix Web</li> <li><strong>.NET</strong>: ASP.NET Core (含屬性路由 <code>[HttpGet]</code> 等)</li> </ul> <h2>四、 原生檔案同步監聽 (Debounced Auto-Sync)</h2> <p>
+為了確保 Agent 獲取的資訊永遠是最新的，CodeGraph 實作了極低消耗的<strong>即時檔案同步監聽器</strong>。
+</p> <p>
+它呼叫系統底層的原生監聽 API（macOS FSEvents、Linux inotify、Windows ReadDirectoryChangesW），當開發者編輯代碼並存檔（Cmd+S）時：
+</p> <ol> <li>自動過濾掉無關檔案（如 <code>node_modules</code>、隱藏資料夾與編譯產物）。</li> <li>採用 <strong>2000ms 的防抖 (Debounce) 機制</strong>。在開發者連續輸入代碼時不進行無謂的頻繁重整，直到代碼靜止 2 秒後，才對受影響的檔案執行增量語法樹解析（Incremental Reparse）。</li> <li>毫秒內將最新的節點關係更新寫入 SQLite，保證 AI Agent 下一次呼叫 MCP 工具時，永遠取得真實的程式狀態。</li> </ol> <h2>防抖同步時間軸</h2> <p>以下示意圖說明開發者連續輸入代碼時，CodeGraph 如何透過 2000ms 防抖避免無謂的頻繁重整：</p> <figure class="svg-fig"> 
+<svg viewBox="0 0 800 210" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arr-deb" viewBox="0 0 10 10" refX="8" refY="5"
+            markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="var(--muted)" />
+    </marker>
+  </defs>
+
+  <!-- Timeline rail -->
+  <line x1="60" y1="80" x2="740" y2="80" stroke="var(--border)" stroke-width="3" stroke-linecap="round" />
+
+  <!-- Save event 1 at x=120 -->
+  <circle cx="150" cy="80" r="7" fill="var(--accent)" />
+  <text x="150" y="55" text-anchor="middle" font-size="12" fill="var(--accent)" font-weight="600">Cmd+S</text>
+  <line x1="150" y1="62" x2="150" y2="73" stroke="var(--accent)" stroke-width="1.5" />
+
+  <!-- Save event 2 at x=320 -->
+  <circle cx="320" cy="80" r="7" fill="var(--accent)" />
+  <text x="320" y="55" text-anchor="middle" font-size="12" fill="var(--accent)" font-weight="600">Cmd+S</text>
+  <line x1="320" y1="62" x2="320" y2="73" stroke="var(--accent)" stroke-width="1.5" />
+
+  <!-- Save event 3 at x=460 -->
+  <circle cx="460" cy="80" r="7" fill="var(--accent)" />
+  <text x="460" y="55" text-anchor="middle" font-size="12" fill="var(--accent)" font-weight="600">Cmd+S</text>
+  <line x1="460" y1="62" x2="460" y2="73" stroke="var(--accent)" stroke-width="1.5" />
+
+  <!-- Debounce zone 460~620 -->
+  <rect x="460" y="72" width="160" height="16" rx="2"
+        fill="rgba(192,83,58,0.08)" stroke="#c0533a" stroke-width="1" stroke-dasharray="4 3" />
+  <text x="540" y="40" text-anchor="middle" font-size="11" fill="#c0533a">← 2000ms 防抖 →</text>
+  <line x1="540" y1="46" x2="540" y2="72" stroke="#c0533a" stroke-width="1" stroke-dasharray="3 2" />
+
+  <!-- Trigger point at x=620 -->
+  <circle cx="620" cy="80" r="9" fill="#2d7a4f" />
+  <text x="620" y="50" text-anchor="middle" font-size="12" fill="#2d7a4f" font-weight="700">觸發！</text>
+  <line x1="620" y1="57" x2="620" y2="71" stroke="#2d7a4f" stroke-width="1.5" />
+
+  <!-- Three bottom boxes -->
+  <rect x="60" y="110" width="200" height="56" rx="8"
+        fill="var(--bg2)" stroke="var(--accent)" stroke-width="2" />
+  <text x="160" y="132" text-anchor="middle" font-size="12" fill="var(--text)" font-weight="600">連續 Cmd+S × 3</text>
+  <text x="160" y="150" text-anchor="middle" font-size="10.5" fill="var(--muted)">防抖計時器不斷重置</text>
+  <text x="160" y="163" text-anchor="middle" font-size="10.5" fill="var(--muted)">不觸發解析</text>
+
+  <rect x="296" y="110" width="208" height="56" rx="8"
+        fill="var(--bg2)" stroke="#f59e0b" stroke-width="2" />
+  <text x="400" y="132" text-anchor="middle" font-size="12" fill="var(--text)" font-weight="600">靜止 2000ms</text>
+  <text x="400" y="150" text-anchor="middle" font-size="10.5" fill="var(--muted)">計時到期</text>
+  <text x="400" y="163" text-anchor="middle" font-size="10.5" fill="var(--muted)">準備增量重解析</text>
+
+  <rect x="540" y="110" width="220" height="56" rx="8"
+        fill="var(--bg2)" stroke="#2d7a4f" stroke-width="2" />
+  <text x="650" y="132" text-anchor="middle" font-size="12" fill="var(--text)" font-weight="600">Tree-sitter 增量解析</text>
+  <text x="650" y="150" text-anchor="middle" font-size="10.5" fill="var(--muted)">毫秒內更新 SQLite</text>
+  <text x="650" y="163" text-anchor="middle" font-size="10.5" fill="#2d7a4f">Agent 取得最新狀態</text>
+</svg>
+ <figcaption>防抖同步時間軸：開發者連續三次 Cmd+S，防抖計時器不斷重置；靜止 2000ms 後才觸發 Tree-sitter 增量解析，將最新節點關係寫入 SQLite。</figcaption> </figure> <p>在下一章中，我們將透過數據，具體看看 CodeGraph 在 7 大熱門開源專案中寫下了多麼驚人的省 Token 與效能成績。</p>  </div> <nav class="cnav" data-astro-cid-mw7aashj> <a href="/codegraph/ch02-why-codegraph" class="prev" data-astro-cid-mw7aashj> <span class="nd" data-astro-cid-mw7aashj>← 上一章</span> <span class="nt" data-astro-cid-mw7aashj>為什麼 AI Agent 需要 CodeGraph</span> </a> <a href="/codegraph/ch04-benchmarks" class="next" data-astro-cid-mw7aashj> <span class="nd" data-astro-cid-mw7aashj>下一章 →</span> <span class="nt" data-astro-cid-mw7aashj>效能基準測試與省代幣分析</span> </a> </nav> </main> </div> <script>
+    // Theme
+    const html = document.documentElement;
+    const tt = document.getElementById('tt');
+    const isun = document.getElementById('isun');
+    const imoon = document.getElementById('imoon');
+    function syncIcons() {
+      const dk = html.classList.contains('dark');
+      isun.style.display = dk ? 'block' : 'none';
+      imoon.style.display = dk ? 'none' : 'block';
+    }
+    syncIcons();
+    tt?.addEventListener('click', () => {
+      html.classList.toggle('dark');
+      localStorage.setItem('cc-theme', html.classList.contains('dark') ? 'dark' : 'light');
+      syncIcons();
+    });
+
+    // Progress
+    const pb = document.getElementById('pb');
+    window.addEventListener('scroll', () => {
+      const t = document.documentElement.scrollHeight - window.innerHeight;
+      pb.style.width = t > 0 ? `${(window.scrollY / t) * 100}%` : '0%';
+    }, { passive: true });
+
+    // Sidebar part toggles
+    document.querySelectorAll('.pt').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.dataset.pid;
+        const list = document.querySelector(`[data-pl="${id}"]`);
+        btn.classList.toggle('open');
+        list?.classList.toggle('closed');
+      });
+    });
+
+    // Mobile menu
+    const sb = document.getElementById('sb');
+    const ov = document.getElementById('ov');
+    const mb = document.getElementById('mbtn');
+    const open = () => { sb.classList.add('open'); ov.classList.add('open'); document.body.style.overflow='hidden'; };
+    const close = () => { sb.classList.remove('open'); ov.classList.remove('open'); document.body.style.overflow=''; };
+    mb?.addEventListener('click', open);
+    ov?.addEventListener('click', close);
+  </script> </body> 

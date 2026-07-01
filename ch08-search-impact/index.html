@@ -1,0 +1,243 @@
+<!DOCTYPE html><html lang="zh-TW" data-astro-cid-mw7aashj> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>搜尋與影響力分析實踐 | </title><link rel="stylesheet" href="/codegraph/_astro/DocsLayout.Bujtu5J-.css">
+<style>.cb-wrap[data-astro-cid-jgrc2lfe]{margin-bottom:1.25rem}.cb-bar[data-astro-cid-jgrc2lfe]{display:flex;align-items:center;justify-content:space-between;background:#1a1a2e;border-radius:6px 6px 0 0;border:1px solid rgba(255,255,255,.08);border-bottom:1px solid rgba(255,255,255,.05);padding:.18rem .5rem .18rem .75rem;min-height:1.8rem}.cb-label[data-astro-cid-jgrc2lfe]{color:#a6adc8;font-family:Fira Code,Cascadia Code,Consolas,monospace;font-size:.73rem;letter-spacing:.04em}.cb-inner[data-astro-cid-jgrc2lfe] pre{border-radius:0 0 8px 8px!important;margin-bottom:0!important}.cb-copy[data-astro-cid-jgrc2lfe]{background:#ffffff14;color:#888;border:1px solid rgba(255,255,255,.12);border-radius:4px;padding:.15rem .55rem;font-size:.7rem;cursor:pointer;transition:all .15s;flex-shrink:0}.cb-copy[data-astro-cid-jgrc2lfe]:hover{background:#ffffff2e;color:#fff}.cb-copy[data-astro-cid-jgrc2lfe].copied{color:#4ec9b0;border-color:#4ec9b0}
+</style></head>CodeGraph 完整指南 <meta name="description" content="深入實戰 CodeGraph 的 10 個 MCP 工具：從調用鏈追蹤（codegraph_trace）到影響力分析（codegraph_impact），結合 Vitest 增量測試，打造高效的 AI 輔助開發工作流程。"> <link rel="icon" href="/codegraph/favicon.svg" type="image/svg+xml"> <script>
+    (function () {
+      const s = localStorage.getItem('cc-theme');
+      const d = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (s === 'dark' || (!s && d)) document.documentElement.classList.add('dark');
+    })();
+  </script>  </html> <body data-astro-cid-mw7aashj> <div id="pb" data-astro-cid-mw7aashj></div> <header data-astro-cid-mw7aashj> <div class="hi" data-astro-cid-mw7aashj> <div class="hl" data-astro-cid-mw7aashj> <button id="mbtn" class="ibtn" aria-label="選單" data-astro-cid-mw7aashj> <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" data-astro-cid-mw7aashj></path> </svg> </button> <a href="/codegraph/" class="site-name" data-astro-cid-mw7aashj> <span class="logo" data-astro-cid-mw7aashj>CG</span>&nbsp;&nbsp;CodeGraph 完整指南
+</a> </div> <div class="hr" data-astro-cid-mw7aashj> <button id="tt" class="ibtn" aria-label="切換主題" data-astro-cid-mw7aashj> <svg id="isun" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="display:none" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364-.707-.707M6.343 6.343l-.707-.707m12.728 0-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0z" data-astro-cid-mw7aashj></path> </svg> <svg id="imoon" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 0 1 8.646 3.646 9.003 9.003 0 0 0 12 21a9.003 9.003 0 0 0 8.354-5.646z" data-astro-cid-mw7aashj></path> </svg> </button> </div> </div> </header> <div id="layout" data-astro-cid-mw7aashj> <nav id="sb" data-astro-cid-mw7aashj> <div class="np" data-astro-cid-mw7aashj> <button class="pt open" data-pid="0" data-astro-cid-mw7aashj> <span data-astro-cid-mw7aashj>Part 0：前言</span> <svg class="arr" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" data-astro-cid-mw7aashj></path> </svg> </button> <ul class="nl" data-pl="0" data-astro-cid-mw7aashj> <li data-astro-cid-mw7aashj> <a href="/codegraph/preface" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>0.</span> <span data-astro-cid-mw7aashj>為什麼你需要 CodeGraph</span>  </a> </li> </ul> </div><div class="np" data-astro-cid-mw7aashj> <button class="pt open" data-pid="1" data-astro-cid-mw7aashj> <span data-astro-cid-mw7aashj>Part 1：基礎與概念</span> <svg class="arr" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" data-astro-cid-mw7aashj></path> </svg> </button> <ul class="nl" data-pl="1" data-astro-cid-mw7aashj> <li data-astro-cid-mw7aashj> <a href="/codegraph/ch01-intro" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>1.</span> <span data-astro-cid-mw7aashj>什麼是 CodeGraph</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ch02-why-codegraph" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>2.</span> <span data-astro-cid-mw7aashj>為什麼 AI Agent 需要 CodeGraph</span>  </a> </li> </ul> </div><div class="np" data-astro-cid-mw7aashj> <button class="pt open" data-pid="2" data-astro-cid-mw7aashj> <span data-astro-cid-mw7aashj>Part 2：核心功能與效能</span> <svg class="arr" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" data-astro-cid-mw7aashj></path> </svg> </button> <ul class="nl" data-pl="2" data-astro-cid-mw7aashj> <li data-astro-cid-mw7aashj> <a href="/codegraph/ch03-features" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>3.</span> <span data-astro-cid-mw7aashj>CodeGraph 核心特點與優勢</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ch04-benchmarks" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>4.</span> <span data-astro-cid-mw7aashj>效能基準測試與省代幣分析</span>  </a> </li> </ul> </div><div class="np" data-astro-cid-mw7aashj> <button class="pt open" data-pid="3" data-astro-cid-mw7aashj> <span data-astro-cid-mw7aashj>Part 3：安裝與代理程式整合</span> <svg class="arr" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" data-astro-cid-mw7aashj></path> </svg> </button> <ul class="nl" data-pl="3" data-astro-cid-mw7aashj> <li data-astro-cid-mw7aashj> <a href="/codegraph/ch05-installation" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>5.</span> <span data-astro-cid-mw7aashj>快速安裝與版本升級</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ch06-integration" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>6.</span> <span data-astro-cid-mw7aashj>整合與配置主流 AI 代理程式</span>  </a> </li> </ul> </div><div class="np" data-astro-cid-mw7aashj> <button class="pt open" data-pid="4" data-astro-cid-mw7aashj> <span data-astro-cid-mw7aashj>Part 4：實戰應用與進階</span> <svg class="arr" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" data-astro-cid-mw7aashj></path> </svg> </button> <ul class="nl" data-pl="4" data-astro-cid-mw7aashj> <li data-astro-cid-mw7aashj> <a href="/codegraph/ch07-init-sync" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>7.</span> <span data-astro-cid-mw7aashj>專案初始化與自動同步機制</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ch08-search-impact" class="active" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>8.</span> <span data-astro-cid-mw7aashj>搜尋與影響力分析實踐</span>  </a> </li> </ul> </div><div class="np" data-astro-cid-mw7aashj> <button class="pt" data-pid="5" data-astro-cid-mw7aashj> <span data-astro-cid-mw7aashj>Part 5：附錄</span> <svg class="arr" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" data-astro-cid-mw7aashj></path> </svg> </button> <ul class="nl closed" data-pl="5" data-astro-cid-mw7aashj> <li data-astro-cid-mw7aashj> <a href="/codegraph/glossary" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>10.</span> <span data-astro-cid-mw7aashj>名詞解釋</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ap-neo4j" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>11.</span> <span data-astro-cid-mw7aashj>Neo4j 技術解析</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ap-sqlite" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>12.</span> <span data-astro-cid-mw7aashj>SQLite 技術解析</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ap-mcp" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>13.</span> <span data-astro-cid-mw7aashj>MCP 協定解析</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ap-tree-sitter" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>14.</span> <span data-astro-cid-mw7aashj>Tree-sitter 技術解析</span>  </a> </li> </ul> </div> </nav> <div id="ov" data-astro-cid-mw7aashj></div> <main data-astro-cid-mw7aashj> <div class="cb" data-astro-cid-mw7aashj>  <p class="clabel">第 8 章 · Part 4：實戰應用與進階</p> <h1>搜尋與影響力分析實踐</h1> <p class="cdesc">掌握 10 個 MCP 工具的智慧分流，讓 Agent 用最少的工具調用次數完成最複雜的代碼探索。</p> <h2>8.1 10 個 MCP 工具的智慧分流</h2> <p>
+CodeGraph 向 MCP 客戶端暴露 10 個工具，設計上分為兩類：
+<strong>重型工具</strong>在任務開始時一次給足完整結構；
+<strong>輕型工具</strong>在精準修改階段提供外科手術式的點狀查詢。
+    請參考以下決策樹，針對不同開發場景選擇對應的查詢工具：
+</p> <div style="border:1px solid var(--border);border-radius:12px;padding:1.5rem;background:var(--bg2);margin:1.5rem 0;font-size:.82rem"> <div style="text-align:center;margin-bottom:1.5rem;font-weight:700;color:var(--text)">MCP 工具選擇決策樹 (Tool Selection Tree)</div> <div style="display:flex;flex-direction:column;align-items:center;font-family:var(--mono)"> <!-- Root --> <div style="padding:.4rem 1.1rem;background:var(--accent);color:#fff;border-radius:6px;font-weight:700;z-index:1">你現在想查詢什麼？</div> <div style="width:2px;height:16px;background:#9ca3af"></div> <!-- Level 1 Split (3-way) --> <div style="display:flex;width:100%;max-width:600px;align-items:flex-start"> <!-- Branch 1: Context/Structure --> <div style="display:flex;flex-direction:column;align-items:center;position:relative;flex:1"> <div style="position:absolute;top:0;right:0;width:50%;height:2px;background:#9ca3af"></div> <div style="width:2px;height:16px;background:#9ca3af"></div> <div style="padding:.2rem .5rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;font-size:.65rem;color:var(--text);margin-bottom:8px;z-index:1;font-weight:700">任務與架構</div> <div style="width:2px;height:12px;background:#9ca3af"></div> <div style="padding:.3rem .6rem;background:#dbeafe;border:2px solid #93c5fd;border-radius:5px;font-size:.7rem;color:#1e40af;text-align:center;z-index:1">
+任務打包入口<br><span style="font-weight:700">codegraph_context</span> </div> </div> <!-- Branch 2: Flow/Impact --> <div style="display:flex;flex-direction:column;align-items:center;position:relative;flex:1"> <div style="position:absolute;top:0;left:0;right:0;height:2px;background:#9ca3af"></div> <div style="width:2px;height:16px;background:#9ca3af"></div> <div style="padding:.2rem .5rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;font-size:.65rem;color:var(--text);margin-bottom:8px;z-index:1;font-weight:700">資料流與影響範圍</div> <div style="width:2px;height:12px;background:#9ca3af"></div> <!-- Sub Split 2-way --> <div style="display:flex;width:100%;max-width:200px;align-items:flex-start"> <div style="display:flex;flex-direction:column;align-items:center;position:relative;flex:1"> <div style="position:absolute;top:0;right:0;width:50%;height:2px;background:#9ca3af"></div> <div style="width:2px;height:12px;background:#9ca3af"></div> <div style="padding:.2rem .4rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;font-size:.6rem;color:var(--text);margin-bottom:6px;z-index:1">執行路徑</div> <div style="width:2px;height:10px;background:#9ca3af"></div> <div style="padding:.3rem .5rem;background:#e9d5ff;border:2px solid #c084fc;border-radius:5px;font-size:.65rem;color:#6b21a8;text-align:center;z-index:1">
+A到B追蹤<br><span style="font-weight:700">trace</span> </div> </div> <div style="display:flex;flex-direction:column;align-items:center;position:relative;flex:1"> <div style="position:absolute;top:0;left:0;width:50%;height:2px;background:#9ca3af"></div> <div style="width:2px;height:12px;background:#9ca3af"></div> <div style="padding:.2rem .4rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;font-size:.6rem;color:var(--text);margin-bottom:6px;z-index:1">影響半徑</div> <div style="width:2px;height:10px;background:#9ca3af"></div> <div style="padding:.3rem .5rem;background:#fee2e2;border:2px solid #fca5a5;border-radius:5px;font-size:.65rem;color:#991b1b;text-align:center;z-index:1">
+波及範圍<br><span style="font-weight:700">impact</span> </div> </div> </div> </div> <!-- Branch 3: Symbols/Code --> <div style="display:flex;flex-direction:column;align-items:center;position:relative;flex:1"> <div style="position:absolute;top:0;left:0;width:50%;height:2px;background:#9ca3af"></div> <div style="width:2px;height:16px;background:#9ca3af"></div> <div style="padding:.2rem .5rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;font-size:.65rem;color:var(--text);margin-bottom:8px;z-index:1;font-weight:700">單一符號與關聯</div> <div style="width:2px;height:12px;background:#9ca3af"></div> <!-- Sub Split 2-way --> <div style="display:flex;width:100%;max-width:200px;align-items:flex-start"> <div style="display:flex;flex-direction:column;align-items:center;position:relative;flex:1"> <div style="position:absolute;top:0;right:0;width:50%;height:2px;background:#9ca3af"></div> <div style="width:2px;height:12px;background:#9ca3af"></div> <div style="padding:.2rem .4rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;font-size:.6rem;color:var(--text);margin-bottom:6px;z-index:1">查關係</div> <div style="width:2px;height:10px;background:#9ca3af"></div> <div style="padding:.3rem .5rem;background:#dcfce7;border:2px solid #86efac;border-radius:5px;font-size:.65rem;color:#166534;text-align:center;z-index:1">
+上下游<br><span style="font-weight:700">callers/callees</span> </div> </div> <div style="display:flex;flex-direction:column;align-items:center;position:relative;flex:1"> <div style="position:absolute;top:0;left:0;width:50%;height:2px;background:#9ca3af"></div> <div style="width:2px;height:12px;background:#9ca3af"></div> <div style="padding:.2rem .4rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;font-size:.6rem;color:var(--text);margin-bottom:6px;z-index:1">查源碼</div> <div style="width:2px;height:10px;background:#9ca3af"></div> <div style="padding:.3rem .5rem;background:#fef9c3;border:2px solid #fde047;border-radius:5px;font-size:.65rem;color:#854d0e;text-align:center;z-index:1">
+定位與讀取<br><span style="font-weight:700">search/node</span> </div> </div> </div> </div> </div> </div> </div> <table> <thead> <tr> <th>工具名稱</th> <th>類型</th> <th>核心用途</th> </tr> </thead> <tbody> <tr> <td><code>codegraph_context</code></td> <td>重型</td> <td>給定任務描述，一次打包傳回所有相關入口與結構</td> </tr> <tr> <td><code>codegraph_trace</code></td> <td>重型</td> <td>查詢 X→Y 的完整調用路徑，每一跳源碼內聯返回</td> </tr> <tr> <td><code>codegraph_explore</code></td> <td>重型</td> <td>批量取得多個符號的源碼（相當於批量 Read）</td> </tr> <tr> <td><code>codegraph_search</code></td> <td>輕型</td> <td>快速定位符號所在的檔案與行數</td> </tr> <tr> <td><code>codegraph_callers</code></td> <td>輕型</td> <td>查詢直接調用某符號的所有上游函數</td> </tr> <tr> <td><code>codegraph_callees</code></td> <td>輕型</td> <td>查詢某符號直接調用的所有下游函數</td> </tr> <tr> <td><code>codegraph_impact</code></td> <td>輕型</td> <td>評估修改某符號的影響半徑（調用鏈 + 測試檔案）</td> </tr> <tr> <td><code>codegraph_node</code></td> <td>輕型</td> <td>取得單一符號的詳細資訊與源碼</td> </tr> <tr> <td><code>codegraph_files</code></td> <td>輕型</td> <td>比作業系統更快的結構化檔案樹導航</td> </tr> <tr> <td><code>codegraph_status</code></td> <td>輕型</td> <td>確認本地知識圖譜的同步狀態與統計</td> </tr> </tbody> </table> <div class="call tip"> <span class="ci">💡</span> <div> <strong>全部設為自動允許</strong> <p>
+這 10 個工具全部是<strong>唯讀查詢</strong>，不會修改任何原始碼或檔案。
+        建議在 <code>.claude/settings.json</code> 配置完整的自動允許清單，
+        省去每次調用時手動點擊確認的摩擦（詳見 8.5 節）。
+</p> </div> </div> <h2>8.2 調用鏈追蹤實戰：codegraph_trace</h2> <p> <code>codegraph_trace</code> 是整個工具集中最高頻使用的「核心神技」。
+    它能回答「從 Controller 到 SQL 執行，中間經過了哪些方法？」這類問題，
+    並且能穿透 EventEmitter、回呼函數、React 重渲染等動態分發邊界——
+    這是 grep 無法做到的。
+</p> <div class="cb-wrap" data-astro-cid-jgrc2lfe> <div class="cb-bar" data-astro-cid-jgrc2lfe> <span class="cb-label" data-astro-cid-jgrc2lfe>bash</span> <button class="cb-copy" data-code="# 查詢 BigScreenController 到 selectOverview 的完整調用路徑
+codegraph trace BigScreenController selectOverview" data-astro-cid-jgrc2lfe>複製</button> </div> <div class="cb-inner" data-astro-cid-jgrc2lfe> <pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto;" tabindex="0" data-astro-cid-jgrc2lfe data-language="bash"><code><span class="line"><span style="color:#7F848E;font-style:italic"># 查詢 BigScreenController 到 selectOverview 的完整調用路徑</span></span>
+<span class="line"><span style="color:#61AFEF">codegraph</span><span style="color:#98C379"> trace</span><span style="color:#98C379"> BigScreenController</span><span style="color:#98C379"> selectOverview</span></span></code></pre> </div> </div>  <script type="module">document.querySelectorAll(".cb-copy").forEach(e=>{e.addEventListener("click",()=>{const t=e.dataset.code;t&&navigator.clipboard.writeText(t).then(()=>{e.textContent="已複製!",e.classList.add("copied"),setTimeout(()=>{e.textContent="複製",e.classList.remove("copied")},2e3)})})});</script> <p>調用結果顯示每一跳的函數體，並明確標注動態分發邊：</p> <div class="cb-wrap" data-astro-cid-jgrc2lfe> <div class="cb-bar" data-astro-cid-jgrc2lfe> <span class="cb-label" data-astro-cid-jgrc2lfe>trace 輸出範例</span> <button class="cb-copy" data-code="Trace: BigScreenController → selectOverview
+══════════════════════════════════════════════
+
+① BigScreenController.getOverview()  [src/controller/BigScreenController.ts:42]
+  └─ calls ②
+
+② BigScreenService.buildOverviewData()  [src/service/BigScreenService.ts:118]
+  └─ calls ③ (dynamic dispatch via EventEmitter, provenance: heuristic)
+
+③ BigScreenMapper.selectOverview()  [src/mapper/BigScreenMapper.ts:67]
+  └─ [TERMINUS: SQL query execution]
+
+Total hops: 3  |  Dynamic dispatch: 1  |  Time: 0.8ms" data-astro-cid-jgrc2lfe>複製</button> </div> <div class="cb-inner" data-astro-cid-jgrc2lfe> <pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto;" tabindex="0" data-astro-cid-jgrc2lfe data-language="text"><code><span class="line"><span>Trace: BigScreenController → selectOverview</span></span>
+<span class="line"><span>══════════════════════════════════════════════</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>① BigScreenController.getOverview()  [src/controller/BigScreenController.ts:42]</span></span>
+<span class="line"><span>  └─ calls ②</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>② BigScreenService.buildOverviewData()  [src/service/BigScreenService.ts:118]</span></span>
+<span class="line"><span>  └─ calls ③ (dynamic dispatch via EventEmitter, provenance: heuristic)</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>③ BigScreenMapper.selectOverview()  [src/mapper/BigScreenMapper.ts:67]</span></span>
+<span class="line"><span>  └─ [TERMINUS: SQL query execution]</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>Total hops: 3  |  Dynamic dispatch: 1  |  Time: 0.8ms</span></span></code></pre> </div> </div>   <p>
+注意第 ②→③ 跳的 <code>provenance: heuristic</code> 標注——這表示
+    CodeGraph 的 Synthesizer 模組偵測到了 EventEmitter 訂閱模式，
+    在圖中補充了啟發式推斷的合成邊，使調用鏈保持完整
+    （見第 3 章 Synthesizers 說明）。
+</p> <div class="call info"> <span class="ci">ℹ️</span> <div> <strong>通常一次 Trace 就夠了</strong> <p>
+在實際測試中，使用 <code>codegraph_trace</code> 的 Agent 完成調用鏈探索，
+        平均只需 <strong>1 次工具調用</strong>；
+        沒有 Trace 的 Agent 平均需要 <strong>17 次 grep/read</strong>。
+</p> </div> </div> <h2>8.3 影響力分析實戰：codegraph_impact</h2> <p>
+在修改核心服務（如 <code>UserService</code>）之前，
+    影響力分析可以告訴你這個改動會波及哪些上游調用者和測試檔案：
+</p> <div class="cb-wrap" data-astro-cid-jgrc2lfe> <div class="cb-bar" data-astro-cid-jgrc2lfe> <span class="cb-label" data-astro-cid-jgrc2lfe>bash</span> <button class="cb-copy" data-code="# 評估修改 UserService 會波及哪些下游模組
+codegraph impact UserService
+
+# 搭配 --depth 限制搜尋深度（避免影響半徑過大）
+codegraph impact UserService --depth 3" data-astro-cid-jgrc2lfe>複製</button> </div> <div class="cb-inner" data-astro-cid-jgrc2lfe> <pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto;" tabindex="0" data-astro-cid-jgrc2lfe data-language="bash"><code><span class="line"><span style="color:#7F848E;font-style:italic"># 評估修改 UserService 會波及哪些下游模組</span></span>
+<span class="line"><span style="color:#61AFEF">codegraph</span><span style="color:#98C379"> impact</span><span style="color:#98C379"> UserService</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#7F848E;font-style:italic"># 搭配 --depth 限制搜尋深度（避免影響半徑過大）</span></span>
+<span class="line"><span style="color:#61AFEF">codegraph</span><span style="color:#98C379"> impact</span><span style="color:#98C379"> UserService</span><span style="color:#D19A66"> --depth</span><span style="color:#D19A66"> 3</span></span></code></pre> </div> </div>   <div class="cb-wrap" data-astro-cid-jgrc2lfe> <div class="cb-bar" data-astro-cid-jgrc2lfe> <span class="cb-label" data-astro-cid-jgrc2lfe>impact 輸出範例</span> <button class="cb-copy" data-code="Impact Analysis: UserService
+══════════════════════════════════════════════
+
+Direct callers (depth 1):
+  - AuthController.login()           [src/controller/AuthController.ts:28]
+  - AuthController.register()        [src/controller/AuthController.ts:55]
+  - ProfileController.updateUser()   [src/controller/ProfileController.ts:91]
+
+Indirect callers (depth 2):
+  - SessionMiddleware.validate()     [src/middleware/SessionMiddleware.ts:34]
+
+Test files at risk:
+  - auth.controller.spec.ts
+  - user.service.spec.ts
+  - profile.integration.spec.ts
+
+Total impact radius: 4 callers + 3 test files" data-astro-cid-jgrc2lfe>複製</button> </div> <div class="cb-inner" data-astro-cid-jgrc2lfe> <pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto;" tabindex="0" data-astro-cid-jgrc2lfe data-language="text"><code><span class="line"><span>Impact Analysis: UserService</span></span>
+<span class="line"><span>══════════════════════════════════════════════</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>Direct callers (depth 1):</span></span>
+<span class="line"><span>  - AuthController.login()           [src/controller/AuthController.ts:28]</span></span>
+<span class="line"><span>  - AuthController.register()        [src/controller/AuthController.ts:55]</span></span>
+<span class="line"><span>  - ProfileController.updateUser()   [src/controller/ProfileController.ts:91]</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>Indirect callers (depth 2):</span></span>
+<span class="line"><span>  - SessionMiddleware.validate()     [src/middleware/SessionMiddleware.ts:34]</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>Test files at risk:</span></span>
+<span class="line"><span>  - auth.controller.spec.ts</span></span>
+<span class="line"><span>  - user.service.spec.ts</span></span>
+<span class="line"><span>  - profile.integration.spec.ts</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>Total impact radius: 4 callers + 3 test files</span></span></code></pre> </div> </div>   <p>
+輸出清楚列出直接調用者、間接調用者，以及有風險的測試檔案。
+    Agent 可以根據這份清單精準決定需要閱讀哪些程式碼、
+    以及哪些測試需要在修改後重新驗證。
+</p> <h2>8.4 結合 Vitest 的增量測試工作流</h2> <p>
+影響力分析最強大的應用之一是與測試框架整合，實現<strong>增量測試</strong>：
+    只跑與本次 git 變更有直接關聯的測試，而非每次都執行完整測試套件。
+    在大型專案中，這可以將 CI 時間從數分鐘縮短到數十秒。
+</p> <div style="border:1px solid var(--border);border-radius:12px;padding:1.5rem;background:var(--bg2);margin:1.5rem 0;font-size:.82rem"> <div style="text-align:center;margin-bottom:1.5rem;font-weight:700;color:var(--text)">增量測試漏斗流程圖 (Incremental Test Pipeline)</div> <div style="display:flex;flex-direction:column;align-items:center;gap:0;font-family:var(--mono)"> <!-- Layer 1: Git Diff --> <div style="width:100%;max-width:400px;background:#f8fafc;border:2px solid #cbd5e1;border-radius:6px;padding:1rem;text-align:center;box-shadow:0 2px 4px rgba(0,0,0,0.05);position:relative;z-index:1"> <div style="font-weight:700;color:#334155;font-size:.8rem;margin-bottom:.25rem">1. Git Diff 檢測變更</div> <div style="font-size:.7rem;color:#64748b">找出所有修改過的原始碼檔案 (ex: UserService.ts)</div> </div> <!-- Funnel down --> <div style="display:flex;flex-direction:column;align-items:center;width:100%"> <div style="width:2px;height:20px;background:#cbd5e1"></div> <!-- Filter icon --> <div style="background:#fff;border:1px solid #cbd5e1;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;margin-top:-14px;margin-bottom:-14px;z-index:2;font-size:.8rem;color:#64748b;box-shadow:0 1px 2px rgba(0,0,0,0.1)">▼</div> <div style="width:2px;height:20px;background:#93c5fd"></div> </div> <!-- Layer 2: CodeGraph Impact --> <div style="width:85%;max-width:340px;background:#eff6ff;border:2px solid #93c5fd;border-radius:6px;padding:1rem;text-align:center;box-shadow:0 2px 4px rgba(0,0,0,0.05);position:relative;z-index:1"> <div style="font-weight:700;color:#1e40af;font-size:.8rem;margin-bottom:.25rem">2. CodeGraph 影響力反推</div> <div style="font-size:.7rem;color:#2563eb">codegraph affected：反向追蹤所有受波及的模組與測試檔</div> </div> <!-- Funnel down --> <div style="display:flex;flex-direction:column;align-items:center;width:100%"> <div style="width:2px;height:20px;background:#93c5fd"></div> <div style="background:#fff;border:1px solid #93c5fd;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;margin-top:-14px;margin-bottom:-14px;z-index:2;font-size:.8rem;color:#2563eb;box-shadow:0 1px 2px rgba(0,0,0,0.1)">▼</div> <div style="width:2px;height:20px;background:#86efac"></div> </div> <!-- Layer 3: Vitest --> <div style="width:70%;max-width:280px;background:#f0fdf4;border:2px solid #86efac;border-radius:6px;padding:1rem;text-align:center;box-shadow:0 2px 4px rgba(0,0,0,0.05);position:relative;z-index:1"> <div style="font-weight:700;color:#166534;font-size:.8rem;margin-bottom:.25rem">3. 執行測試 (Vitest)</div> <div style="font-size:.7rem;color:#15803d">xargs vitest run：精準只跑 3 個相關測試，跳過其餘 1000 個</div> </div> </div> </div> <div class="cb-wrap" data-astro-cid-jgrc2lfe> <div class="cb-bar" data-astro-cid-jgrc2lfe> <span class="cb-label" data-astro-cid-jgrc2lfe>bash（增量測試 Pipeline）</span> <button class="cb-copy" data-code="# 結合 codegraph affected 只跑有風險的測試
+git diff --name-only HEAD | codegraph affected --stdin --quiet | xargs vitest run" data-astro-cid-jgrc2lfe>複製</button> </div> <div class="cb-inner" data-astro-cid-jgrc2lfe> <pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto;" tabindex="0" data-astro-cid-jgrc2lfe data-language="bash"><code><span class="line"><span style="color:#7F848E;font-style:italic"># 結合 codegraph affected 只跑有風險的測試</span></span>
+<span class="line"><span style="color:#61AFEF">git</span><span style="color:#98C379"> diff</span><span style="color:#D19A66"> --name-only</span><span style="color:#98C379"> HEAD</span><span style="color:#ABB2BF"> | </span><span style="color:#61AFEF">codegraph</span><span style="color:#98C379"> affected</span><span style="color:#D19A66"> --stdin</span><span style="color:#D19A66"> --quiet</span><span style="color:#ABB2BF"> | </span><span style="color:#61AFEF">xargs</span><span style="color:#98C379"> vitest</span><span style="color:#98C379"> run</span></span></code></pre> </div> </div>   <p>這條指令的三個步驟：</p> <ol> <li><code>git diff --name-only HEAD</code>：取得與上一個 commit 相比發生異動的檔案清單。</li> <li><code>codegraph affected --stdin --quiet</code>：根據異動檔案，反向追蹤所有受影響的測試檔案。</li> <li><code>xargs vitest run</code>：只執行這些有風險的測試，跳過其餘測試。</li> </ol> <p>建議封裝為 <code>package.json</code> script，方便 CI 和本地開發者統一呼叫：</p> <div class="cb-wrap" data-astro-cid-jgrc2lfe> <div class="cb-bar" data-astro-cid-jgrc2lfe> <span class="cb-label" data-astro-cid-jgrc2lfe>package.json</span> <button class="cb-copy" data-code="{
+  &quot;scripts&quot;: {
+    &quot;test:affected&quot;: &quot;git diff --name-only HEAD | codegraph affected --stdin --quiet | xargs vitest run&quot;,
+    &quot;test&quot;: &quot;vitest run&quot;
+  }
+}" data-astro-cid-jgrc2lfe>複製</button> </div> <div class="cb-inner" data-astro-cid-jgrc2lfe> <pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto;" tabindex="0" data-astro-cid-jgrc2lfe data-language="json"><code><span class="line"><span style="color:#ABB2BF">{</span></span>
+<span class="line"><span style="color:#E06C75">  "scripts"</span><span style="color:#ABB2BF">: {</span></span>
+<span class="line"><span style="color:#E06C75">    "test:affected"</span><span style="color:#ABB2BF">: </span><span style="color:#98C379">"git diff --name-only HEAD | codegraph affected --stdin --quiet | xargs vitest run"</span><span style="color:#ABB2BF">,</span></span>
+<span class="line"><span style="color:#E06C75">    "test"</span><span style="color:#ABB2BF">: </span><span style="color:#98C379">"vitest run"</span></span>
+<span class="line"><span style="color:#ABB2BF">  }</span></span>
+<span class="line"><span style="color:#ABB2BF">}</span></span></code></pre> </div> </div>   <h2>8.5 允許清單：消除 MCP 工具確認摩擦</h2> <p>
+預設情況下，Claude Code 每次呼叫 MCP 工具都需要手動點擊確認。
+    由於 CodeGraph 的 10 個工具全為唯讀，建議在 <code>.claude/settings.json</code>
+加入完整的允許清單：
+</p> <div class="cb-wrap" data-astro-cid-jgrc2lfe> <div class="cb-bar" data-astro-cid-jgrc2lfe> <span class="cb-label" data-astro-cid-jgrc2lfe>.claude/settings.json</span> <button class="cb-copy" data-code="{
+  &quot;permissions&quot;: {
+    &quot;allow&quot;: [
+      &quot;mcp__codegraph__codegraph_search&quot;,
+      &quot;mcp__codegraph__codegraph_callers&quot;,
+      &quot;mcp__codegraph__codegraph_callees&quot;,
+      &quot;mcp__codegraph__codegraph_impact&quot;,
+      &quot;mcp__codegraph__codegraph_node&quot;,
+      &quot;mcp__codegraph__codegraph_files&quot;,
+      &quot;mcp__codegraph__codegraph_status&quot;,
+      &quot;mcp__codegraph__codegraph_trace&quot;,
+      &quot;mcp__codegraph__codegraph_explore&quot;,
+      &quot;mcp__codegraph__codegraph_context&quot;
+    ]
+  }
+}" data-astro-cid-jgrc2lfe>複製</button> </div> <div class="cb-inner" data-astro-cid-jgrc2lfe> <pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto;" tabindex="0" data-astro-cid-jgrc2lfe data-language="json"><code><span class="line"><span style="color:#ABB2BF">{</span></span>
+<span class="line"><span style="color:#E06C75">  "permissions"</span><span style="color:#ABB2BF">: {</span></span>
+<span class="line"><span style="color:#E06C75">    "allow"</span><span style="color:#ABB2BF">: [</span></span>
+<span class="line"><span style="color:#98C379">      "mcp__codegraph__codegraph_search"</span><span style="color:#ABB2BF">,</span></span>
+<span class="line"><span style="color:#98C379">      "mcp__codegraph__codegraph_callers"</span><span style="color:#ABB2BF">,</span></span>
+<span class="line"><span style="color:#98C379">      "mcp__codegraph__codegraph_callees"</span><span style="color:#ABB2BF">,</span></span>
+<span class="line"><span style="color:#98C379">      "mcp__codegraph__codegraph_impact"</span><span style="color:#ABB2BF">,</span></span>
+<span class="line"><span style="color:#98C379">      "mcp__codegraph__codegraph_node"</span><span style="color:#ABB2BF">,</span></span>
+<span class="line"><span style="color:#98C379">      "mcp__codegraph__codegraph_files"</span><span style="color:#ABB2BF">,</span></span>
+<span class="line"><span style="color:#98C379">      "mcp__codegraph__codegraph_status"</span><span style="color:#ABB2BF">,</span></span>
+<span class="line"><span style="color:#98C379">      "mcp__codegraph__codegraph_trace"</span><span style="color:#ABB2BF">,</span></span>
+<span class="line"><span style="color:#98C379">      "mcp__codegraph__codegraph_explore"</span><span style="color:#ABB2BF">,</span></span>
+<span class="line"><span style="color:#98C379">      "mcp__codegraph__codegraph_context"</span></span>
+<span class="line"><span style="color:#ABB2BF">    ]</span></span>
+<span class="line"><span style="color:#ABB2BF">  }</span></span>
+<span class="line"><span style="color:#ABB2BF">}</span></span></code></pre> </div> </div>   <div class="call warn"> <span class="ci">⚠️</span> <div> <strong>僅適用於唯讀工具</strong> <p>
+這份清單只涵蓋 CodeGraph 的查詢工具。
+        會修改檔案的工具（<code>Edit</code>、<code>Write</code> 等）
+        不應加入自動允許，應保留人工確認的安全閥。
+</p> </div> </div> <h2>8.6 輕型工具速查</h2> <p>
+在精準定位符號、微調程式碼的階段，以下輕型工具是你最常用的工具箱。
+    查詢延遲通常在 <strong>1 ms 以內</strong>（SQLite FTS5 + 索引查詢），
+    比傳統 grep 全文掃描快 100x 以上：
+</p> <div class="cb-wrap" data-astro-cid-jgrc2lfe> <div class="cb-bar" data-astro-cid-jgrc2lfe> <span class="cb-label" data-astro-cid-jgrc2lfe>bash（輕型工具速查）</span> <button class="cb-copy" data-code="# 快速定位符號所在的檔案與行數
+codegraph search UserService
+
+# 查詢直接調用者（上游）
+codegraph callers UserService.authenticate
+
+# 查詢直接被調用者（下游）
+codegraph callees UserService.authenticate
+
+# 取得單一符號的詳細資訊與源碼
+codegraph node UserService.authenticate
+
+# 比 OS 更快的結構化檔案樹導航
+codegraph files &quot;src/service/**&quot;
+
+# 確認目前索引狀態
+codegraph status" data-astro-cid-jgrc2lfe>複製</button> </div> <div class="cb-inner" data-astro-cid-jgrc2lfe> <pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto;" tabindex="0" data-astro-cid-jgrc2lfe data-language="bash"><code><span class="line"><span style="color:#7F848E;font-style:italic"># 快速定位符號所在的檔案與行數</span></span>
+<span class="line"><span style="color:#61AFEF">codegraph</span><span style="color:#98C379"> search</span><span style="color:#98C379"> UserService</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#7F848E;font-style:italic"># 查詢直接調用者（上游）</span></span>
+<span class="line"><span style="color:#61AFEF">codegraph</span><span style="color:#98C379"> callers</span><span style="color:#98C379"> UserService.authenticate</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#7F848E;font-style:italic"># 查詢直接被調用者（下游）</span></span>
+<span class="line"><span style="color:#61AFEF">codegraph</span><span style="color:#98C379"> callees</span><span style="color:#98C379"> UserService.authenticate</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#7F848E;font-style:italic"># 取得單一符號的詳細資訊與源碼</span></span>
+<span class="line"><span style="color:#61AFEF">codegraph</span><span style="color:#98C379"> node</span><span style="color:#98C379"> UserService.authenticate</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#7F848E;font-style:italic"># 比 OS 更快的結構化檔案樹導航</span></span>
+<span class="line"><span style="color:#61AFEF">codegraph</span><span style="color:#98C379"> files</span><span style="color:#98C379"> "src/service/**"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#7F848E;font-style:italic"># 確認目前索引狀態</span></span>
+<span class="line"><span style="color:#61AFEF">codegraph</span><span style="color:#98C379"> status</span></span></code></pre> </div> </div>    </div> <nav class="cnav" data-astro-cid-mw7aashj> <a href="/codegraph/ch07-init-sync" class="prev" data-astro-cid-mw7aashj> <span class="nd" data-astro-cid-mw7aashj>← 上一章</span> <span class="nt" data-astro-cid-mw7aashj>專案初始化與自動同步機制</span> </a> <a href="/codegraph/ap-neo4j" class="next" data-astro-cid-mw7aashj> <span class="nd" data-astro-cid-mw7aashj>下一章 →</span> <span class="nt" data-astro-cid-mw7aashj>Neo4j 技術解析</span> </a> </nav> </main> </div> <script>
+    // Theme
+    const html = document.documentElement;
+    const tt = document.getElementById('tt');
+    const isun = document.getElementById('isun');
+    const imoon = document.getElementById('imoon');
+    function syncIcons() {
+      const dk = html.classList.contains('dark');
+      isun.style.display = dk ? 'block' : 'none';
+      imoon.style.display = dk ? 'none' : 'block';
+    }
+    syncIcons();
+    tt?.addEventListener('click', () => {
+      html.classList.toggle('dark');
+      localStorage.setItem('cc-theme', html.classList.contains('dark') ? 'dark' : 'light');
+      syncIcons();
+    });
+
+    // Progress
+    const pb = document.getElementById('pb');
+    window.addEventListener('scroll', () => {
+      const t = document.documentElement.scrollHeight - window.innerHeight;
+      pb.style.width = t > 0 ? `${(window.scrollY / t) * 100}%` : '0%';
+    }, { passive: true });
+
+    // Sidebar part toggles
+    document.querySelectorAll('.pt').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.dataset.pid;
+        const list = document.querySelector(`[data-pl="${id}"]`);
+        btn.classList.toggle('open');
+        list?.classList.toggle('closed');
+      });
+    });
+
+    // Mobile menu
+    const sb = document.getElementById('sb');
+    const ov = document.getElementById('ov');
+    const mb = document.getElementById('mbtn');
+    const open = () => { sb.classList.add('open'); ov.classList.add('open'); document.body.style.overflow='hidden'; };
+    const close = () => { sb.classList.remove('open'); ov.classList.remove('open'); document.body.style.overflow=''; };
+    mb?.addEventListener('click', open);
+    ov?.addEventListener('click', close);
+  </script> </body> 
