@@ -1,0 +1,131 @@
+<!DOCTYPE html><html lang="zh-TW" data-astro-cid-mw7aashj> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Tree-sitter 技術解析 | </title><link rel="stylesheet" href="/codegraph/_astro/DocsLayout.Bujtu5J-.css"></head>CodeGraph 完整指南 <meta name="description" content="深入探討通用語法解析器 Tree-sitter 的架構特點，包含 CST 與 AST 差異、增量解析演算法與 S-Expression 聲明式匹配。"> <link rel="icon" href="/codegraph/favicon.svg" type="image/svg+xml"> <script>
+    (function () {
+      const s = localStorage.getItem('cc-theme');
+      const d = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (s === 'dark' || (!s && d)) document.documentElement.classList.add('dark');
+    })();
+  </script>  </html> <body data-astro-cid-mw7aashj> <div id="pb" data-astro-cid-mw7aashj></div> <header data-astro-cid-mw7aashj> <div class="hi" data-astro-cid-mw7aashj> <div class="hl" data-astro-cid-mw7aashj> <button id="mbtn" class="ibtn" aria-label="選單" data-astro-cid-mw7aashj> <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" data-astro-cid-mw7aashj></path> </svg> </button> <a href="/codegraph/" class="site-name" data-astro-cid-mw7aashj> <span class="logo" data-astro-cid-mw7aashj>CG</span>&nbsp;&nbsp;CodeGraph 完整指南
+</a> </div> <div class="hr" data-astro-cid-mw7aashj> <button id="tt" class="ibtn" aria-label="切換主題" data-astro-cid-mw7aashj> <svg id="isun" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="display:none" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364-.707-.707M6.343 6.343l-.707-.707m12.728 0-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0z" data-astro-cid-mw7aashj></path> </svg> <svg id="imoon" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 0 1 8.646 3.646 9.003 9.003 0 0 0 12 21a9.003 9.003 0 0 0 8.354-5.646z" data-astro-cid-mw7aashj></path> </svg> </button> </div> </div> </header> <div id="layout" data-astro-cid-mw7aashj> <nav id="sb" data-astro-cid-mw7aashj> <div class="np" data-astro-cid-mw7aashj> <button class="pt open" data-pid="0" data-astro-cid-mw7aashj> <span data-astro-cid-mw7aashj>Part 0：前言</span> <svg class="arr" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" data-astro-cid-mw7aashj></path> </svg> </button> <ul class="nl" data-pl="0" data-astro-cid-mw7aashj> <li data-astro-cid-mw7aashj> <a href="/codegraph/preface" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>0.</span> <span data-astro-cid-mw7aashj>為什麼你需要 CodeGraph</span>  </a> </li> </ul> </div><div class="np" data-astro-cid-mw7aashj> <button class="pt open" data-pid="1" data-astro-cid-mw7aashj> <span data-astro-cid-mw7aashj>Part 1：基礎與概念</span> <svg class="arr" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" data-astro-cid-mw7aashj></path> </svg> </button> <ul class="nl" data-pl="1" data-astro-cid-mw7aashj> <li data-astro-cid-mw7aashj> <a href="/codegraph/ch01-intro" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>1.</span> <span data-astro-cid-mw7aashj>什麼是 CodeGraph</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ch02-why-codegraph" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>2.</span> <span data-astro-cid-mw7aashj>為什麼 AI Agent 需要 CodeGraph</span>  </a> </li> </ul> </div><div class="np" data-astro-cid-mw7aashj> <button class="pt open" data-pid="2" data-astro-cid-mw7aashj> <span data-astro-cid-mw7aashj>Part 2：核心功能與效能</span> <svg class="arr" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" data-astro-cid-mw7aashj></path> </svg> </button> <ul class="nl" data-pl="2" data-astro-cid-mw7aashj> <li data-astro-cid-mw7aashj> <a href="/codegraph/ch03-features" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>3.</span> <span data-astro-cid-mw7aashj>CodeGraph 核心特點與優勢</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ch04-benchmarks" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>4.</span> <span data-astro-cid-mw7aashj>效能基準測試與省代幣分析</span>  </a> </li> </ul> </div><div class="np" data-astro-cid-mw7aashj> <button class="pt open" data-pid="3" data-astro-cid-mw7aashj> <span data-astro-cid-mw7aashj>Part 3：安裝與代理程式整合</span> <svg class="arr" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" data-astro-cid-mw7aashj></path> </svg> </button> <ul class="nl" data-pl="3" data-astro-cid-mw7aashj> <li data-astro-cid-mw7aashj> <a href="/codegraph/ch05-installation" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>5.</span> <span data-astro-cid-mw7aashj>快速安裝與版本升級</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ch06-integration" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>6.</span> <span data-astro-cid-mw7aashj>整合與配置主流 AI 代理程式</span>  </a> </li> </ul> </div><div class="np" data-astro-cid-mw7aashj> <button class="pt" data-pid="4" data-astro-cid-mw7aashj> <span data-astro-cid-mw7aashj>Part 4：實戰應用與進階</span> <svg class="arr" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" data-astro-cid-mw7aashj></path> </svg> </button> <ul class="nl closed" data-pl="4" data-astro-cid-mw7aashj> <li data-astro-cid-mw7aashj> <a href="/codegraph/ch07-init-sync" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>7.</span> <span data-astro-cid-mw7aashj>專案初始化與自動同步機制</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ch08-search-impact" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>8.</span> <span data-astro-cid-mw7aashj>搜尋與影響力分析實踐</span>  </a> </li> </ul> </div><div class="np" data-astro-cid-mw7aashj> <button class="pt" data-pid="5" data-astro-cid-mw7aashj> <span data-astro-cid-mw7aashj>Part 5：1.x 新版與生態系</span> <svg class="arr" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" data-astro-cid-mw7aashj></path> </svg> </button> <ul class="nl closed" data-pl="5" data-astro-cid-mw7aashj> <li data-astro-cid-mw7aashj> <a href="/codegraph/ch09-config-cli" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>9.</span> <span data-astro-cid-mw7aashj>進階設定與 CLI 速查（1.x 新版）</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ch10-alternatives" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>10.</span> <span data-astro-cid-mw7aashj>CodeGraph 與同類工具比較</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ch11-hands-on" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>11.</span> <span data-astro-cid-mw7aashj>實測：用 CodeGraph 分析自己的專案</span>  </a> </li> </ul> </div><div class="np" data-astro-cid-mw7aashj> <button class="pt open" data-pid="8" data-astro-cid-mw7aashj> <span data-astro-cid-mw7aashj>Part 8：附錄</span> <svg class="arr" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" data-astro-cid-mw7aashj></path> </svg> </button> <ul class="nl" data-pl="8" data-astro-cid-mw7aashj> <li data-astro-cid-mw7aashj> <a href="/codegraph/glossary" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>12.</span> <span data-astro-cid-mw7aashj>名詞解釋</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ap-neo4j" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>13.</span> <span data-astro-cid-mw7aashj>Neo4j 技術解析</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ap-sqlite" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>14.</span> <span data-astro-cid-mw7aashj>SQLite 技術解析</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ap-mcp" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>15.</span> <span data-astro-cid-mw7aashj>MCP 協定解析</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ap-tree-sitter" class="active" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>16.</span> <span data-astro-cid-mw7aashj>Tree-sitter 技術解析</span>  </a> </li> </ul> </div> </nav> <div id="ov" data-astro-cid-mw7aashj></div> <main data-astro-cid-mw7aashj> <div class="cb" data-astro-cid-mw7aashj>  <span class="clabel">附錄 14 · Tree-sitter 技術解析</span> <h1>Tree-sitter 技術解析</h1> <p class="cdesc">解密程式碼的骨骼與結構化提取技術</p> <h2>一、 什麼是 Tree-sitter？</h2> <p> <strong>Tree-sitter</strong> 是一款由 GitHub 於 2018 年開源的通用、高效且無依賴的<strong>增量具體語法樹 (Concrete Syntax Tree, CST)</strong> 解析器生成工具。
+</p> <p>
+它起初是為 Atom 編輯器的實時代碼高亮而開發，由於其極致的高效性與平台互通性，如今已被廣泛整合至 GitHub、Neovim、Claude Code 等代碼分析核心工具中。
+</p> <h2>二、 核心特點與優勢</h2> <ul> <li><strong>多語言支援 (Universal)</strong>：同一套核心解析模型可以支援 C, C++, Java, JavaScript, Python, Rust, Go 等數十種程式語言。</li> <li><strong>原生增量建置 (Incremental Build)</strong>：當開發者編輯並保存檔案時，Tree-sitter 僅會針對程式碼中被修改的局部的代碼區間重新計算 AST，耗時通常維持在 1~5 毫秒內。</li> <li><strong>極佳的容錯性 (Error-Tolerant)</strong>：在開發期或 Agent 撰寫代碼過程中，檔案時常處於語法未完成或報錯狀態。Tree-sitter 能夠在程式碼出錯時自動執行錯誤修復，依然返回一棵「局部正確」的語法樹。</li> <li><strong>WASM 相容部署</strong>：底層由純 C 撰寫，可編譯為 WebAssembly (wasm) 在瀏覽器或本地輕量 Node.js 環境中高速執行。</li> </ul> <h2>三、 AST (抽象語法樹) 與 CST (具體語法樹) 的根本差異</h2> <p>
+在語法分析技術中，這兩大樹狀結構有著不同的關注點：
+</p> <ul> <li><strong>CST (具體語法樹 / 分析樹)</strong>：記錄源碼中 100% 的字符细节，包含所有的關鍵字、逗號、分號、括號等 Token。</li> <li><strong>AST (抽象語法樹)</strong>：去除了冗餘的語法修飾符，僅保留與程序邏輯和語意相關的核心結構。</li> </ul> <p> <strong>Tree-sitter 實際上產生的是 CST</strong>，但它透過劃分「具名節點 (Named Nodes)」與「匿名節點 (Anonymous Nodes)」來同時提供 AST 與 CST 的能力。
+</p> <table style="width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.9rem;"> <thead> <tr style="border-bottom: 2px solid var(--border); text-align: left; background: var(--bg2);"> <th style="padding: 0.75rem;">節點分類</th> <th style="padding: 0.75rem;">語意範例</th> <th style="padding: 0.75rem;">Tree-sitter 屬性</th> </tr> </thead> <tbody> <tr style="border-bottom: 1px solid var(--border);"> <td style="padding: 0.75rem; font-weight: 600;">具名節點 (Named Node)</td> <td style="padding: 0.75rem;"><code>identifier</code> (變數名稱)、<code>number</code> (數值)</td> <td style="padding: 0.75rem;"><code>isNamed() === true</code> (代表程式邏輯的結構骨骼)</td> </tr> <tr style="border-bottom: 1px solid var(--border);"> <td style="padding: 0.75rem; font-weight: 600;">匿名節點 (Anonymous Node)</td> <td style="padding: 0.75rem;">分號 <code>;</code>、關鍵字 <code>let</code>、圓括號 <code>( )</code></td> <td style="padding: 0.75rem;"><code>isNamed() === false</code> (僅作為語法修飾 Token)</td> </tr> </tbody> </table> <h2>四、 Node.js/WASM 實戰程式碼</h2> <p>在 JavaScript 中使用 <code>tree-sitter</code> 的基本步驟如下：</p> <pre style="background: var(--bg2); padding: 1rem; border-radius: 6px; font-family: var(--mono); font-size: 0.82rem; border: 1px solid var(--border); overflow-x: auto; margin: 1rem 0;">const Parser = require('tree-sitter');
+const JavaScript = require('tree-sitter-javascript');
+
+// 1. 初始化 Parser
+const parser = new Parser();
+parser.setLanguage(JavaScript);
+
+// 2. 進行 CST 解析
+const source = 'let val = 42;';
+const tree = parser.parse(source);
+const root = tree.rootNode;
+
+console.log(root.toString());
+// 輸出 S-expression: (program (lexical_declaration (variable_declarator name: (identifier) value: (number))))
+  </pre> <h2>五、 S-Expression 模式匹配 (Pattern Matching Query)</h2> <p>
+S-Expression（符號表達式）是 Lisp 語言傳統的括號嵌套結構，Tree-sitter 借鏡了此語意來進行高性能的聲明式 AST 搜尋匹配。
+</p> <p>例如以下聲明式 Query，可以瞬間從代碼庫中搜尋並高亮所有的「變數宣告」與「箭頭函式」：</p> <pre style="background: var(--bg2); padding: 1rem; border-radius: 6px; font-family: var(--mono); font-size: 0.82rem; border: 1px solid var(--border); overflow-x: auto; margin: 1rem 0;">// 匹配被指派為箭頭函式的變數
+(variable_declarator 
+    name: (identifier) @definition.varName
+    value: (arrow_function) @definition.arrowFunc)
+  </pre> <figure class="svg-fig"> 
+<svg viewBox="0 0 800 300" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg">
+  <text x="400" y="25" text-anchor="middle" font-family="system-ui, sans-serif" font-size="16" font-weight="bold" fill="var(--text)">Tree-sitter 增量解析子樹複用對照</text>
+  
+  <!-- Left: Original Tree (x offsets from 50 to 350, center ~200) -->
+  <text x="200" y="60" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" font-weight="bold" fill="var(--text)">修改前完整解析 (Full Parse)</text>
+  
+  <!-- Connections -->
+  <line x1="200" y1="95" x2="200" y2="135" stroke="var(--border)" stroke-width="1.5" />
+  <line x1="200" y1="165" x2="130" y2="205" stroke="var(--border)" stroke-width="1.5" />
+  <line x1="200" y1="165" x2="270" y2="205" stroke="var(--border)" stroke-width="1.5" />
+  
+  <!-- Nodes -->
+  <rect x="150" y="75" width="100" height="26" rx="4" fill="var(--bg2)" stroke="var(--border)" stroke-width="1" />
+  <text x="200" y="92" text-anchor="middle" font-family="monospace" font-size="11" fill="var(--text)">program</text>
+  
+  <rect x="135" y="145" width="130" height="26" rx="4" fill="var(--bg2)" stroke="var(--border)" stroke-width="1" />
+  <text x="200" y="162" text-anchor="middle" font-family="monospace" font-size="11" fill="var(--text)">lexical_decl</text>
+  
+  <rect x="75" y="215" width="110" height="26" rx="4" fill="var(--bg2)" stroke="var(--border)" stroke-width="1" />
+  <text x="130" y="232" text-anchor="middle" font-family="monospace" font-size="11" fill="var(--text)">identifier (val)</text>
+  
+  <rect x="220" y="215" width="100" height="26" rx="4" fill="var(--bg2)" stroke="var(--border)" stroke-width="1" />
+  <text x="270" y="232" text-anchor="middle" font-family="monospace" font-size="11" fill="var(--text)">number (42)</text>
+
+
+  <!-- Right: Incremental Tree (x offsets from 450 to 750, center ~600) -->
+  <text x="600" y="60" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" font-weight="bold" fill="var(--text)">修改後增量解析 (Incremental)</text>
+  
+  <!-- Connections -->
+  <line x1="600" y1="95" x2="600" y2="135" stroke="#10b981" stroke-width="2" />
+  <line x1="600" y1="165" x2="530" y2="205" stroke="#10b981" stroke-width="2" />
+  <line x1="600" y1="165" x2="670" y2="205" stroke="#f43f5e" stroke-width="2" />
+  
+  <!-- Reused Nodes (Green stroke/bg) -->
+  <rect x="550" y="75" width="100" height="26" rx="4" fill="rgba(16,185,129,0.06)" stroke="#10b981" stroke-width="1.5" />
+  <text x="600" y="92" text-anchor="middle" font-family="monospace" font-size="11" fill="#10b981">program [Reused]</text>
+  
+  <rect x="535" y="145" width="130" height="26" rx="4" fill="rgba(16,185,129,0.06)" stroke="#10b981" stroke-width="1.5" />
+  <text x="600" y="162" text-anchor="middle" font-family="monospace" font-size="11" fill="#10b981">lexical_decl [Reused]</text>
+  
+  <rect x="475" y="215" width="110" height="26" rx="4" fill="rgba(16,185,129,0.06)" stroke="#10b981" stroke-width="1.5" />
+  <text x="530" y="232" text-anchor="middle" font-family="monospace" font-size="11" fill="#10b981">identifier (val)</text>
+  
+  <!-- Recalculated Node (Red fill) -->
+  <rect x="620" y="215" width="100" height="26" rx="4" fill="rgba(244,63,94,0.08)" stroke="#f43f5e" stroke-width="1.5" />
+  <text x="670" y="232" text-anchor="middle" font-family="monospace" font-size="11" fill="#f43f5e" font-weight="bold">number (43)</text>
+  
+  <rect x="635" y="250" width="70" height="18" rx="2" fill="#f43f5e" />
+  <text x="670" y="262" text-anchor="middle" font-family="system-ui" font-size="9" fill="#fff" font-weight="bold">Recalculated</text>
+
+  <!-- Divider -->
+  <line x1="400" y1="50" x2="400" y2="280" stroke="var(--border)" stroke-dasharray="4" />
+</svg>
+ <figcaption>💡 <strong>圖解：</strong>Tree-sitter 增量解析子樹複用機制。修改程式碼中的數值（從 42 變為 43）後，只有對應的葉子節點 <code>number</code> 會被重算（紅色標示），其餘所有的祖先與手足節點皆可被直接複用（綠色標示）。</figcaption> </figure>  </div> <nav class="cnav" data-astro-cid-mw7aashj> <a href="/codegraph/ap-mcp" class="prev" data-astro-cid-mw7aashj> <span class="nd" data-astro-cid-mw7aashj>← 上一章</span> <span class="nt" data-astro-cid-mw7aashj>MCP 協定解析</span> </a> <div class="ph" data-astro-cid-mw7aashj></div> </nav> </main> </div> <script>
+    // Theme
+    const html = document.documentElement;
+    const tt = document.getElementById('tt');
+    const isun = document.getElementById('isun');
+    const imoon = document.getElementById('imoon');
+    function syncIcons() {
+      const dk = html.classList.contains('dark');
+      isun.style.display = dk ? 'block' : 'none';
+      imoon.style.display = dk ? 'none' : 'block';
+    }
+    syncIcons();
+    tt?.addEventListener('click', () => {
+      html.classList.toggle('dark');
+      localStorage.setItem('cc-theme', html.classList.contains('dark') ? 'dark' : 'light');
+      syncIcons();
+    });
+
+    // Progress
+    const pb = document.getElementById('pb');
+    window.addEventListener('scroll', () => {
+      const t = document.documentElement.scrollHeight - window.innerHeight;
+      pb.style.width = t > 0 ? `${(window.scrollY / t) * 100}%` : '0%';
+    }, { passive: true });
+
+    // Sidebar part toggles
+    document.querySelectorAll('.pt').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.dataset.pid;
+        const list = document.querySelector(`[data-pl="${id}"]`);
+        btn.classList.toggle('open');
+        list?.classList.toggle('closed');
+      });
+    });
+
+    // Mobile menu
+    const sb = document.getElementById('sb');
+    const ov = document.getElementById('ov');
+    const mb = document.getElementById('mbtn');
+    const open = () => { sb.classList.add('open'); ov.classList.add('open'); document.body.style.overflow='hidden'; };
+    const close = () => { sb.classList.remove('open'); ov.classList.remove('open'); document.body.style.overflow=''; };
+    mb?.addEventListener('click', open);
+    ov?.addEventListener('click', close);
+  </script> </body> 

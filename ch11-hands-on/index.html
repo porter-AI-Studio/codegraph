@@ -1,0 +1,284 @@
+<!DOCTYPE html><html lang="zh-TW" data-astro-cid-mw7aashj> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>實測：用 CodeGraph 分析自己的專案 | </title><link rel="stylesheet" href="/codegraph/_astro/DocsLayout.Bujtu5J-.css">
+<style>.cb-wrap[data-astro-cid-jgrc2lfe]{margin-bottom:1.25rem}.cb-bar[data-astro-cid-jgrc2lfe]{display:flex;align-items:center;justify-content:space-between;background:#1a1a2e;border-radius:6px 6px 0 0;border:1px solid rgba(255,255,255,.08);border-bottom:1px solid rgba(255,255,255,.05);padding:.18rem .5rem .18rem .75rem;min-height:1.8rem}.cb-label[data-astro-cid-jgrc2lfe]{color:#a6adc8;font-family:Fira Code,Cascadia Code,Consolas,monospace;font-size:.73rem;letter-spacing:.04em}.cb-inner[data-astro-cid-jgrc2lfe] pre{border-radius:0 0 8px 8px!important;margin-bottom:0!important}.cb-copy[data-astro-cid-jgrc2lfe]{background:#ffffff14;color:#888;border:1px solid rgba(255,255,255,.12);border-radius:4px;padding:.15rem .55rem;font-size:.7rem;cursor:pointer;transition:all .15s;flex-shrink:0}.cb-copy[data-astro-cid-jgrc2lfe]:hover{background:#ffffff2e;color:#fff}.cb-copy[data-astro-cid-jgrc2lfe].copied{color:#4ec9b0;border-color:#4ec9b0}
+</style></head>CodeGraph 完整指南 <meta name="description" content="用 CodeGraph 0.9.6 與 1.6.2 在同一個真實的小型 Python 專案上，實際跑 init、explore、callers、impact、affected，附上真實輸出，並整理版本差異與踩到的坑。"> <link rel="icon" href="/codegraph/favicon.svg" type="image/svg+xml"> <script>
+    (function () {
+      const s = localStorage.getItem('cc-theme');
+      const d = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (s === 'dark' || (!s && d)) document.documentElement.classList.add('dark');
+    })();
+  </script>  </html> <body data-astro-cid-mw7aashj> <div id="pb" data-astro-cid-mw7aashj></div> <header data-astro-cid-mw7aashj> <div class="hi" data-astro-cid-mw7aashj> <div class="hl" data-astro-cid-mw7aashj> <button id="mbtn" class="ibtn" aria-label="選單" data-astro-cid-mw7aashj> <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" data-astro-cid-mw7aashj></path> </svg> </button> <a href="/codegraph/" class="site-name" data-astro-cid-mw7aashj> <span class="logo" data-astro-cid-mw7aashj>CG</span>&nbsp;&nbsp;CodeGraph 完整指南
+</a> </div> <div class="hr" data-astro-cid-mw7aashj> <button id="tt" class="ibtn" aria-label="切換主題" data-astro-cid-mw7aashj> <svg id="isun" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="display:none" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364-.707-.707M6.343 6.343l-.707-.707m12.728 0-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0z" data-astro-cid-mw7aashj></path> </svg> <svg id="imoon" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 0 1 8.646 3.646 9.003 9.003 0 0 0 12 21a9.003 9.003 0 0 0 8.354-5.646z" data-astro-cid-mw7aashj></path> </svg> </button> </div> </div> </header> <div id="layout" data-astro-cid-mw7aashj> <nav id="sb" data-astro-cid-mw7aashj> <div class="np" data-astro-cid-mw7aashj> <button class="pt open" data-pid="0" data-astro-cid-mw7aashj> <span data-astro-cid-mw7aashj>Part 0：前言</span> <svg class="arr" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" data-astro-cid-mw7aashj></path> </svg> </button> <ul class="nl" data-pl="0" data-astro-cid-mw7aashj> <li data-astro-cid-mw7aashj> <a href="/codegraph/preface" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>0.</span> <span data-astro-cid-mw7aashj>為什麼你需要 CodeGraph</span>  </a> </li> </ul> </div><div class="np" data-astro-cid-mw7aashj> <button class="pt open" data-pid="1" data-astro-cid-mw7aashj> <span data-astro-cid-mw7aashj>Part 1：基礎與概念</span> <svg class="arr" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" data-astro-cid-mw7aashj></path> </svg> </button> <ul class="nl" data-pl="1" data-astro-cid-mw7aashj> <li data-astro-cid-mw7aashj> <a href="/codegraph/ch01-intro" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>1.</span> <span data-astro-cid-mw7aashj>什麼是 CodeGraph</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ch02-why-codegraph" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>2.</span> <span data-astro-cid-mw7aashj>為什麼 AI Agent 需要 CodeGraph</span>  </a> </li> </ul> </div><div class="np" data-astro-cid-mw7aashj> <button class="pt open" data-pid="2" data-astro-cid-mw7aashj> <span data-astro-cid-mw7aashj>Part 2：核心功能與效能</span> <svg class="arr" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" data-astro-cid-mw7aashj></path> </svg> </button> <ul class="nl" data-pl="2" data-astro-cid-mw7aashj> <li data-astro-cid-mw7aashj> <a href="/codegraph/ch03-features" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>3.</span> <span data-astro-cid-mw7aashj>CodeGraph 核心特點與優勢</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ch04-benchmarks" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>4.</span> <span data-astro-cid-mw7aashj>效能基準測試與省代幣分析</span>  </a> </li> </ul> </div><div class="np" data-astro-cid-mw7aashj> <button class="pt open" data-pid="3" data-astro-cid-mw7aashj> <span data-astro-cid-mw7aashj>Part 3：安裝與代理程式整合</span> <svg class="arr" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" data-astro-cid-mw7aashj></path> </svg> </button> <ul class="nl" data-pl="3" data-astro-cid-mw7aashj> <li data-astro-cid-mw7aashj> <a href="/codegraph/ch05-installation" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>5.</span> <span data-astro-cid-mw7aashj>快速安裝與版本升級</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ch06-integration" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>6.</span> <span data-astro-cid-mw7aashj>整合與配置主流 AI 代理程式</span>  </a> </li> </ul> </div><div class="np" data-astro-cid-mw7aashj> <button class="pt" data-pid="4" data-astro-cid-mw7aashj> <span data-astro-cid-mw7aashj>Part 4：實戰應用與進階</span> <svg class="arr" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" data-astro-cid-mw7aashj></path> </svg> </button> <ul class="nl closed" data-pl="4" data-astro-cid-mw7aashj> <li data-astro-cid-mw7aashj> <a href="/codegraph/ch07-init-sync" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>7.</span> <span data-astro-cid-mw7aashj>專案初始化與自動同步機制</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ch08-search-impact" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>8.</span> <span data-astro-cid-mw7aashj>搜尋與影響力分析實踐</span>  </a> </li> </ul> </div><div class="np" data-astro-cid-mw7aashj> <button class="pt open" data-pid="5" data-astro-cid-mw7aashj> <span data-astro-cid-mw7aashj>Part 5：1.x 新版與生態系</span> <svg class="arr" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" data-astro-cid-mw7aashj></path> </svg> </button> <ul class="nl" data-pl="5" data-astro-cid-mw7aashj> <li data-astro-cid-mw7aashj> <a href="/codegraph/ch09-config-cli" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>9.</span> <span data-astro-cid-mw7aashj>進階設定與 CLI 速查（1.x 新版）</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ch10-alternatives" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>10.</span> <span data-astro-cid-mw7aashj>CodeGraph 與同類工具比較</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ch11-hands-on" class="active" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>11.</span> <span data-astro-cid-mw7aashj>實測：用 CodeGraph 分析自己的專案</span>  </a> </li> </ul> </div><div class="np" data-astro-cid-mw7aashj> <button class="pt" data-pid="8" data-astro-cid-mw7aashj> <span data-astro-cid-mw7aashj>Part 8：附錄</span> <svg class="arr" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" data-astro-cid-mw7aashj></path> </svg> </button> <ul class="nl closed" data-pl="8" data-astro-cid-mw7aashj> <li data-astro-cid-mw7aashj> <a href="/codegraph/glossary" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>12.</span> <span data-astro-cid-mw7aashj>名詞解釋</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ap-neo4j" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>13.</span> <span data-astro-cid-mw7aashj>Neo4j 技術解析</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ap-sqlite" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>14.</span> <span data-astro-cid-mw7aashj>SQLite 技術解析</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ap-mcp" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>15.</span> <span data-astro-cid-mw7aashj>MCP 協定解析</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ap-tree-sitter" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>16.</span> <span data-astro-cid-mw7aashj>Tree-sitter 技術解析</span>  </a> </li> </ul> </div> </nav> <div id="ov" data-astro-cid-mw7aashj></div> <main data-astro-cid-mw7aashj> <div class="cb" data-astro-cid-mw7aashj>  <p class="clabel">第 11 章 · Part 5：1.x 新版與生態系</p> <h1>實測：用 CodeGraph 分析自己的專案</h1> <p class="cdesc">不引用官方數字，自己跑一遍：同一個專案、兩個版本、每個指令都附真實輸出。</p> <h2>11.1 實驗設計</h2> <p>
+前面幾章的數據大多來自官方的 benchmark。這一章反過來：拿一個<strong>自己手上的小型專案</strong>，
+    用同一份程式碼，分別在 <strong>0.9.6</strong>（本書最初撰寫時的版本）與 <strong>1.6.2</strong>（2026-10 的最新版）上實際操作，
+    看看指令的輸出長什麼樣子、兩個版本差在哪裡。實測日期為 2026-10-10。
+</p> <div class="cb-wrap" data-astro-cid-jgrc2lfe> <div class="cb-bar" data-astro-cid-jgrc2lfe> <span class="cb-label" data-astro-cid-jgrc2lfe>實測專案（Python，6 個檔案）</span> <button class="cb-copy" data-code="scripts/
+  scaffold.py        # 產生整本書的骨架
+  gen_copy.py        # 呼叫 AI 產生首頁與前言文案
+  wc_engines.py      # 呼叫免費模型的共用層
+  wc_summarize.py    # 素材摘要
+  wc_finish_chapter.py
+tests/
+  test_scaffold.py   # 2 個測試" data-astro-cid-jgrc2lfe>複製</button> </div> <div class="cb-inner" data-astro-cid-jgrc2lfe> <pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto;" tabindex="0" data-astro-cid-jgrc2lfe data-language="text"><code><span class="line"><span>scripts/</span></span>
+<span class="line"><span>  scaffold.py        # 產生整本書的骨架</span></span>
+<span class="line"><span>  gen_copy.py        # 呼叫 AI 產生首頁與前言文案</span></span>
+<span class="line"><span>  wc_engines.py      # 呼叫免費模型的共用層</span></span>
+<span class="line"><span>  wc_summarize.py    # 素材摘要</span></span>
+<span class="line"><span>  wc_finish_chapter.py</span></span>
+<span class="line"><span>tests/</span></span>
+<span class="line"><span>  test_scaffold.py   # 2 個測試</span></span></code></pre> </div> </div>  <script type="module">document.querySelectorAll(".cb-copy").forEach(e=>{e.addEventListener("click",()=>{const t=e.dataset.code;t&&navigator.clipboard.writeText(t).then(()=>{e.textContent="已複製!",e.classList.add("copied"),setTimeout(()=>{e.textContent="複製",e.classList.remove("copied")},2e3)})})});</script> <div class="call info"> <span class="ci">ℹ️</span> <div> <strong>這一章的數字不是效能 benchmark</strong> <p>
+專案只有 6 個檔案、138 個節點，每個指令只跑一次，目的是展示「輸出長什麼樣、版本之間有什麼差異」，
+        而不是量測速度或 Token 節省。要看規模化的數字，請回到第 4 章。
+</p> </div> </div> <div class="call tip"> <span class="ci">💡</span> <div> <strong>1.6.2 的結果已在全域安裝後重跑一次</strong> <p>
+本章一開始用 <code>npx</code> 指定版本跑出 1.6.2 的輸出；之後把全域的 codegraph 也升級成 1.6.2，
+        在乾淨的副本上重新 <code>init -i</code>，<code>status</code>（138 節點、329 邊）、<code>callers warn</code>（5 個）、
+<code>impact sanitize_copy --depth 3</code>（9 個符號）、<code>affected</code>（找到 <code>tests/test_scaffold.py</code>）
+        和 <code>explore</code> 的 Blast radius 都與下面的輸出相同。
+</p> </div> </div> <h2>11.2 建立索引</h2> <div class="cb-wrap" data-astro-cid-jgrc2lfe> <div class="cb-bar" data-astro-cid-jgrc2lfe> <span class="cb-label" data-astro-cid-jgrc2lfe>bash</span> <button class="cb-copy" data-code="# 0.9.6
+codegraph init -i
+
+# 1.6.2（先用 npx 試跑，之後全域升級成 1.6.2 再跑一次，結果相同）
+npx -y @colbymchenry/codegraph@1.6.2 init -i
+codegraph init -i" data-astro-cid-jgrc2lfe>複製</button> </div> <div class="cb-inner" data-astro-cid-jgrc2lfe> <pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto;" tabindex="0" data-astro-cid-jgrc2lfe data-language="bash"><code><span class="line"><span style="color:#7F848E;font-style:italic"># 0.9.6</span></span>
+<span class="line"><span style="color:#61AFEF">codegraph</span><span style="color:#98C379"> init</span><span style="color:#D19A66"> -i</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#7F848E;font-style:italic"># 1.6.2（先用 npx 試跑，之後全域升級成 1.6.2 再跑一次，結果相同）</span></span>
+<span class="line"><span style="color:#61AFEF">npx</span><span style="color:#D19A66"> -y</span><span style="color:#98C379"> @colbymchenry/codegraph@1.6.2</span><span style="color:#98C379"> init</span><span style="color:#D19A66"> -i</span></span>
+<span class="line"><span style="color:#61AFEF">codegraph</span><span style="color:#98C379"> init</span><span style="color:#D19A66"> -i</span></span></code></pre> </div> </div>   <p>兩個版本都解析出同樣的 138 個節點，但<strong>邊（Edges）的數量不同</strong>：</p> <div class="cb-wrap" data-astro-cid-jgrc2lfe> <div class="cb-bar" data-astro-cid-jgrc2lfe> <span class="cb-label" data-astro-cid-jgrc2lfe>0.9.6 的輸出</span> <button class="cb-copy" data-code="Indexed 6 files
+138 nodes, 132 edges in 508ms
+
+Nodes by Kind:
+  function        60
+  import          49
+  variable        23
+  file            6" data-astro-cid-jgrc2lfe>複製</button> </div> <div class="cb-inner" data-astro-cid-jgrc2lfe> <pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto;" tabindex="0" data-astro-cid-jgrc2lfe data-language="text"><code><span class="line"><span>Indexed 6 files</span></span>
+<span class="line"><span>138 nodes, 132 edges in 508ms</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>Nodes by Kind:</span></span>
+<span class="line"><span>  function        60</span></span>
+<span class="line"><span>  import          49</span></span>
+<span class="line"><span>  variable        23</span></span>
+<span class="line"><span>  file            6</span></span></code></pre> </div> </div>   <div class="cb-wrap" data-astro-cid-jgrc2lfe> <div class="cb-bar" data-astro-cid-jgrc2lfe> <span class="cb-label" data-astro-cid-jgrc2lfe>1.6.2 的輸出</span> <button class="cb-copy" data-code="Indexed 6 files
+138 nodes, 329 edges in 5.8s
+
+Nodes by Kind:
+  function        60
+  import          49
+  variable        23
+  file            6" data-astro-cid-jgrc2lfe>複製</button> </div> <div class="cb-inner" data-astro-cid-jgrc2lfe> <pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto;" tabindex="0" data-astro-cid-jgrc2lfe data-language="text"><code><span class="line"><span>Indexed 6 files</span></span>
+<span class="line"><span>138 nodes, 329 edges in 5.8s</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>Nodes by Kind:</span></span>
+<span class="line"><span>  function        60</span></span>
+<span class="line"><span>  import          49</span></span>
+<span class="line"><span>  variable        23</span></span>
+<span class="line"><span>  file            6</span></span></code></pre> </div> </div>   <table> <thead> <tr><th>項目</th><th>0.9.6</th><th>1.6.2</th></tr> </thead> <tbody> <tr><td>檔案／節點</td><td>6 ／ 138</td><td>6 ／ 138</td></tr> <tr><td><code>init -i</code> 結尾印出的邊數</td><td>132</td><td>329</td></tr> <tr><td>隨後 <code>codegraph status</code> 顯示的 Edges</td><td>297</td><td>329</td></tr> <tr><td>索引耗時（工具自己回報）</td><td>508 ms</td><td>2.4 s（npx）／5.8 s（全域安裝後）</td></tr> </tbody> </table> <p>
+0.9.6 的 <code>init</code> 結尾印出 132 條邊，但接著執行 <code>status</code> 顯示 297 條（兩個數字的差異原因我沒有深究，
+    可能是 <code>init</code> 印出時還沒計入解析後的關聯）；1.6.2 兩處都是 329。比較兩個版本時，我以 <code>status</code> 的數字為準：
+    節點數相同、邊多了 32 條，表示同一份程式碼在 1.x 解析出更多的關聯（呼叫、匯入、參照）。
+    耗時欄位只是單次的工具回報值，兩次 1.6.2 的耗時也差了一倍多（npx 2.4 秒、全域安裝後 5.8 秒），
+    單次數字會受快取與當下負載影響，不應該解讀成「1.x 比較慢」。
+</p> <h2>11.3 explore：一次呼叫看懂一個區域</h2> <p>
+1.x 把 MCP 預設工具收斂成 <code>codegraph_explore</code>（第 8 章），所以它是最值得實際看輸出的指令。
+    在 0.9.6 上，一個查詢（4 個符號名稱加一個檔名）回傳了符號之間的呼叫關係，加上這些檔案「逐字、即時」的原始碼：
+</p> <div class="cb-wrap" data-astro-cid-jgrc2lfe> <div class="cb-bar" data-astro-cid-jgrc2lfe> <span class="cb-label" data-astro-cid-jgrc2lfe>0.9.6 的 codegraph_explore（MCP）輸出，節錄</span> <button class="cb-copy" data-code="## Exploration: sanitize_copy merge_copy default_copy gen_index scaffold.py
+
+Found 38 symbols across 5 files.
+
+### Relationships
+
+**calls:**
+- merge_copy → default_copy
+- merge_copy → warn
+- merge_copy → sanitize_copy
+- main → merge_copy
+- load_outline → warn
+- sub_once → warn
+- ... and 49 more
+
+### Source Code
+
+> The code below is the **verbatim, current on-disk source** of these files —
+> re-read from disk on this call and line-numbered ...
+
+#### scripts/scaffold.py — esc(calls), warn(calls), _str(calls), js(calls), ..." data-astro-cid-jgrc2lfe>複製</button> </div> <div class="cb-inner" data-astro-cid-jgrc2lfe> <pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto;" tabindex="0" data-astro-cid-jgrc2lfe data-language="text"><code><span class="line"><span>## Exploration: sanitize_copy merge_copy default_copy gen_index scaffold.py</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>Found 38 symbols across 5 files.</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>### Relationships</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>**calls:**</span></span>
+<span class="line"><span>- merge_copy → default_copy</span></span>
+<span class="line"><span>- merge_copy → warn</span></span>
+<span class="line"><span>- merge_copy → sanitize_copy</span></span>
+<span class="line"><span>- main → merge_copy</span></span>
+<span class="line"><span>- load_outline → warn</span></span>
+<span class="line"><span>- sub_once → warn</span></span>
+<span class="line"><span>- ... and 49 more</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>### Source Code</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>> The code below is the **verbatim, current on-disk source** of these files —</span></span>
+<span class="line"><span>> re-read from disk on this call and line-numbered ...</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>#### scripts/scaffold.py — esc(calls), warn(calls), _str(calls), js(calls), ...</span></span></code></pre> </div> </div>   <p>
+1.6.2 的 CLI 新增了 <code>codegraph explore</code>，輸出和 MCP 工具相同，並且多了一段
+<strong>Blast radius（影響範圍）</strong>：每個符號有幾個呼叫者、有沒有測試涵蓋到——
+    這正是動手改程式之前最想知道的事：
+</p> <div class="cb-wrap" data-astro-cid-jgrc2lfe> <div class="cb-bar" data-astro-cid-jgrc2lfe> <span class="cb-label" data-astro-cid-jgrc2lfe>1.6.2 的 codegraph explore（CLI），節錄</span> <button class="cb-copy" data-code="**Exploration: sanitize_copy merge_copy**
+
+Found 26 symbols across 1 file.
+
+**Blast radius — what depends on these (update/verify before editing)**
+
+- `merge_copy` (scripts/scaffold.py:103) — 1 caller in `scripts/scaffold.py`; tested via callers: `tests/test_scaffold.py`
+- `sanitize_copy` (scripts/scaffold.py:142) — 4 callers in `scripts/gen_copy.py`, `scripts/scaffold.py`; tests: `tests/test_scaffold.py`
+- `default_copy` (scripts/scaffold.py:74) — 1 caller in `scripts/scaffold.py`; no tests found within 3 caller hops
+- `gen_preface` (scripts/scaffold.py:258) — 1 caller in `scripts/scaffold.py`; tested via callers: `tests/test_scaffold.py`
+- `gen_stub` (scripts/scaffold.py:221) — 1 caller in `scripts/scaffold.py`; tested via callers: `tests/test_scaffold.py`
+
+**Source Code**
+..." data-astro-cid-jgrc2lfe>複製</button> </div> <div class="cb-inner" data-astro-cid-jgrc2lfe> <pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto;" tabindex="0" data-astro-cid-jgrc2lfe data-language="text"><code><span class="line"><span>**Exploration: sanitize_copy merge_copy**</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>Found 26 symbols across 1 file.</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>**Blast radius — what depends on these (update/verify before editing)**</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>- `merge_copy` (scripts/scaffold.py:103) — 1 caller in `scripts/scaffold.py`; tested via callers: `tests/test_scaffold.py`</span></span>
+<span class="line"><span>- `sanitize_copy` (scripts/scaffold.py:142) — 4 callers in `scripts/gen_copy.py`, `scripts/scaffold.py`; tests: `tests/test_scaffold.py`</span></span>
+<span class="line"><span>- `default_copy` (scripts/scaffold.py:74) — 1 caller in `scripts/scaffold.py`; no tests found within 3 caller hops</span></span>
+<span class="line"><span>- `gen_preface` (scripts/scaffold.py:258) — 1 caller in `scripts/scaffold.py`; tested via callers: `tests/test_scaffold.py`</span></span>
+<span class="line"><span>- `gen_stub` (scripts/scaffold.py:221) — 1 caller in `scripts/scaffold.py`; tested via callers: `tests/test_scaffold.py`</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>**Source Code**</span></span>
+<span class="line"><span>...</span></span></code></pre> </div> </div>   <p>
+注意 <code>default_copy</code> 那一行：<code>no tests found within 3 caller hops</code>——
+    往上追三層呼叫者，都沒有任何測試碰到它。這是工具替你標出的「沒有測試保護的區域」。
+</p> <h2>11.4 callers 與 impact</h2> <div class="cb-wrap" data-astro-cid-jgrc2lfe> <div class="cb-bar" data-astro-cid-jgrc2lfe> <span class="cb-label" data-astro-cid-jgrc2lfe>bash</span> <button class="cb-copy" data-code="codegraph callers warn" data-astro-cid-jgrc2lfe>複製</button> </div> <div class="cb-inner" data-astro-cid-jgrc2lfe> <pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto;" tabindex="0" data-astro-cid-jgrc2lfe data-language="bash"><code><span class="line"><span style="color:#61AFEF">codegraph</span><span style="color:#98C379"> callers</span><span style="color:#98C379"> warn</span></span></code></pre> </div> </div>   <div class="cb-wrap" data-astro-cid-jgrc2lfe> <div class="cb-bar" data-astro-cid-jgrc2lfe> <span class="cb-label" data-astro-cid-jgrc2lfe>callers 輸出（1.6.2）</span> <button class="cb-copy" data-code="Callers of &quot;warn&quot; (5):
+function warn (python) — scripts/scaffold.py:36
+function    main
+  scripts/scaffold.py:397
+function    gen_index
+  scripts/scaffold.py:328
+function    load_outline
+  scripts/scaffold.py:41
+function    sub_once
+  scripts/scaffold.py:321
+function    merge_copy
+  scripts/scaffold.py:103" data-astro-cid-jgrc2lfe>複製</button> </div> <div class="cb-inner" data-astro-cid-jgrc2lfe> <pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto;" tabindex="0" data-astro-cid-jgrc2lfe data-language="text"><code><span class="line"><span>Callers of "warn" (5):</span></span>
+<span class="line"><span>function warn (python) — scripts/scaffold.py:36</span></span>
+<span class="line"><span>function    main</span></span>
+<span class="line"><span>  scripts/scaffold.py:397</span></span>
+<span class="line"><span>function    gen_index</span></span>
+<span class="line"><span>  scripts/scaffold.py:328</span></span>
+<span class="line"><span>function    load_outline</span></span>
+<span class="line"><span>  scripts/scaffold.py:41</span></span>
+<span class="line"><span>function    sub_once</span></span>
+<span class="line"><span>  scripts/scaffold.py:321</span></span>
+<span class="line"><span>function    merge_copy</span></span>
+<span class="line"><span>  scripts/scaffold.py:103</span></span></code></pre> </div> </div>   <p> <code>warn</code> 這個小工具函式有 5 個呼叫者，各自附上定義處與行號，不需要 grep 就能確認「改它會影響誰」。
+<code>impact</code> 與 <code>trace</code> 的輸出請參考第 8 章（同樣取自這個專案）。
+</p> <h2>11.5 affected：這次改動該跑哪些測試</h2> <div class="cb-wrap" data-astro-cid-jgrc2lfe> <div class="cb-bar" data-astro-cid-jgrc2lfe> <span class="cb-label" data-astro-cid-jgrc2lfe>同一份程式碼，兩個版本</span> <button class="cb-copy" data-code="# 同一份程式碼、同一個指令
+codegraph affected scripts/scaffold.py
+
+# 0.9.6
+[i] No test files affected by the changed files.
+
+# 1.6.2
+Affected test files (1):
+
+  tests/test_scaffold.py" data-astro-cid-jgrc2lfe>複製</button> </div> <div class="cb-inner" data-astro-cid-jgrc2lfe> <pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto;" tabindex="0" data-astro-cid-jgrc2lfe data-language="bash"><code><span class="line"><span style="color:#7F848E;font-style:italic"># 同一份程式碼、同一個指令</span></span>
+<span class="line"><span style="color:#61AFEF">codegraph</span><span style="color:#98C379"> affected</span><span style="color:#98C379"> scripts/scaffold.py</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#7F848E;font-style:italic"># 0.9.6</span></span>
+<span class="line"><span style="color:#ABB2BF">[i] No test files affected by the changed files.</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#7F848E;font-style:italic"># 1.6.2</span></span>
+<span class="line"><span style="color:#61AFEF">Affected</span><span style="color:#98C379"> test</span><span style="color:#98C379"> files</span><span style="color:#ABB2BF"> (1):</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#61AFEF">  tests/test_scaffold.py</span></span></code></pre> </div> </div>   <div class="call warn"> <span class="ci">⚠️</span> <div> <strong>升級會改變 <code>affected</code> 的結果</strong> <p>
+0.9.6 對 <code>scripts/scaffold.py</code> 回報「沒有受影響的測試」；1.6.2 才找出
+<code>tests/test_scaffold.py</code>。如果你的 CI 用 <code>affected</code> 決定要跑哪些測試，
+        舊版可能一直在<strong>漏跑測試</strong>卻沒有任何錯誤訊息。升級後請用一份已知的改動對照一次。
+</p> </div> </div> <h2>11.6 實測踩到的坑</h2> <h3>1. MCP 回報「No CodeGraph project is loaded」</h3> <p>
+在不是專案根目錄的地方啟動 Agent（這次實測的工作目錄就是這種情況），MCP 伺服器找不到 <code>.codegraph/</code>，
+    所有工具都會回這個錯誤。索引本身沒有壞，是工作目錄偵測的問題：
+</p> <div class="cb-wrap" data-astro-cid-jgrc2lfe> <div class="cb-bar" data-astro-cid-jgrc2lfe> <span class="cb-label" data-astro-cid-jgrc2lfe>實際錯誤訊息</span> <button class="cb-copy" data-code="Error: Tool execution failed: No CodeGraph project is loaded for this session.
+Searched for a .codegraph/ directory starting from: C:\path\to\your\workspace
+The index is likely fine — this is a working-directory detection issue: the MCP client
+launched the server outside your project and didn't report the workspace root. Fix it either way:
+  • Pass projectPath to the tool call, e.g. projectPath: &quot;/absolute/path/to/your/project&quot;
+  • Or add --path to the server's MCP config args: [&quot;serve&quot;, &quot;--mcp&quot;, &quot;--path&quot;, &quot;/absolute/path/to/your/project&quot;]" data-astro-cid-jgrc2lfe>複製</button> </div> <div class="cb-inner" data-astro-cid-jgrc2lfe> <pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto;" tabindex="0" data-astro-cid-jgrc2lfe data-language="text"><code><span class="line"><span>Error: Tool execution failed: No CodeGraph project is loaded for this session.</span></span>
+<span class="line"><span>Searched for a .codegraph/ directory starting from: C:\path\to\your\workspace</span></span>
+<span class="line"><span>The index is likely fine — this is a working-directory detection issue: the MCP client</span></span>
+<span class="line"><span>launched the server outside your project and didn't report the workspace root. Fix it either way:</span></span>
+<span class="line"><span>  • Pass projectPath to the tool call, e.g. projectPath: "/absolute/path/to/your/project"</span></span>
+<span class="line"><span>  • Or add --path to the server's MCP config args: ["serve", "--mcp", "--path", "/absolute/path/to/your/project"]</span></span></code></pre> </div> </div>   <p>兩種解法：在每次呼叫工具時帶 <code>projectPath</code>，或是在 MCP 設定裡固定 <code>--path</code>：</p> <div class="cb-wrap" data-astro-cid-jgrc2lfe> <div class="cb-bar" data-astro-cid-jgrc2lfe> <span class="cb-label" data-astro-cid-jgrc2lfe>MCP 設定（固定專案路徑）</span> <button class="cb-copy" data-code="{
+  &quot;mcpServers&quot;: {
+    &quot;codegraph&quot;: {
+      &quot;type&quot;: &quot;stdio&quot;,
+      &quot;command&quot;: &quot;codegraph&quot;,
+      &quot;args&quot;: [&quot;serve&quot;, &quot;--mcp&quot;, &quot;--path&quot;, &quot;C:\\path\\to\\your\\project&quot;]
+    }
+  }
+}" data-astro-cid-jgrc2lfe>複製</button> </div> <div class="cb-inner" data-astro-cid-jgrc2lfe> <pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto;" tabindex="0" data-astro-cid-jgrc2lfe data-language="json"><code><span class="line"><span style="color:#ABB2BF">{</span></span>
+<span class="line"><span style="color:#E06C75">  "mcpServers"</span><span style="color:#ABB2BF">: {</span></span>
+<span class="line"><span style="color:#E06C75">    "codegraph"</span><span style="color:#ABB2BF">: {</span></span>
+<span class="line"><span style="color:#E06C75">      "type"</span><span style="color:#ABB2BF">: </span><span style="color:#98C379">"stdio"</span><span style="color:#ABB2BF">,</span></span>
+<span class="line"><span style="color:#E06C75">      "command"</span><span style="color:#ABB2BF">: </span><span style="color:#98C379">"codegraph"</span><span style="color:#ABB2BF">,</span></span>
+<span class="line"><span style="color:#E06C75">      "args"</span><span style="color:#ABB2BF">: [</span><span style="color:#98C379">"serve"</span><span style="color:#ABB2BF">, </span><span style="color:#98C379">"--mcp"</span><span style="color:#ABB2BF">, </span><span style="color:#98C379">"--path"</span><span style="color:#ABB2BF">, </span><span style="color:#98C379">"C:</span><span style="color:#56B6C2">\\</span><span style="color:#98C379">path</span><span style="color:#56B6C2">\\</span><span style="color:#98C379">to</span><span style="color:#56B6C2">\\</span><span style="color:#98C379">your</span><span style="color:#56B6C2">\\</span><span style="color:#98C379">project"</span><span style="color:#ABB2BF">]</span></span>
+<span class="line"><span style="color:#ABB2BF">    }</span></span>
+<span class="line"><span style="color:#ABB2BF">  }</span></span>
+<span class="line"><span style="color:#ABB2BF">}</span></span></code></pre> </div> </div>   <h3>2. 同名函式：trace 只挑一個（0.9.6）</h3> <p>
+專案裡有兩個 <code>main</code>，要求「從 <code>main</code> 追到 <code>sanitize_copy</code>」只會得到其中一條路徑。
+    改用唯一的名稱當起點即可（第 8 章有完整範例）。
+</p> <h3>3. Windows 全域升級不報錯卻沒生效</h3> <p>
+其他視窗的 <code>codegraph serve --mcp</code> 還在執行時，<code>npm i -g</code> 無法覆蓋被佔用的檔案，
+<code>npm ls -g</code> 顯示新版，<code>codegraph --version</code> 卻還是舊版。
+    升級後一定要用 <code>--version</code> 核對（第 5 章）。
+</p> <h2>11.7 本章整理</h2> <table> <thead> <tr><th>想做的事</th><th>指令</th><th>1.x 相較 0.9.x</th></tr> </thead> <tbody> <tr><td>看懂一個區域</td><td><code>codegraph explore "符號 符號 檔名"</code></td><td>CLI 才有；輸出多了 Blast radius 與測試涵蓋標註</td></tr> <tr><td>改之前查誰在用</td><td><code>codegraph callers 符號</code></td><td>輸出格式相同</td></tr> <tr><td>評估影響範圍</td><td><code>codegraph impact 符號 --depth 3</code></td><td>輸出格式相同（9 個符號）</td></tr> <tr><td>決定要跑哪些測試</td><td><code>codegraph affected 檔案…</code></td><td><strong>結果不同</strong>：1.6.2 找得到、0.9.6 找不到</td></tr> <tr><td>追呼叫路徑</td><td>0.9.x 的 MCP 工具 <code>codegraph_trace</code>（沒有 CLI）</td><td>1.x 官方清單沒有 trace；在 1.6.2 用 <code>explore</code> 問同樣的問題，小專案上只回影響範圍與原始碼，沒有逐跳路徑</td></tr> </tbody> </table> <p>
+下一步：把這幾個指令套進你自己的專案，先用 <code>codegraph status</code> 確認索引的語言與節點數，
+    再用 <code>explore</code> 問一個你真的不確定的架構問題——比起官方的數字，你自己專案上的結果才是最有說服力的證據。
+</p>  </div> <nav class="cnav" data-astro-cid-mw7aashj> <a href="/codegraph/ch10-alternatives" class="prev" data-astro-cid-mw7aashj> <span class="nd" data-astro-cid-mw7aashj>← 上一章</span> <span class="nt" data-astro-cid-mw7aashj>CodeGraph 與同類工具比較</span> </a> <a href="/codegraph/glossary" class="next" data-astro-cid-mw7aashj> <span class="nd" data-astro-cid-mw7aashj>下一章 →</span> <span class="nt" data-astro-cid-mw7aashj>名詞解釋</span> </a> </nav> </main> </div> <script>
+    // Theme
+    const html = document.documentElement;
+    const tt = document.getElementById('tt');
+    const isun = document.getElementById('isun');
+    const imoon = document.getElementById('imoon');
+    function syncIcons() {
+      const dk = html.classList.contains('dark');
+      isun.style.display = dk ? 'block' : 'none';
+      imoon.style.display = dk ? 'none' : 'block';
+    }
+    syncIcons();
+    tt?.addEventListener('click', () => {
+      html.classList.toggle('dark');
+      localStorage.setItem('cc-theme', html.classList.contains('dark') ? 'dark' : 'light');
+      syncIcons();
+    });
+
+    // Progress
+    const pb = document.getElementById('pb');
+    window.addEventListener('scroll', () => {
+      const t = document.documentElement.scrollHeight - window.innerHeight;
+      pb.style.width = t > 0 ? `${(window.scrollY / t) * 100}%` : '0%';
+    }, { passive: true });
+
+    // Sidebar part toggles
+    document.querySelectorAll('.pt').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.dataset.pid;
+        const list = document.querySelector(`[data-pl="${id}"]`);
+        btn.classList.toggle('open');
+        list?.classList.toggle('closed');
+      });
+    });
+
+    // Mobile menu
+    const sb = document.getElementById('sb');
+    const ov = document.getElementById('ov');
+    const mb = document.getElementById('mbtn');
+    const open = () => { sb.classList.add('open'); ov.classList.add('open'); document.body.style.overflow='hidden'; };
+    const close = () => { sb.classList.remove('open'); ov.classList.remove('open'); document.body.style.overflow=''; };
+    mb?.addEventListener('click', open);
+    ov?.addEventListener('click', close);
+  </script> </body> 

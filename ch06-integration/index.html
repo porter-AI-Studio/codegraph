@@ -1,0 +1,146 @@
+<!DOCTYPE html><html lang="zh-TW" data-astro-cid-mw7aashj> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>整合與配置主流 AI 代理程式 | </title><link rel="stylesheet" href="/codegraph/_astro/DocsLayout.Bujtu5J-.css">
+<style>.cb-wrap[data-astro-cid-jgrc2lfe]{margin-bottom:1.25rem}.cb-bar[data-astro-cid-jgrc2lfe]{display:flex;align-items:center;justify-content:space-between;background:#1a1a2e;border-radius:6px 6px 0 0;border:1px solid rgba(255,255,255,.08);border-bottom:1px solid rgba(255,255,255,.05);padding:.18rem .5rem .18rem .75rem;min-height:1.8rem}.cb-label[data-astro-cid-jgrc2lfe]{color:#a6adc8;font-family:Fira Code,Cascadia Code,Consolas,monospace;font-size:.73rem;letter-spacing:.04em}.cb-inner[data-astro-cid-jgrc2lfe] pre{border-radius:0 0 8px 8px!important;margin-bottom:0!important}.cb-copy[data-astro-cid-jgrc2lfe]{background:#ffffff14;color:#888;border:1px solid rgba(255,255,255,.12);border-radius:4px;padding:.15rem .55rem;font-size:.7rem;cursor:pointer;transition:all .15s;flex-shrink:0}.cb-copy[data-astro-cid-jgrc2lfe]:hover{background:#ffffff2e;color:#fff}.cb-copy[data-astro-cid-jgrc2lfe].copied{color:#4ec9b0;border-color:#4ec9b0}
+</style></head>CodeGraph 完整指南 <meta name="description" content="了解如何將 CodeGraph MCP 伺服器整合至 Claude Code、Cursor、Gemini CLI 等主流代理工具中，以及如何進行完整移除設定。"> <link rel="icon" href="/codegraph/favicon.svg" type="image/svg+xml"> <script>
+    (function () {
+      const s = localStorage.getItem('cc-theme');
+      const d = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (s === 'dark' || (!s && d)) document.documentElement.classList.add('dark');
+    })();
+  </script>  </html> <body data-astro-cid-mw7aashj> <div id="pb" data-astro-cid-mw7aashj></div> <header data-astro-cid-mw7aashj> <div class="hi" data-astro-cid-mw7aashj> <div class="hl" data-astro-cid-mw7aashj> <button id="mbtn" class="ibtn" aria-label="選單" data-astro-cid-mw7aashj> <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" data-astro-cid-mw7aashj></path> </svg> </button> <a href="/codegraph/" class="site-name" data-astro-cid-mw7aashj> <span class="logo" data-astro-cid-mw7aashj>CG</span>&nbsp;&nbsp;CodeGraph 完整指南
+</a> </div> <div class="hr" data-astro-cid-mw7aashj> <button id="tt" class="ibtn" aria-label="切換主題" data-astro-cid-mw7aashj> <svg id="isun" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="display:none" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364-.707-.707M6.343 6.343l-.707-.707m12.728 0-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0z" data-astro-cid-mw7aashj></path> </svg> <svg id="imoon" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 0 1 8.646 3.646 9.003 9.003 0 0 0 12 21a9.003 9.003 0 0 0 8.354-5.646z" data-astro-cid-mw7aashj></path> </svg> </button> </div> </div> </header> <div id="layout" data-astro-cid-mw7aashj> <nav id="sb" data-astro-cid-mw7aashj> <div class="np" data-astro-cid-mw7aashj> <button class="pt open" data-pid="0" data-astro-cid-mw7aashj> <span data-astro-cid-mw7aashj>Part 0：前言</span> <svg class="arr" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" data-astro-cid-mw7aashj></path> </svg> </button> <ul class="nl" data-pl="0" data-astro-cid-mw7aashj> <li data-astro-cid-mw7aashj> <a href="/codegraph/preface" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>0.</span> <span data-astro-cid-mw7aashj>為什麼你需要 CodeGraph</span>  </a> </li> </ul> </div><div class="np" data-astro-cid-mw7aashj> <button class="pt open" data-pid="1" data-astro-cid-mw7aashj> <span data-astro-cid-mw7aashj>Part 1：基礎與概念</span> <svg class="arr" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" data-astro-cid-mw7aashj></path> </svg> </button> <ul class="nl" data-pl="1" data-astro-cid-mw7aashj> <li data-astro-cid-mw7aashj> <a href="/codegraph/ch01-intro" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>1.</span> <span data-astro-cid-mw7aashj>什麼是 CodeGraph</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ch02-why-codegraph" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>2.</span> <span data-astro-cid-mw7aashj>為什麼 AI Agent 需要 CodeGraph</span>  </a> </li> </ul> </div><div class="np" data-astro-cid-mw7aashj> <button class="pt open" data-pid="2" data-astro-cid-mw7aashj> <span data-astro-cid-mw7aashj>Part 2：核心功能與效能</span> <svg class="arr" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" data-astro-cid-mw7aashj></path> </svg> </button> <ul class="nl" data-pl="2" data-astro-cid-mw7aashj> <li data-astro-cid-mw7aashj> <a href="/codegraph/ch03-features" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>3.</span> <span data-astro-cid-mw7aashj>CodeGraph 核心特點與優勢</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ch04-benchmarks" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>4.</span> <span data-astro-cid-mw7aashj>效能基準測試與省代幣分析</span>  </a> </li> </ul> </div><div class="np" data-astro-cid-mw7aashj> <button class="pt open" data-pid="3" data-astro-cid-mw7aashj> <span data-astro-cid-mw7aashj>Part 3：安裝與代理程式整合</span> <svg class="arr" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" data-astro-cid-mw7aashj></path> </svg> </button> <ul class="nl" data-pl="3" data-astro-cid-mw7aashj> <li data-astro-cid-mw7aashj> <a href="/codegraph/ch05-installation" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>5.</span> <span data-astro-cid-mw7aashj>快速安裝與版本升級</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ch06-integration" class="active" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>6.</span> <span data-astro-cid-mw7aashj>整合與配置主流 AI 代理程式</span>  </a> </li> </ul> </div><div class="np" data-astro-cid-mw7aashj> <button class="pt" data-pid="4" data-astro-cid-mw7aashj> <span data-astro-cid-mw7aashj>Part 4：實戰應用與進階</span> <svg class="arr" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" data-astro-cid-mw7aashj></path> </svg> </button> <ul class="nl closed" data-pl="4" data-astro-cid-mw7aashj> <li data-astro-cid-mw7aashj> <a href="/codegraph/ch07-init-sync" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>7.</span> <span data-astro-cid-mw7aashj>專案初始化與自動同步機制</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ch08-search-impact" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>8.</span> <span data-astro-cid-mw7aashj>搜尋與影響力分析實踐</span>  </a> </li> </ul> </div><div class="np" data-astro-cid-mw7aashj> <button class="pt" data-pid="5" data-astro-cid-mw7aashj> <span data-astro-cid-mw7aashj>Part 5：1.x 新版與生態系</span> <svg class="arr" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" data-astro-cid-mw7aashj></path> </svg> </button> <ul class="nl closed" data-pl="5" data-astro-cid-mw7aashj> <li data-astro-cid-mw7aashj> <a href="/codegraph/ch09-config-cli" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>9.</span> <span data-astro-cid-mw7aashj>進階設定與 CLI 速查（1.x 新版）</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ch10-alternatives" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>10.</span> <span data-astro-cid-mw7aashj>CodeGraph 與同類工具比較</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ch11-hands-on" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>11.</span> <span data-astro-cid-mw7aashj>實測：用 CodeGraph 分析自己的專案</span>  </a> </li> </ul> </div><div class="np" data-astro-cid-mw7aashj> <button class="pt" data-pid="8" data-astro-cid-mw7aashj> <span data-astro-cid-mw7aashj>Part 8：附錄</span> <svg class="arr" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" data-astro-cid-mw7aashj></path> </svg> </button> <ul class="nl closed" data-pl="8" data-astro-cid-mw7aashj> <li data-astro-cid-mw7aashj> <a href="/codegraph/glossary" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>12.</span> <span data-astro-cid-mw7aashj>名詞解釋</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ap-neo4j" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>13.</span> <span data-astro-cid-mw7aashj>Neo4j 技術解析</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ap-sqlite" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>14.</span> <span data-astro-cid-mw7aashj>SQLite 技術解析</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ap-mcp" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>15.</span> <span data-astro-cid-mw7aashj>MCP 協定解析</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ap-tree-sitter" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>16.</span> <span data-astro-cid-mw7aashj>Tree-sitter 技術解析</span>  </a> </li> </ul> </div> </nav> <div id="ov" data-astro-cid-mw7aashj></div> <main data-astro-cid-mw7aashj> <div class="cb" data-astro-cid-mw7aashj>  <span class="clabel">第 6 章 · Part 3：安裝與代理程式整合</span> <h1>整合與配置主流 AI 代理程式</h1> <p class="cdesc">將 CodeGraph 作為 MCP 伺服器掛載到 AI 核心大腦</p> <h2>一、 一鍵整合指令</h2> <p>
+單純安裝 CLI 只能在本地端執行 <code>codegraph</code> 指令，要讓 AI 代理能夠在對話中調用它，必須將其配置為 <strong>MCP (Model Context Protocol) 伺服器</strong>。
+</p> <p>
+在新開的終端機視窗中，執行以下核心整合命令：
+</p> <div class="cb-wrap" data-astro-cid-jgrc2lfe> <div class="cb-bar" data-astro-cid-jgrc2lfe> <span class="cb-label" data-astro-cid-jgrc2lfe></span> <button class="cb-copy" data-code="codegraph install" data-astro-cid-jgrc2lfe>複製</button> </div> <div class="cb-inner" data-astro-cid-jgrc2lfe> <pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto;" tabindex="0" data-astro-cid-jgrc2lfe data-language="bash"><code><span class="line"><span style="color:#61AFEF">codegraph</span><span style="color:#98C379"> install</span></span></code></pre> </div> </div>  <script type="module">document.querySelectorAll(".cb-copy").forEach(e=>{e.addEventListener("click",()=>{const t=e.dataset.code;t&&navigator.clipboard.writeText(t).then(()=>{e.textContent="已複製!",e.classList.add("copied"),setTimeout(()=>{e.textContent="複製",e.classList.remove("copied")},2e3)})})});</script> <p>
+（快捷方式：若不想全域安裝 CLI，可以直接透過 <code>npx @colbymchenry/codegraph</code> 於下載後自動完成安裝與配置流程。）
+</p> <h2>二、 支援並自動偵測的 AI 工具清單</h2> <p>執行 <code>codegraph install</code> 時，CLI 會在背景自動掃描你當前電腦已安裝的開發軟體，並自動寫入對應的 MCP 設定檔：</p> <figure class="svg-fig"> <img src="/codegraph/img/ch06/02-install-autodetect-fanout.png" alt="codegraph install 一次執行，自動掃描並扇出寫入六種 AI 工具的 MCP 設定檔" loading="lazy" style="width:85%;height:auto;display:block;margin:0 auto;"> <figcaption>圖 6-0：一次 <code>codegraph install</code>，自動扇出配置多種 AI 工具（圖為 0.9.x 時期的六種；1.x 官方支援九種：Claude Code、Cursor、Codex CLI、opencode、Hermes Agent、Gemini CLI、Antigravity IDE、Kiro、GitHub Copilot）</figcaption> </figure> <table> <thead> <tr><th>工具 / 編輯器</th><th>類型</th><th>MCP 設定檔位置</th></tr> </thead> <tbody> <tr><td><code>Claude Code</code></td><td>CLI Agent</td><td><code>~/.claude.json</code>（MCP 伺服器）；<code>~/.claude/settings.json</code> 只放選用的允許規則</td></tr> <tr><td><code>Cursor</code></td><td>AI 編輯器</td><td>Settings → Features → MCP</td></tr> <tr><td><code>Gemini CLI</code></td><td>CLI Agent</td><td><code>~/.gemini/settings.json</code></td></tr> <tr><td><code>Antigravity</code></td><td>本地 AI IDE</td><td>自動寫入專案根目錄</td></tr> <tr><td><code>Kiro</code></td><td>AI 編輯器</td><td>MCP 管理介面</td></tr> <tr><td><code>Codex CLI</code></td><td>CLI Agent</td><td>各自設定檔</td></tr> <tr><td><code>opencode</code></td><td>CLI Agent</td><td>OpenCode 2 的 <code>mcp.servers.codegraph</code>，帶 <code>codemode: false</code>（讓 <code>codegraph_explore</code> 留在原生工具清單）；<code>codegraph install</code> 會把舊格式 <code>mcp.codegraph</code> 一併遷移</td></tr> <tr><td><code>Hermes Agent</code></td><td>CLI Agent</td><td>自動偵測並寫入</td></tr> <tr><td><code>GitHub Copilot</code></td><td>VS Code／CLI／JetBrains</td><td>分成三個目標：<code>copilot-vscode</code>（Copilot Chat）、<code>copilot-cli</code>、<code>copilot-jetbrains</code></td></tr> </tbody> </table> <h2>三、 底層變更與 MCP 運作原理</h2> <p>在執行整合後，CodeGraph 會在背景進行如下的操作。以下為 CodeGraph 作為 MCP 伺服器與 AI Agent 之間通訊的底層架構：</p> <figure class="svg-fig"> 
+<svg viewBox="0 0 800 240" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arr-ch06" viewBox="0 0 10 10" refX="8" refY="5"
+            markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="var(--accent)" />
+    </marker>
+  </defs>
+
+  <!-- Left: AI Agent (MCP Client) -->
+  <rect x="20" y="55" width="210" height="150" rx="12"
+        fill="rgba(99,102,241,0.07)" stroke="#6366f1" stroke-width="2"/>
+  <text x="125" y="98" text-anchor="middle" fill="#6366f1" font-size="14" font-weight="700">AI Agent</text>
+  <text x="125" y="116" text-anchor="middle" fill="#6366f1" font-size="11">(MCP Client)</text>
+  <line x1="35" y1="128" x2="215" y2="128" stroke="#6366f1" stroke-width="1" opacity="0.3"/>
+  <text x="125" y="150" text-anchor="middle" fill="var(--text)" font-size="11">Claude Code / Cursor</text>
+  <text x="125" y="168" text-anchor="middle" fill="var(--muted)" font-size="10">Gemini CLI / Kiro</text>
+  <text x="125" y="185" text-anchor="middle" fill="var(--muted)" font-size="10">Antigravity / Codex CLI</text>
+
+  <!-- Bidirectional arrow: JSON-RPC 2.0 over STDIO -->
+  <path d="M 230,127 L 442,127" fill="none" stroke="var(--accent)" stroke-width="2" marker-end="url(#arr-ch06)"/>
+  <path d="M 450,148 L 238,148" fill="none" stroke="var(--accent)" stroke-width="2" marker-end="url(#arr-ch06)"/>
+  <text x="340" y="110" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">JSON-RPC 2.0 over STDIO</text>
+  <text x="340" y="168" text-anchor="middle" fill="var(--muted)" font-size="10">標準輸入/輸出流</text>
+
+  <!-- Right: CodeGraph MCP Server -->
+  <rect x="450" y="45" width="330" height="175" rx="12"
+        fill="rgba(16,185,129,0.07)" stroke="#10b981" stroke-width="2"/>
+  <text x="615" y="88" text-anchor="middle" fill="#10b981" font-size="14" font-weight="700">CodeGraph MCP Server</text>
+  <text x="615" y="106" text-anchor="middle" fill="var(--text)" font-size="11">codegraph serve --mcp</text>
+  <line x1="465" y1="118" x2="765" y2="118" stroke="#10b981" stroke-width="1" opacity="0.3"/>
+
+  <!-- Nested SQLite sub-box -->
+  <rect x="465" y="126" width="300" height="80" rx="8"
+        fill="rgba(16,185,129,0.12)" stroke="#10b981" stroke-width="1.5"/>
+  <text x="615" y="152" text-anchor="middle" fill="#10b981" font-size="12" font-weight="700">本地端知識圖譜</text>
+  <text x="615" y="169" text-anchor="middle" fill="var(--text)" font-size="11">SQLite · codegraph.db</text>
+  <text x="615" y="185" text-anchor="middle" fill="var(--muted)" font-size="10">WAL 模式 · 亞毫秒查詢</text>
+
+</svg>
+ <figcaption>圖 6-1：CodeGraph MCP 整合架構——AI Agent 透過 JSON-RPC 2.0 over STDIO 雙向通訊，呼叫本地 codegraph serve --mcp 服務，底層由 SQLite WAL 模式圖譜提供亞毫秒查詢。</figcaption> </figure> <h3>1. 修改設定檔</h3> <p>
+以 Claude Code 為例，MCP 伺服器寫在使用者層級的 <code>~/.claude.json</code>
+（Windows 為 <code>C:\Users\&lt;你的帳號&gt;\.claude.json</code>）的 <code>mcpServers</code> 底下，
+    官方 README 的手動設定如下：
+</p> <div class="cb-wrap" data-astro-cid-jgrc2lfe> <div class="cb-bar" data-astro-cid-jgrc2lfe> <span class="cb-label" data-astro-cid-jgrc2lfe>~/.claude.json</span> <button class="cb-copy" data-code="{
+  &quot;mcpServers&quot;: {
+    &quot;codegraph&quot;: {
+      &quot;type&quot;: &quot;stdio&quot;,
+      &quot;command&quot;: &quot;codegraph&quot;,
+      &quot;args&quot;: [&quot;serve&quot;, &quot;--mcp&quot;],
+      &quot;alwaysLoad&quot;: true
+    }
+  }
+}" data-astro-cid-jgrc2lfe>複製</button> </div> <div class="cb-inner" data-astro-cid-jgrc2lfe> <pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto;" tabindex="0" data-astro-cid-jgrc2lfe data-language="json"><code><span class="line"><span style="color:#ABB2BF">{</span></span>
+<span class="line"><span style="color:#E06C75">  "mcpServers"</span><span style="color:#ABB2BF">: {</span></span>
+<span class="line"><span style="color:#E06C75">    "codegraph"</span><span style="color:#ABB2BF">: {</span></span>
+<span class="line"><span style="color:#E06C75">      "type"</span><span style="color:#ABB2BF">: </span><span style="color:#98C379">"stdio"</span><span style="color:#ABB2BF">,</span></span>
+<span class="line"><span style="color:#E06C75">      "command"</span><span style="color:#ABB2BF">: </span><span style="color:#98C379">"codegraph"</span><span style="color:#ABB2BF">,</span></span>
+<span class="line"><span style="color:#E06C75">      "args"</span><span style="color:#ABB2BF">: [</span><span style="color:#98C379">"serve"</span><span style="color:#ABB2BF">, </span><span style="color:#98C379">"--mcp"</span><span style="color:#ABB2BF">],</span></span>
+<span class="line"><span style="color:#E06C75">      "alwaysLoad"</span><span style="color:#ABB2BF">: </span><span style="color:#D19A66">true</span></span>
+<span class="line"><span style="color:#ABB2BF">    }</span></span>
+<span class="line"><span style="color:#ABB2BF">  }</span></span>
+<span class="line"><span style="color:#ABB2BF">}</span></span></code></pre> </div> </div>   <p> <code>alwaysLoad</code> 讓 <code>codegraph_explore</code> 從第一個提示開始就載入；
+    否則 Claude Code 會把每個 MCP 工具延後到「工具搜尋」之後才載入，新 session 一開始只看得到工具名稱。
+    想讓所有 CodeGraph 工具免確認，可以另外在 <code>~/.claude/settings.json</code> 加上這段允許規則（選用）：
+</p> <div class="cb-wrap" data-astro-cid-jgrc2lfe> <div class="cb-bar" data-astro-cid-jgrc2lfe> <span class="cb-label" data-astro-cid-jgrc2lfe>~/.claude/settings.json（選用）</span> <button class="cb-copy" data-code="{
+  &quot;permissions&quot;: {
+    &quot;allow&quot;: [
+      &quot;mcp__codegraph__*&quot;
+    ]
+  }
+}" data-astro-cid-jgrc2lfe>複製</button> </div> <div class="cb-inner" data-astro-cid-jgrc2lfe> <pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto;" tabindex="0" data-astro-cid-jgrc2lfe data-language="json"><code><span class="line"><span style="color:#ABB2BF">{</span></span>
+<span class="line"><span style="color:#E06C75">  "permissions"</span><span style="color:#ABB2BF">: {</span></span>
+<span class="line"><span style="color:#E06C75">    "allow"</span><span style="color:#ABB2BF">: [</span></span>
+<span class="line"><span style="color:#98C379">      "mcp__codegraph__*"</span></span>
+<span class="line"><span style="color:#ABB2BF">    ]</span></span>
+<span class="line"><span style="color:#ABB2BF">  }</span></span>
+<span class="line"><span style="color:#ABB2BF">}</span></span></code></pre> </div> </div>   <div class="call info"> <span class="ci">ℹ️</span> <div> <strong>官方支援清單裡沒有 Claude Desktop</strong> <p>
+1.x README 列出的九個支援對象是 Claude Code、Cursor、Codex CLI、opencode、Hermes Agent、Gemini CLI、
+        Antigravity IDE、Kiro、GitHub Copilot；<code>codegraph install</code> 不會自動設定 Claude Desktop。
+        若要在 Claude Desktop 使用，需要自行把同樣的 <code>mcpServers</code> 區塊寫進它的設定檔。
+</p> </div> </div> <h3>2. 傳遞系統指令與權限</h3> <p>
+當 Agent 啟動時，它會透過 MCP 協議自動與本地的 CodeGraph 連線。CodeGraph 將作為一個常駐的後端服務（透過 <code>codegraph serve --mcp</code>），接收 Agent 發送的查詢，並以亞毫秒級的速度返回 SQLite 的代碼子圖數據。
+</p> <h2>四、 安全解除安裝 (Uninstall)</h2> <p>
+如果你不想再使用 CodeGraph，或者要重置所有的 AI 代理 MCP 配置，只需執行以下命令：
+</p> <div class="cb-wrap" data-astro-cid-jgrc2lfe> <div class="cb-bar" data-astro-cid-jgrc2lfe> <span class="cb-label" data-astro-cid-jgrc2lfe></span> <button class="cb-copy" data-code="codegraph uninstall" data-astro-cid-jgrc2lfe>複製</button> </div> <div class="cb-inner" data-astro-cid-jgrc2lfe> <pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto;" tabindex="0" data-astro-cid-jgrc2lfe data-language="bash"><code><span class="line"><span style="color:#61AFEF">codegraph</span><span style="color:#98C379"> uninstall</span></span></code></pre> </div> </div>   <p>
+這會自動將 CodeGraph 的 MCP 伺服器設定、系統指令與讀寫權限從所有已配置的 Agent 中移除。
+</p> <div class="call info"> <span class="ci">ℹ️</span> <div> <strong>備註：解除安裝不會刪除本機資料庫</strong> <p>解除安裝命令<strong>不會刪除</strong>你專案目錄下的 <code>.codegraph/</code> 索引資料庫。若要清除專案本機資料庫，請至專案根目錄下執行 <code>codegraph uninit</code>，或是直接手動刪除 <code>.codegraph/</code> 資料夾。</p> </div> </div> <div class="call tip"> <span class="ci">💡</span> <div> <strong>一次安裝，多工具同步生效</strong> <p><code>codegraph install</code> 只需執行一次，CLI 會自動掃描並同時更新所有已安裝的 AI 工具設定。若之後新安裝了其他工具（如 Cursor），重新執行 <code>codegraph install</code> 即可補充整合，無需手動修改設定檔。</p> </div> </div> <p>完成代理程式的 MCP 配置後，接下來我們將進入實戰，學習如何在具體的開發專案中初始化 CodeGraph 索引。</p>  </div> <nav class="cnav" data-astro-cid-mw7aashj> <a href="/codegraph/ch05-installation" class="prev" data-astro-cid-mw7aashj> <span class="nd" data-astro-cid-mw7aashj>← 上一章</span> <span class="nt" data-astro-cid-mw7aashj>快速安裝與版本升級</span> </a> <a href="/codegraph/ch07-init-sync" class="next" data-astro-cid-mw7aashj> <span class="nd" data-astro-cid-mw7aashj>下一章 →</span> <span class="nt" data-astro-cid-mw7aashj>專案初始化與自動同步機制</span> </a> </nav> </main> </div> <script>
+    // Theme
+    const html = document.documentElement;
+    const tt = document.getElementById('tt');
+    const isun = document.getElementById('isun');
+    const imoon = document.getElementById('imoon');
+    function syncIcons() {
+      const dk = html.classList.contains('dark');
+      isun.style.display = dk ? 'block' : 'none';
+      imoon.style.display = dk ? 'none' : 'block';
+    }
+    syncIcons();
+    tt?.addEventListener('click', () => {
+      html.classList.toggle('dark');
+      localStorage.setItem('cc-theme', html.classList.contains('dark') ? 'dark' : 'light');
+      syncIcons();
+    });
+
+    // Progress
+    const pb = document.getElementById('pb');
+    window.addEventListener('scroll', () => {
+      const t = document.documentElement.scrollHeight - window.innerHeight;
+      pb.style.width = t > 0 ? `${(window.scrollY / t) * 100}%` : '0%';
+    }, { passive: true });
+
+    // Sidebar part toggles
+    document.querySelectorAll('.pt').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.dataset.pid;
+        const list = document.querySelector(`[data-pl="${id}"]`);
+        btn.classList.toggle('open');
+        list?.classList.toggle('closed');
+      });
+    });
+
+    // Mobile menu
+    const sb = document.getElementById('sb');
+    const ov = document.getElementById('ov');
+    const mb = document.getElementById('mbtn');
+    const open = () => { sb.classList.add('open'); ov.classList.add('open'); document.body.style.overflow='hidden'; };
+    const close = () => { sb.classList.remove('open'); ov.classList.remove('open'); document.body.style.overflow=''; };
+    mb?.addEventListener('click', open);
+    ov?.addEventListener('click', close);
+  </script> </body> 

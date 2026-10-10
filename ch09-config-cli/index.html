@@ -1,0 +1,250 @@
+<!DOCTYPE html><html lang="zh-TW" data-astro-cid-mw7aashj> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>進階設定與 CLI 速查（1.x 新版） | </title><link rel="stylesheet" href="/codegraph/_astro/DocsLayout.Bujtu5J-.css">
+<style>.cb-wrap[data-astro-cid-jgrc2lfe]{margin-bottom:1.25rem}.cb-bar[data-astro-cid-jgrc2lfe]{display:flex;align-items:center;justify-content:space-between;background:#1a1a2e;border-radius:6px 6px 0 0;border:1px solid rgba(255,255,255,.08);border-bottom:1px solid rgba(255,255,255,.05);padding:.18rem .5rem .18rem .75rem;min-height:1.8rem}.cb-label[data-astro-cid-jgrc2lfe]{color:#a6adc8;font-family:Fira Code,Cascadia Code,Consolas,monospace;font-size:.73rem;letter-spacing:.04em}.cb-inner[data-astro-cid-jgrc2lfe] pre{border-radius:0 0 8px 8px!important;margin-bottom:0!important}.cb-copy[data-astro-cid-jgrc2lfe]{background:#ffffff14;color:#888;border:1px solid rgba(255,255,255,.12);border-radius:4px;padding:.15rem .55rem;font-size:.7rem;cursor:pointer;transition:all .15s;flex-shrink:0}.cb-copy[data-astro-cid-jgrc2lfe]:hover{background:#ffffff2e;color:#fff}.cb-copy[data-astro-cid-jgrc2lfe].copied{color:#4ec9b0;border-color:#4ec9b0}
+</style></head>CodeGraph 完整指南 <meta name="description" content="補上 CodeGraph 1.x 新增的內容：codegraph.json 的 exclude、include、deprioritize、extensions 設定，完整 CLI 指令速查，以 codegraph affected 找出受影響測試，MCP 單一工具設計、Telemetry 隱私、發行版驗證與支援平台。"> <link rel="icon" href="/codegraph/favicon.svg" type="image/svg+xml"> <script>
+    (function () {
+      const s = localStorage.getItem('cc-theme');
+      const d = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (s === 'dark' || (!s && d)) document.documentElement.classList.add('dark');
+    })();
+  </script>  </html> <body data-astro-cid-mw7aashj> <div id="pb" data-astro-cid-mw7aashj></div> <header data-astro-cid-mw7aashj> <div class="hi" data-astro-cid-mw7aashj> <div class="hl" data-astro-cid-mw7aashj> <button id="mbtn" class="ibtn" aria-label="選單" data-astro-cid-mw7aashj> <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" data-astro-cid-mw7aashj></path> </svg> </button> <a href="/codegraph/" class="site-name" data-astro-cid-mw7aashj> <span class="logo" data-astro-cid-mw7aashj>CG</span>&nbsp;&nbsp;CodeGraph 完整指南
+</a> </div> <div class="hr" data-astro-cid-mw7aashj> <button id="tt" class="ibtn" aria-label="切換主題" data-astro-cid-mw7aashj> <svg id="isun" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="display:none" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364-.707-.707M6.343 6.343l-.707-.707m12.728 0-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0z" data-astro-cid-mw7aashj></path> </svg> <svg id="imoon" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 0 1 8.646 3.646 9.003 9.003 0 0 0 12 21a9.003 9.003 0 0 0 8.354-5.646z" data-astro-cid-mw7aashj></path> </svg> </button> </div> </div> </header> <div id="layout" data-astro-cid-mw7aashj> <nav id="sb" data-astro-cid-mw7aashj> <div class="np" data-astro-cid-mw7aashj> <button class="pt open" data-pid="0" data-astro-cid-mw7aashj> <span data-astro-cid-mw7aashj>Part 0：前言</span> <svg class="arr" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" data-astro-cid-mw7aashj></path> </svg> </button> <ul class="nl" data-pl="0" data-astro-cid-mw7aashj> <li data-astro-cid-mw7aashj> <a href="/codegraph/preface" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>0.</span> <span data-astro-cid-mw7aashj>為什麼你需要 CodeGraph</span>  </a> </li> </ul> </div><div class="np" data-astro-cid-mw7aashj> <button class="pt open" data-pid="1" data-astro-cid-mw7aashj> <span data-astro-cid-mw7aashj>Part 1：基礎與概念</span> <svg class="arr" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" data-astro-cid-mw7aashj></path> </svg> </button> <ul class="nl" data-pl="1" data-astro-cid-mw7aashj> <li data-astro-cid-mw7aashj> <a href="/codegraph/ch01-intro" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>1.</span> <span data-astro-cid-mw7aashj>什麼是 CodeGraph</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ch02-why-codegraph" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>2.</span> <span data-astro-cid-mw7aashj>為什麼 AI Agent 需要 CodeGraph</span>  </a> </li> </ul> </div><div class="np" data-astro-cid-mw7aashj> <button class="pt open" data-pid="2" data-astro-cid-mw7aashj> <span data-astro-cid-mw7aashj>Part 2：核心功能與效能</span> <svg class="arr" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" data-astro-cid-mw7aashj></path> </svg> </button> <ul class="nl" data-pl="2" data-astro-cid-mw7aashj> <li data-astro-cid-mw7aashj> <a href="/codegraph/ch03-features" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>3.</span> <span data-astro-cid-mw7aashj>CodeGraph 核心特點與優勢</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ch04-benchmarks" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>4.</span> <span data-astro-cid-mw7aashj>效能基準測試與省代幣分析</span>  </a> </li> </ul> </div><div class="np" data-astro-cid-mw7aashj> <button class="pt open" data-pid="3" data-astro-cid-mw7aashj> <span data-astro-cid-mw7aashj>Part 3：安裝與代理程式整合</span> <svg class="arr" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" data-astro-cid-mw7aashj></path> </svg> </button> <ul class="nl" data-pl="3" data-astro-cid-mw7aashj> <li data-astro-cid-mw7aashj> <a href="/codegraph/ch05-installation" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>5.</span> <span data-astro-cid-mw7aashj>快速安裝與版本升級</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ch06-integration" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>6.</span> <span data-astro-cid-mw7aashj>整合與配置主流 AI 代理程式</span>  </a> </li> </ul> </div><div class="np" data-astro-cid-mw7aashj> <button class="pt" data-pid="4" data-astro-cid-mw7aashj> <span data-astro-cid-mw7aashj>Part 4：實戰應用與進階</span> <svg class="arr" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" data-astro-cid-mw7aashj></path> </svg> </button> <ul class="nl closed" data-pl="4" data-astro-cid-mw7aashj> <li data-astro-cid-mw7aashj> <a href="/codegraph/ch07-init-sync" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>7.</span> <span data-astro-cid-mw7aashj>專案初始化與自動同步機制</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ch08-search-impact" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>8.</span> <span data-astro-cid-mw7aashj>搜尋與影響力分析實踐</span>  </a> </li> </ul> </div><div class="np" data-astro-cid-mw7aashj> <button class="pt open" data-pid="5" data-astro-cid-mw7aashj> <span data-astro-cid-mw7aashj>Part 5：1.x 新版與生態系</span> <svg class="arr" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" data-astro-cid-mw7aashj></path> </svg> </button> <ul class="nl" data-pl="5" data-astro-cid-mw7aashj> <li data-astro-cid-mw7aashj> <a href="/codegraph/ch09-config-cli" class="active" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>9.</span> <span data-astro-cid-mw7aashj>進階設定與 CLI 速查（1.x 新版）</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ch10-alternatives" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>10.</span> <span data-astro-cid-mw7aashj>CodeGraph 與同類工具比較</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ch11-hands-on" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>11.</span> <span data-astro-cid-mw7aashj>實測：用 CodeGraph 分析自己的專案</span>  </a> </li> </ul> </div><div class="np" data-astro-cid-mw7aashj> <button class="pt" data-pid="8" data-astro-cid-mw7aashj> <span data-astro-cid-mw7aashj>Part 8：附錄</span> <svg class="arr" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" data-astro-cid-mw7aashj> <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" data-astro-cid-mw7aashj></path> </svg> </button> <ul class="nl closed" data-pl="8" data-astro-cid-mw7aashj> <li data-astro-cid-mw7aashj> <a href="/codegraph/glossary" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>12.</span> <span data-astro-cid-mw7aashj>名詞解釋</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ap-neo4j" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>13.</span> <span data-astro-cid-mw7aashj>Neo4j 技術解析</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ap-sqlite" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>14.</span> <span data-astro-cid-mw7aashj>SQLite 技術解析</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ap-mcp" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>15.</span> <span data-astro-cid-mw7aashj>MCP 協定解析</span>  </a> </li><li data-astro-cid-mw7aashj> <a href="/codegraph/ap-tree-sitter" data-astro-cid-mw7aashj> <span class="cn" data-astro-cid-mw7aashj>16.</span> <span data-astro-cid-mw7aashj>Tree-sitter 技術解析</span>  </a> </li> </ul> </div> </nav> <div id="ov" data-astro-cid-mw7aashj></div> <main data-astro-cid-mw7aashj> <div class="cb" data-astro-cid-mw7aashj>  <p class="clabel">第 9 章 · Part 5：1.x 新版與生態系</p> <h1>進階設定與 CLI 速查（1.x 新版）</h1> <p class="cdesc">零設定是預設，需要時再用 codegraph.json 微調；本章把 1.x 新增的指令、設定與供應鏈驗證一次補齊。</p> <p>
+本書前八章寫於 0.9.x 版本。1.x 之後，CodeGraph 新增了 <code>codegraph.json</code> 設定檔、
+<code>explore</code>／<code>node</code> 等 CLI 指令、<code>affected</code> 測試影響分析、
+    匿名 Telemetry，以及可驗證的發行流程。本章依官方 README（1.x）整理這些前幾章沒寫到的內容，
+    並附上筆者在 1.6.2 上的實測結果。
+</p> <h2>9.1 codegraph.json 設定檔</h2> <p>
+CodeGraph 預設是 <strong>zero-config</strong>：語言支援由副檔名自動判斷，不需要為每種語言設定任何東西。
+    唯一的可選設定檔是專案根目錄的 <code>codegraph.json</code>，用來調整「哪些檔案進索引」與「搜尋時誰排前面」。
+</p> <h3>預設會跳過什麼</h3> <ul> <li><strong>相依、建置與快取目錄</strong>：<code>node_modules</code>、<code>vendor</code>、<code>dist</code>、<code>build</code>、<code>target</code>、<code>.venv</code>、<code>Pods</code>、<code>.next</code> 等，涵蓋所有支援的技術堆疊；即使專案沒有 <code>.gitignore</code> 也一樣。</li> <li><strong><code>.gitignore</code> 內的內容</strong>：git 專案透過 git 判斷；非 git 專案則直接讀取 <code>.gitignore</code>（含根目錄與子目錄）。</li> <li><strong>大於 1 MB 的檔案</strong>：例如產生的 bundle、minified JS、第三方二進位大檔。</li> </ul> <p>
+想排除其他東西，先加進 <code>.gitignore</code> 即可；想把預設排除的目錄拉回索引，
+    在 <code>.gitignore</code> 加上否定語法：
+</p> <div class="cb-wrap" data-astro-cid-jgrc2lfe> <div class="cb-bar" data-astro-cid-jgrc2lfe> <span class="cb-label" data-astro-cid-jgrc2lfe>.gitignore</span> <button class="cb-copy" data-code="# .gitignore：把預設被排除的目錄拉回索引
+!vendor/" data-astro-cid-jgrc2lfe>複製</button> </div> <div class="cb-inner" data-astro-cid-jgrc2lfe> <pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto;" tabindex="0" data-astro-cid-jgrc2lfe data-language="text"><code><span class="line"><span># .gitignore：把預設被排除的目錄拉回索引</span></span>
+<span class="line"><span>!vendor/</span></span></code></pre> </div> </div>  <script type="module">document.querySelectorAll(".cb-copy").forEach(e=>{e.addEventListener("click",()=>{const t=e.dataset.code;t&&navigator.clipboard.writeText(t).then(()=>{e.textContent="已複製!",e.classList.add("copied"),setTimeout(()=>{e.textContent="複製",e.classList.remove("copied")},2e3)})})});</script> <h3>四個欄位的分工</h3> <table> <thead> <tr> <th>欄位</th> <th>用途</th> <th>何時使用</th> </tr> </thead> <tbody> <tr> <td><code>exclude</code></td> <td>從索引中移除，gitignore 風格 pattern，以專案根目錄相對路徑比對；索引、同步、監聽三個階段都生效</td> <td>已 commit 進 repo 的第三方內容（例如放在 <code>static/</code> 的佈景主題或 SDK），<code>.gitignore</code> 擋不掉</td> </tr> <tr> <td><code>include</code></td> <td>強制納入索引，覆蓋 <code>.gitignore</code>；索引、同步、監聽都生效</td> <td>原始碼被刻意 gitignore 的專案，例如同時使用 SVN 或 Perforce、為了不進 Git 而把自己的原始碼寫進 <code>.gitignore</code></td> </tr> <tr> <td><code>deprioritize</code></td> <td>路徑仍在索引內、仍可搜尋，只是排名不再壓過主要程式碼；影響 <code>query</code>／<code>search</code> 與 <code>explore</code> 的排序</td> <td><code>scripts/</code>、<code>optional-skills/</code> 這類目錄的輔助函式用了 <code>usage</code>、<code>status</code>、<code>run</code> 之類的泛用名稱，會因名稱完全相符而搶走產品程式碼的名次</td> </tr> <tr> <td><code>extensions</code></td> <td>把非標準副檔名對應到支援的語言 id</td> <td>專案使用自訂副檔名，例如 <code>.dota_lua</code> 對應 Lua、<code>.tpl</code> 對應 PHP；預設這些檔案會被跳過</td> </tr> </tbody> </table> <h3>exclude：擋下已 commit 的目錄</h3> <div class="cb-wrap" data-astro-cid-jgrc2lfe> <div class="cb-bar" data-astro-cid-jgrc2lfe> <span class="cb-label" data-astro-cid-jgrc2lfe>codegraph.json</span> <button class="cb-copy" data-code="{
+  &quot;exclude&quot;: [&quot;static/&quot;, &quot;**/vendor/**&quot;]
+}" data-astro-cid-jgrc2lfe>複製</button> </div> <div class="cb-inner" data-astro-cid-jgrc2lfe> <pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto;" tabindex="0" data-astro-cid-jgrc2lfe data-language="json"><code><span class="line"><span style="color:#ABB2BF">{</span></span>
+<span class="line"><span style="color:#E06C75">  "exclude"</span><span style="color:#ABB2BF">: [</span><span style="color:#98C379">"static/"</span><span style="color:#ABB2BF">, </span><span style="color:#98C379">"**/vendor/**"</span><span style="color:#ABB2BF">]</span></span>
+<span class="line"><span style="color:#ABB2BF">}</span></span></code></pre> </div> </div>   <p>
+若明確寫了 <code>exclude</code>，它的優先權高於 <code>include</code>。
+</p> <h3>include：把被 gitignore 的原始碼拉回來</h3> <div class="cb-wrap" data-astro-cid-jgrc2lfe> <div class="cb-bar" data-astro-cid-jgrc2lfe> <span class="cb-label" data-astro-cid-jgrc2lfe>codegraph.json</span> <button class="cb-copy" data-code="{
+  &quot;include&quot;: [&quot;Tools/&quot;, &quot;Local/typescript/&quot;]
+}" data-astro-cid-jgrc2lfe>複製</button> </div> <div class="cb-inner" data-astro-cid-jgrc2lfe> <pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto;" tabindex="0" data-astro-cid-jgrc2lfe data-language="json"><code><span class="line"><span style="color:#ABB2BF">{</span></span>
+<span class="line"><span style="color:#E06C75">  "include"</span><span style="color:#ABB2BF">: [</span><span style="color:#98C379">"Tools/"</span><span style="color:#ABB2BF">, </span><span style="color:#98C379">"Local/typescript/"</span><span style="color:#ABB2BF">]</span></span>
+<span class="line"><span style="color:#ABB2BF">}</span></span></code></pre> </div> </div>   <p>
+CodeGraph 會直接從磁碟找到這些檔案，無視 <code>.gitignore</code>。
+    但內建的跳過項目（<code>node_modules</code>、<code>dist</code>、<code>.git</code>）不會被 <code>include</code> 重新納入。
+</p> <h3>deprioritize：降權而非移除</h3> <div class="cb-wrap" data-astro-cid-jgrc2lfe> <div class="cb-bar" data-astro-cid-jgrc2lfe> <span class="cb-label" data-astro-cid-jgrc2lfe>codegraph.json</span> <button class="cb-copy" data-code="{
+  &quot;deprioritize&quot;: [&quot;optional-skills/&quot;, &quot;scripts/&quot;]
+}" data-astro-cid-jgrc2lfe>複製</button> </div> <div class="cb-inner" data-astro-cid-jgrc2lfe> <pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto;" tabindex="0" data-astro-cid-jgrc2lfe data-language="json"><code><span class="line"><span style="color:#ABB2BF">{</span></span>
+<span class="line"><span style="color:#E06C75">  "deprioritize"</span><span style="color:#ABB2BF">: [</span><span style="color:#98C379">"optional-skills/"</span><span style="color:#ABB2BF">, </span><span style="color:#98C379">"scripts/"</span><span style="color:#ABB2BF">]</span></span>
+<span class="line"><span style="color:#ABB2BF">}</span></span></code></pre> </div> </div>   <p> <code>deprioritize</code> 只改變排名，不是過濾器。官方特別區分：內建的 <code>example/</code>、<code>sample/</code>、<code>fixture/</code>、<code>benchmark/</code>、<code>demo/</code> 處理會在部分結果集中直接剔除那些檔案，而 <code>deprioritize</code> 永遠只改排名。要讓東西徹底消失，請用 <code>exclude</code>。
+</p> <h3>extensions：自訂副檔名</h3> <div class="cb-wrap" data-astro-cid-jgrc2lfe> <div class="cb-bar" data-astro-cid-jgrc2lfe> <span class="cb-label" data-astro-cid-jgrc2lfe>codegraph.json</span> <button class="cb-copy" data-code="{
+  &quot;extensions&quot;: {
+    &quot;.dota_lua&quot;: &quot;lua&quot;,
+    &quot;.tpl&quot;: &quot;php&quot;
+  }
+}" data-astro-cid-jgrc2lfe>複製</button> </div> <div class="cb-inner" data-astro-cid-jgrc2lfe> <pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto;" tabindex="0" data-astro-cid-jgrc2lfe data-language="json"><code><span class="line"><span style="color:#ABB2BF">{</span></span>
+<span class="line"><span style="color:#E06C75">  "extensions"</span><span style="color:#ABB2BF">: {</span></span>
+<span class="line"><span style="color:#E06C75">    ".dota_lua"</span><span style="color:#ABB2BF">: </span><span style="color:#98C379">"lua"</span><span style="color:#ABB2BF">,</span></span>
+<span class="line"><span style="color:#E06C75">    ".tpl"</span><span style="color:#ABB2BF">: </span><span style="color:#98C379">"php"</span></span>
+<span class="line"><span style="color:#ABB2BF">  }</span></span>
+<span class="line"><span style="color:#ABB2BF">}</span></span></code></pre> </div> </div>   <p>
+每個值必須是支援的語言 id。對應表會疊加在內建預設之上，衝突時以你的設定為準，
+    所以也可以重新指定內建副檔名（例如把 <code>.h</code> 指向 <code>cpp</code>）。
+    語言名稱打錯或檔案格式錯誤時只會顯示警告並略過，不會讓索引失敗；沒有 <code>codegraph.json</code> 的專案行為與以前完全相同。
+    新增或修改對應後，要重新索引：
+</p> <div class="cb-wrap" data-astro-cid-jgrc2lfe> <div class="cb-bar" data-astro-cid-jgrc2lfe> <span class="cb-label" data-astro-cid-jgrc2lfe>bash</span> <button class="cb-copy" data-code="# 新增或修改 codegraph.json 之後，重新索引
+codegraph index" data-astro-cid-jgrc2lfe>複製</button> </div> <div class="cb-inner" data-astro-cid-jgrc2lfe> <pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto;" tabindex="0" data-astro-cid-jgrc2lfe data-language="bash"><code><span class="line"><span style="color:#7F848E;font-style:italic"># 新增或修改 codegraph.json 之後，重新索引</span></span>
+<span class="line"><span style="color:#61AFEF">codegraph</span><span style="color:#98C379"> index</span></span></code></pre> </div> </div>   <div class="call tip"> <span class="ci">💡</span> <div> <strong>codegraph.json 建議提交進版本控制</strong> <p>
+官方建議把 <code>codegraph.json</code> 一併 commit，讓團隊共用同一份副檔名對應。
+        注意這與前面章節提到的 <code>.codegraph/</code> 資料庫目錄不同：資料庫是衍生產物，設定檔則是專案約定。
+</p> </div> </div> <h2>9.2 CLI 速查（1.x 全部指令）</h2> <p>以下是官方 README「CLI Reference」的完整指令清單，與原文逐字一致：</p> <div class="cb-wrap" data-astro-cid-jgrc2lfe> <div class="cb-bar" data-astro-cid-jgrc2lfe> <span class="cb-label" data-astro-cid-jgrc2lfe>CLI Reference</span> <button class="cb-copy" data-code="codegraph                         # Run interactive installer
+codegraph install                 # Run installer (explicit)
+codegraph uninstall               # Remove CodeGraph from your agents AND the CLI (--keep-cli for configs only)
+codegraph init [path]             # Initialize a project + build its graph (one step)
+codegraph uninit [path]           # Remove CodeGraph from a project (--force to skip prompt)
+codegraph index [path]            # Full index (--force to re-index, --quiet for less output)
+codegraph sync [path]             # Incremental update
+codegraph status [path]           # Show statistics
+codegraph unlock [path]           # Remove a stale lock file that's blocking indexing
+codegraph query <search>          # Search symbols (--kind, --limit, --json)
+codegraph explore <query>         # Relevant symbols' source + call paths in one shot (same output as the codegraph_explore MCP tool)
+codegraph node <symbol|file>      # One symbol's source + callers, or read a file with line numbers (same output as codegraph_node)
+codegraph files [path]            # Show file structure (--format, --filter, --max-depth, --json)
+codegraph callers <symbol>        # Find what calls a function/method (--limit, --json)
+codegraph callees <symbol>        # Find what a function/method calls (--limit, --json)
+codegraph impact <symbol>         # Analyze what code is affected by changing a symbol (--depth, --json)
+codegraph affected [files...]     # Find test files affected by changes (see below)
+codegraph daemon                  # Manage background daemons — pick one to stop (alias: daemons)
+codegraph telemetry [on|off]      # Show or change anonymous usage telemetry
+codegraph upgrade [version]       # Update to the latest release (--check, --force)
+codegraph version                 # Print the installed version (also -v, --version)
+codegraph help [command]          # Show help, optionally for one command" data-astro-cid-jgrc2lfe>複製</button> </div> <div class="cb-inner" data-astro-cid-jgrc2lfe> <pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto;" tabindex="0" data-astro-cid-jgrc2lfe data-language="text"><code><span class="line"><span>codegraph                         # Run interactive installer</span></span>
+<span class="line"><span>codegraph install                 # Run installer (explicit)</span></span>
+<span class="line"><span>codegraph uninstall               # Remove CodeGraph from your agents AND the CLI (--keep-cli for configs only)</span></span>
+<span class="line"><span>codegraph init [path]             # Initialize a project + build its graph (one step)</span></span>
+<span class="line"><span>codegraph uninit [path]           # Remove CodeGraph from a project (--force to skip prompt)</span></span>
+<span class="line"><span>codegraph index [path]            # Full index (--force to re-index, --quiet for less output)</span></span>
+<span class="line"><span>codegraph sync [path]             # Incremental update</span></span>
+<span class="line"><span>codegraph status [path]           # Show statistics</span></span>
+<span class="line"><span>codegraph unlock [path]           # Remove a stale lock file that's blocking indexing</span></span>
+<span class="line"><span>codegraph query &#x3C;search>          # Search symbols (--kind, --limit, --json)</span></span>
+<span class="line"><span>codegraph explore &#x3C;query>         # Relevant symbols' source + call paths in one shot (same output as the codegraph_explore MCP tool)</span></span>
+<span class="line"><span>codegraph node &#x3C;symbol|file>      # One symbol's source + callers, or read a file with line numbers (same output as codegraph_node)</span></span>
+<span class="line"><span>codegraph files [path]            # Show file structure (--format, --filter, --max-depth, --json)</span></span>
+<span class="line"><span>codegraph callers &#x3C;symbol>        # Find what calls a function/method (--limit, --json)</span></span>
+<span class="line"><span>codegraph callees &#x3C;symbol>        # Find what a function/method calls (--limit, --json)</span></span>
+<span class="line"><span>codegraph impact &#x3C;symbol>         # Analyze what code is affected by changing a symbol (--depth, --json)</span></span>
+<span class="line"><span>codegraph affected [files...]     # Find test files affected by changes (see below)</span></span>
+<span class="line"><span>codegraph daemon                  # Manage background daemons — pick one to stop (alias: daemons)</span></span>
+<span class="line"><span>codegraph telemetry [on|off]      # Show or change anonymous usage telemetry</span></span>
+<span class="line"><span>codegraph upgrade [version]       # Update to the latest release (--check, --force)</span></span>
+<span class="line"><span>codegraph version                 # Print the installed version (also -v, --version)</span></span>
+<span class="line"><span>codegraph help [command]          # Show help, optionally for one command</span></span></code></pre> </div> </div>   <table> <thead> <tr> <th>分類</th> <th>指令</th> <th>用途</th> </tr> </thead> <tbody> <tr> <td>安裝與移除</td> <td><code>install</code>／<code>uninstall</code></td> <td>把 CodeGraph 接到各 agent 或從中移除；直接執行 <code>codegraph</code> 會進入互動式安裝程式</td> </tr> <tr> <td>專案生命週期</td> <td><code>init</code>／<code>uninit</code>／<code>index</code>／<code>sync</code>／<code>status</code>／<code>unlock</code></td> <td>初始化並建圖、移除專案索引、全量索引、增量更新、顯示統計、移除卡住索引的殘留 lock 檔</td> </tr> <tr> <td>查詢與分析</td> <td><code>query</code>／<code>explore</code>／<code>node</code>／<code>files</code>／<code>callers</code>／<code>callees</code>／<code>impact</code>／<code>affected</code></td> <td>搜尋符號、一次取回相關原始碼與呼叫路徑、讀取單一符號或檔案、檢視檔案結構、找呼叫者與被呼叫者、影響範圍分析、找受影響測試</td> </tr> <tr> <td>維運</td> <td><code>daemon</code>／<code>telemetry</code>／<code>upgrade</code>／<code>version</code>／<code>help</code></td> <td>管理背景 daemon、開關匿名統計、升級、顯示版本、說明</td> </tr> </tbody> </table> <h3>1.x 新增的重點指令</h3> <ul> <li> <strong><code>codegraph explore &lt;query&gt;</code></strong>：一次取回相關符號的原始碼與呼叫路徑，
+      輸出與 MCP 工具 <code>codegraph_explore</code> 相同。子代理（subagent）與不支援 MCP 的環境看不到 MCP 的使用指引，
+      因此安裝程式會在 agent 的指令檔寫入一小段標記區塊，指向這個 CLI 對應指令。
+</li> <li> <strong><code>codegraph node &lt;symbol|file&gt;</code></strong>：顯示單一符號的原始碼與呼叫者，
+      或以附行號的方式讀取一個檔案；輸出與 <code>codegraph_node</code> 相同。
+</li> <li> <strong><code>codegraph daemon</code></strong>：管理背景 daemon，用來挑選要停止的那一個（別名 <code>daemons</code>）。
+      官方說明 CodeGraph 對每個專案只允許一個即時的 MCP 寫入者（共用的背景 daemon，或單一直接模式程序），
+      多個 MCP 客戶端應共用同一個 daemon。
+</li> <li> <strong><code>codegraph telemetry [on|off]</code></strong>：顯示或變更匿名使用統計，詳見 9.5。
+</li> <li> <strong><code>codegraph upgrade [version]</code></strong>：升級到最新版（可用 <code>--check</code>、<code>--force</code>）。
+</li> </ul> <h3>install 的非互動參數</h3> <p>腳本或 CI 環境可以用旗標跳過所有提示：</p> <div class="cb-wrap" data-astro-cid-jgrc2lfe> <div class="cb-bar" data-astro-cid-jgrc2lfe> <span class="cb-label" data-astro-cid-jgrc2lfe>bash</span> <button class="cb-copy" data-code="codegraph install --yes                              # auto-detect agents, install global
+codegraph install --yes --init                       # same, then build the current project's index (one-shot bootstrap)
+codegraph install --target=cursor,claude --yes       # explicit target list
+codegraph install --target=auto --location=local     # detected agents, project-local
+codegraph install --print-config codex               # print snippet, no file writes" data-astro-cid-jgrc2lfe>複製</button> </div> <div class="cb-inner" data-astro-cid-jgrc2lfe> <pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto;" tabindex="0" data-astro-cid-jgrc2lfe data-language="bash"><code><span class="line"><span style="color:#61AFEF">codegraph</span><span style="color:#98C379"> install</span><span style="color:#D19A66"> --yes</span><span style="color:#7F848E;font-style:italic">                              # auto-detect agents, install global</span></span>
+<span class="line"><span style="color:#61AFEF">codegraph</span><span style="color:#98C379"> install</span><span style="color:#D19A66"> --yes</span><span style="color:#D19A66"> --init</span><span style="color:#7F848E;font-style:italic">                       # same, then build the current project's index (one-shot bootstrap)</span></span>
+<span class="line"><span style="color:#61AFEF">codegraph</span><span style="color:#98C379"> install</span><span style="color:#D19A66"> --target=cursor,claude</span><span style="color:#D19A66"> --yes</span><span style="color:#7F848E;font-style:italic">       # explicit target list</span></span>
+<span class="line"><span style="color:#61AFEF">codegraph</span><span style="color:#98C379"> install</span><span style="color:#D19A66"> --target=auto</span><span style="color:#D19A66"> --location=local</span><span style="color:#7F848E;font-style:italic">     # detected agents, project-local</span></span>
+<span class="line"><span style="color:#61AFEF">codegraph</span><span style="color:#98C379"> install</span><span style="color:#D19A66"> --print-config</span><span style="color:#98C379"> codex</span><span style="color:#7F848E;font-style:italic">               # print snippet, no file writes</span></span></code></pre> </div> </div>   <table> <thead> <tr> <th>旗標</th> <th>值</th> <th>預設</th> </tr> </thead> <tbody> <tr> <td><code>--target</code></td> <td><code>auto</code>、<code>all</code>、<code>none</code>，或逗號分隔清單（<code>claude,cursor,...</code>）</td> <td>互動詢問</td> </tr> <tr> <td><code>--location</code></td> <td><code>global</code>、<code>local</code></td> <td>互動詢問</td> </tr> <tr> <td><code>--yes</code></td> <td>布林；跳過每一步提示</td> <td>每一步都詢問</td> </tr> <tr> <td><code>--init</code></td> <td>布林；接好 agent 後，在目前目錄執行 <code>codegraph init</code></td> <td>不執行</td> </tr> <tr> <td><code>--print-config &lt;id&gt;</code></td> <td>印出單一 agent 的設定片段後結束，不寫入任何檔案</td> <td>無</td> </tr> <tr> <td><code>--refresh</code></td> <td>只重寫「先前已經設定過」的 agent，不會新增新的 agent（1.6.2 的 <code>install --help</code> 實測；<code>codegraph upgrade</code> 會自動執行）</td> <td>無</td> </tr> </tbody> </table> <p>
+要記得：安裝程式<strong>只接線 agent，不會替你索引程式碼</strong>。
+    一次全域 <code>codegraph install</code> 涵蓋所有專案，但每個專案仍需各自執行一次 <code>codegraph init</code>。
+</p> <div class="call warn"> <span class="ci">⚠️</span> <div> <strong>Windows 升級陷阱：有 MCP 程序執行中，npm 會無聲失敗</strong> <p>
+實測於 2026-10-10，codegraph 1.6.2：在 Windows 上以 <code>npm i -g @colbymchenry/codegraph@1.6.2</code> 升級時，
+        若有 <code>codegraph serve --mcp</code> 程序正在執行（例如其他 Claude Code 或 Cursor 視窗），
+        npm 會因為檔案被佔用而無法覆蓋，而且<strong>不會報錯</strong>：<code>npm ls -g</code> 顯示 1.6.2，
+        但 <code>codegraph --version</code> 仍是 0.9.6。升級前請先結束這些程序，升級後以 <code>codegraph --version</code> 驗證。
+</p> </div> </div> <div class="cb-wrap" data-astro-cid-jgrc2lfe> <div class="cb-bar" data-astro-cid-jgrc2lfe> <span class="cb-label" data-astro-cid-jgrc2lfe>升級流程</span> <button class="cb-copy" data-code="# 升級前：先確認並結束所有執行中的 codegraph serve --mcp 程序
+# 升級後：務必用 --version 驗證實際生效的版本，不要只看 npm ls -g
+npm i -g @colbymchenry/codegraph@1.6.2
+codegraph --version" data-astro-cid-jgrc2lfe>複製</button> </div> <div class="cb-inner" data-astro-cid-jgrc2lfe> <pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto;" tabindex="0" data-astro-cid-jgrc2lfe data-language="powershell"><code><span class="line"><span style="color:#7F848E;font-style:italic"># 升級前：先確認並結束所有執行中的 codegraph serve --mcp 程序</span></span>
+<span class="line"><span style="color:#7F848E;font-style:italic"># 升級後：務必用 --version 驗證實際生效的版本，不要只看 npm ls -g</span></span>
+<span class="line"><span style="color:#ABB2BF">npm i </span><span style="color:#56B6C2">-</span><span style="color:#ABB2BF">g </span><span style="color:#E06C75">@colbymchenry</span><span style="color:#56B6C2">/</span><span style="color:#ABB2BF">codegraph</span><span style="color:#E06C75">@1.6.2</span></span>
+<span class="line"><span style="color:#ABB2BF">codegraph </span><span style="color:#56B6C2">--</span><span style="color:#ABB2BF">version</span></span></code></pre> </div> </div>   <h2>9.3 codegraph affected：用相依性找出該跑的測試</h2> <p> <code>codegraph affected</code> 會沿著 import 相依關係做遞移追蹤，找出哪些測試檔受到「被修改的原始檔」影響。
+    你把改動的檔案交給它，它回報需要重跑的測試，不必每次跑完整測試套件。
+</p> <div class="cb-wrap" data-astro-cid-jgrc2lfe> <div class="cb-bar" data-astro-cid-jgrc2lfe> <span class="cb-label" data-astro-cid-jgrc2lfe>bash</span> <button class="cb-copy" data-code="codegraph affected src/utils.ts src/api.ts         # Pass files as arguments
+git diff --name-only | codegraph affected --stdin   # Pipe from git diff
+codegraph affected src/auth.ts --filter &quot;e2e/*&quot;     # Custom test file pattern" data-astro-cid-jgrc2lfe>複製</button> </div> <div class="cb-inner" data-astro-cid-jgrc2lfe> <pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto;" tabindex="0" data-astro-cid-jgrc2lfe data-language="bash"><code><span class="line"><span style="color:#61AFEF">codegraph</span><span style="color:#98C379"> affected</span><span style="color:#98C379"> src/utils.ts</span><span style="color:#98C379"> src/api.ts</span><span style="color:#7F848E;font-style:italic">         # Pass files as arguments</span></span>
+<span class="line"><span style="color:#61AFEF">git</span><span style="color:#98C379"> diff</span><span style="color:#D19A66"> --name-only</span><span style="color:#ABB2BF"> | </span><span style="color:#61AFEF">codegraph</span><span style="color:#98C379"> affected</span><span style="color:#D19A66"> --stdin</span><span style="color:#7F848E;font-style:italic">   # Pipe from git diff</span></span>
+<span class="line"><span style="color:#61AFEF">codegraph</span><span style="color:#98C379"> affected</span><span style="color:#98C379"> src/auth.ts</span><span style="color:#D19A66"> --filter</span><span style="color:#98C379"> "e2e/*"</span><span style="color:#7F848E;font-style:italic">     # Custom test file pattern</span></span></code></pre> </div> </div>   <table> <thead> <tr> <th>選項</th> <th>說明</th> <th>預設</th> </tr> </thead> <tbody> <tr> <td><code>--stdin</code></td> <td>從標準輸入讀取檔案清單</td> <td><code>false</code></td> </tr> <tr> <td><code>-d, --depth &lt;n&gt;</code></td> <td>相依性追蹤的最大深度</td> <td><code>5</code></td> </tr> <tr> <td><code>-f, --filter &lt;glob&gt;</code></td> <td>自訂用來辨識測試檔的 glob</td> <td>自動偵測</td> </tr> <tr> <td><code>-j, --json</code></td> <td>以 JSON 輸出</td> <td><code>false</code></td> </tr> <tr> <td><code>-q, --quiet</code></td> <td>只輸出檔案路徑</td> <td><code>false</code></td> </tr> </tbody> </table> <h3>實測：Python 專案</h3> <p>
+實測於 2026-10-10，codegraph 1.6.2。測試專案是一個小型 Python 專案，包含
+<code>scripts/scaffold.py</code>、<code>scripts/gen_copy.py</code>、<code>tests/test_scaffold.py</code>。
+    對 <code>scripts/scaffold.py</code> 執行 <code>affected</code> 的輸出如下：
+</p> <div class="cb-wrap" data-astro-cid-jgrc2lfe> <div class="cb-bar" data-astro-cid-jgrc2lfe> <span class="cb-label" data-astro-cid-jgrc2lfe>實測輸出（1.6.2）</span> <button class="cb-copy" data-code="$ codegraph affected scripts/scaffold.py
+Affected test files (1):
+
+  tests/test_scaffold.py" data-astro-cid-jgrc2lfe>複製</button> </div> <div class="cb-inner" data-astro-cid-jgrc2lfe> <pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto;" tabindex="0" data-astro-cid-jgrc2lfe data-language="text"><code><span class="line"><span>$ codegraph affected scripts/scaffold.py</span></span>
+<span class="line"><span>Affected test files (1):</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>  tests/test_scaffold.py</span></span></code></pre> </div> </div>   <p>
+同一份程式碼用 0.9.6 執行，得到的是 <code>No test files affected by the changed files.</code>（找不到）；
+    1.6.2 則能正確找到對應測試。圖譜本身也有變化：<code>codegraph init -i</code> 在 1.6.2 對該專案建出
+    6 個檔案、138 個節點、329 條邊，耗時 2.4 秒；0.9.6 的邊數為 297 條。
+    邊越完整，import 追蹤越不容易漏。
+</p> <h3>CI 與 git hook</h3> <p>
+搭配 <code>--stdin</code> 與 <code>--quiet</code>，可以把「本次 diff」直接轉成「要跑的測試清單」：
+</p> <div class="cb-wrap" data-astro-cid-jgrc2lfe> <div class="cb-bar" data-astro-cid-jgrc2lfe> <span class="cb-label" data-astro-cid-jgrc2lfe>CI／hook 範例</span> <button class="cb-copy" data-code="#!/usr/bin/env bash
+AFFECTED=$(git diff --name-only HEAD | codegraph affected --stdin --quiet)
+if [ -n &quot;$AFFECTED&quot; ]; then
+  npx vitest run $AFFECTED
+fi" data-astro-cid-jgrc2lfe>複製</button> </div> <div class="cb-inner" data-astro-cid-jgrc2lfe> <pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto;" tabindex="0" data-astro-cid-jgrc2lfe data-language="bash"><code><span class="line"><span style="color:#7F848E;font-style:italic">#!/usr/bin/env bash</span></span>
+<span class="line"><span style="color:#E06C75">AFFECTED</span><span style="color:#56B6C2">=</span><span style="color:#ABB2BF">$(</span><span style="color:#61AFEF">git</span><span style="color:#98C379"> diff</span><span style="color:#D19A66"> --name-only</span><span style="color:#98C379"> HEAD</span><span style="color:#ABB2BF"> | </span><span style="color:#61AFEF">codegraph</span><span style="color:#98C379"> affected</span><span style="color:#D19A66"> --stdin</span><span style="color:#D19A66"> --quiet</span><span style="color:#ABB2BF">)</span></span>
+<span class="line"><span style="color:#C678DD">if</span><span style="color:#ABB2BF"> [ </span><span style="color:#56B6C2">-n</span><span style="color:#98C379"> "</span><span style="color:#E06C75">$AFFECTED</span><span style="color:#98C379">"</span><span style="color:#ABB2BF"> ]; </span><span style="color:#C678DD">then</span></span>
+<span class="line"><span style="color:#61AFEF">  npx</span><span style="color:#98C379"> vitest</span><span style="color:#98C379"> run</span><span style="color:#E06C75"> $AFFECTED</span></span>
+<span class="line"><span style="color:#C678DD">fi</span></span></code></pre> </div> </div>   <p> <code>git diff --name-only | codegraph affected --stdin --quiet</code> 是這個用法的核心：
+<code>--quiet</code> 只輸出路徑，方便直接餵給測試執行器。
+    範例以 <code>vitest</code> 為例，換成你專案的測試指令即可。
+</p> <div class="call info"> <span class="ci">ℹ️</span> <div> <strong>affected 的邊界</strong> <p>
+它依賴靜態 import 相依性。動態派發、反射或 DI 容器造成的關聯，屬於靜態分析的已知邊界（官方在覆蓋率說明中也這樣描述），
+        重要變更仍建議在合併前跑完整測試。
+</p> </div> </div> <h2>9.4 MCP 預設只露出 codegraph_explore</h2> <p>
+0.9.x 時代的 CodeGraph 提供一整排 MCP 工具。1.x 的 MCP server 預設<strong>只列出一個工具</strong>：
+<code>codegraph_explore</code>。官方的理由來自實測的 agent 行為：
+<strong>一個強工具比一堆窄工具更能引導 agent</strong>，選錯工具的情況更少，而且每個 session 都省下 context。
+</p> <table> <thead> <tr> <th>工具</th> <th>預設是否列出</th> <th>說明</th> </tr> </thead> <tbody> <tr> <td><code>codegraph_explore</code></td> <td>是</td> <td>一次呼叫回答幾乎任何問題：「X 如何運作」、流程（「X 如何到達 Y」）或某區域的概覽；回傳相關符號的原始碼（依檔案分組）、符號間的呼叫路徑與 blast-radius 摘要，也能呈現 grep 追不到的動態派發跳轉</td> </tr> <tr> <td><code>codegraph_node</code>、<code>codegraph_search</code>、<code>codegraph_callers</code>、<code>codegraph_callees</code>、<code>codegraph_impact</code>、<code>codegraph_files</code>、<code>codegraph_status</code></td> <td>否（unlisted）</td> <td>功能完整保留，但預設不列出；它們回傳的內容在 <code>codegraph_explore</code> 已經內嵌</td> </tr> </tbody> </table> <p>
+若想把某些工具重新開放給 MCP，用環境變數 <code>CODEGRAPH_MCP_TOOLS</code> 指定；
+    或直接使用對應的 CLI 指令（<code>codegraph node</code>／<code>query</code>／<code>callers</code>／<code>callees</code>／<code>impact</code>／<code>files</code>／<code>status</code>）：
+</p> <div class="cb-wrap" data-astro-cid-jgrc2lfe> <div class="cb-bar" data-astro-cid-jgrc2lfe> <span class="cb-label" data-astro-cid-jgrc2lfe>bash</span> <button class="cb-copy" data-code="# 重新開放其他 MCP 工具（預設只列出 codegraph_explore）
+CODEGRAPH_MCP_TOOLS=explore,node,search,callers" data-astro-cid-jgrc2lfe>複製</button> </div> <div class="cb-inner" data-astro-cid-jgrc2lfe> <pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto;" tabindex="0" data-astro-cid-jgrc2lfe data-language="bash"><code><span class="line"><span style="color:#7F848E;font-style:italic"># 重新開放其他 MCP 工具（預設只列出 codegraph_explore）</span></span>
+<span class="line"><span style="color:#E06C75">CODEGRAPH_MCP_TOOLS</span><span style="color:#56B6C2">=</span><span style="color:#98C379">explore,node,search,callers</span></span></code></pre> </div> </div>   <h3>用 projectPath 跨專案查詢</h3> <p>
+即使 MCP server 自己的根目錄沒有 <code>.codegraph/</code> 索引，工具仍然可用：
+    傳入 <code>projectPath</code> 就能查詢任何已建索引的專案，例如 monorepo 裡只有部分服務建了索引，或同一個 session 內要看第二個 repo。
+    若該路徑沒有索引，會回傳清楚的指引，要求改用內建工具，不會出現刺耳的錯誤；是否要建立索引，仍由你決定。
+</p> <h2>9.5 Telemetry 與隱私</h2> <p>
+CodeGraph 會收集<strong>匿名使用統計</strong>：哪些工具與指令被使用、哪些語言被索引，用來決定語言與 agent 支援的投入方向。
+</p> <table> <thead> <tr> <th>項目</th> <th>官方說明</th> </tr> </thead> <tbody> <tr> <td>會收集</td> <td>使用了哪些工具與指令、哪些語言被索引</td> </tr> <tr> <td>絕不收集</td> <td>程式碼、路徑、檔名、符號名稱、查詢內容、IP 位址</td> </tr> <tr> <td>傳送方式</td> <td>先在本機彙整成每日總計才會傳送；接收端點的程式碼公開在官方 repo，並依文件列出的欄位清單過濾</td> </tr> <tr> <td>詢問時機</td> <td>安裝程式會在一開始就詢問</td> </tr> </tbody> </table> <p>隨時可以關閉，三種方式擇一：</p> <div class="cb-wrap" data-astro-cid-jgrc2lfe> <div class="cb-bar" data-astro-cid-jgrc2lfe> <span class="cb-label" data-astro-cid-jgrc2lfe>bash</span> <button class="cb-copy" data-code="codegraph telemetry off    # or: CODEGRAPH_TELEMETRY=0, or DO_NOT_TRACK=1" data-astro-cid-jgrc2lfe>複製</button> </div> <div class="cb-inner" data-astro-cid-jgrc2lfe> <pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto;" tabindex="0" data-astro-cid-jgrc2lfe data-language="bash"><code><span class="line"><span style="color:#61AFEF">codegraph</span><span style="color:#98C379"> telemetry</span><span style="color:#98C379"> off</span><span style="color:#7F848E;font-style:italic">    # or: CODEGRAPH_TELEMETRY=0, or DO_NOT_TRACK=1</span></span></code></pre> </div> </div>   <p>
+官方 repo 的 <code>TELEMETRY.md</code> 列出每一個欄位、關閉方式與完整的資料處理說明。
+</p> <div class="call tip"> <span class="ci">💡</span> <div> <strong>公司專案的中性建議</strong> <p>
+依官方說明，Telemetry 不含程式碼與檔案資訊，風險看起來有限。
+        但在公司內部專案使用前，仍建議先對照 <code>TELEMETRY.md</code> 的欄位清單，並依公司資安政策確認，
+        再決定是否關閉。若要統一關閉，在部署腳本設定 <code>CODEGRAPH_TELEMETRY=0</code> 或 <code>DO_NOT_TRACK=1</code> 最容易管理。
+</p> </div> </div> <h2>9.6 發行版驗證</h2> <p>
+每一個發行檔案都由公開的 Release workflow 建置與發布，而不是從開發者的筆電送出，並附有密碼學證明：
+</p> <ul> <li> <strong>npm 套件</strong>：透過 npm trusted publishing 發布（OIDC，沒有可能被竊取的長期 npm token），
+      並帶有 provenance 證明，把每個版本連結到建置它的確切 commit 與 workflow run。驗證已安裝的內容：
+</li> </ul> <div class="cb-wrap" data-astro-cid-jgrc2lfe> <div class="cb-bar" data-astro-cid-jgrc2lfe> <span class="cb-label" data-astro-cid-jgrc2lfe>bash</span> <button class="cb-copy" data-code="npm audit signatures" data-astro-cid-jgrc2lfe>複製</button> </div> <div class="cb-inner" data-astro-cid-jgrc2lfe> <pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto;" tabindex="0" data-astro-cid-jgrc2lfe data-language="bash"><code><span class="line"><span style="color:#61AFEF">npm</span><span style="color:#98C379"> audit</span><span style="color:#98C379"> signatures</span></span></code></pre> </div> </div>   <ul> <li> <strong>GitHub Release 套件</strong>（含 <code>SHA256SUMS</code>）帶有已簽署的 build attestation（SLSA v1.0 Build Level 2）。驗證任何下載的套件：
+</li> </ul> <div class="cb-wrap" data-astro-cid-jgrc2lfe> <div class="cb-bar" data-astro-cid-jgrc2lfe> <span class="cb-label" data-astro-cid-jgrc2lfe>bash</span> <button class="cb-copy" data-code="gh attestation verify codegraph-darwin-arm64.tar.gz -R colbymchenry/codegraph" data-astro-cid-jgrc2lfe>複製</button> </div> <div class="cb-inner" data-astro-cid-jgrc2lfe> <pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto;" tabindex="0" data-astro-cid-jgrc2lfe data-language="bash"><code><span class="line"><span style="color:#61AFEF">gh</span><span style="color:#98C379"> attestation</span><span style="color:#98C379"> verify</span><span style="color:#98C379"> codegraph-darwin-arm64.tar.gz</span><span style="color:#D19A66"> -R</span><span style="color:#98C379"> colbymchenry/codegraph</span></span></code></pre> </div> </div>   <div class="call warn"> <span class="ci">⚠️</span> <div> <strong>2026 年 7 月前的版本沒有證明</strong> <p>
+2026 年 7 月之前發布的版本早於這條發行流程，不帶 attestation。
+        因此若你仍停留在 0.9.x，<code>npm audit signatures</code> 與 <code>gh attestation verify</code> 無法替它們提供同等保證，這也是升級到 1.x 的理由之一。
+</p> </div> </div> <h2>9.7 支援平台</h2> <p>
+每個版本都提供自帶 Node runtime 的獨立建置（不需要自行編譯），涵蓋三大桌面作業系統，
+    同時支援 Intel／AMD（x64）與 ARM（arm64）：
+</p> <table> <thead> <tr> <th>平台</th> <th>架構</th> <th>安裝方式</th> </tr> </thead> <tbody> <tr> <td>Windows</td> <td>x64、arm64</td> <td>PowerShell 安裝程式或 npm</td> </tr> <tr> <td>macOS</td> <td>x64、arm64</td> <td>shell 安裝程式或 npm</td> </tr> <tr> <td>Linux</td> <td>x64、arm64</td> <td>shell 安裝程式或 npm</td> </tr> </tbody> </table> <p>
+CLI 與 MCP server 跑在自帶的 runtime 上，與你本機的 Node 版本無關。
+    只有把 CodeGraph 當函式庫嵌入自己的程式時，才會用到你自己的 runtime，並需要 Node 22.5 以上（為了內建的 <code>node:sqlite</code>）。
+</p> <h2>9.8 本章重點回顧</h2> <ul> <li><code>codegraph.json</code> 是唯一的可選設定檔：<code>exclude</code> 移除、<code>include</code> 強制納入、<code>deprioritize</code> 只降權、<code>extensions</code> 對應自訂副檔名。</li> <li>1.x 新增 <code>explore</code>、<code>node</code>、<code>daemon</code>、<code>telemetry</code> 等指令；<code>install</code> 支援 <code>--target</code>、<code>--location</code>、<code>--yes</code>、<code>--init</code>、<code>--print-config</code>。</li> <li><code>codegraph affected</code> 以 import 相依性找出受影響測試，搭配 <code>--stdin --quiet</code> 可直接放進 CI 或 git hook。</li> <li>MCP 預設只列出 <code>codegraph_explore</code>；其他工具仍可用，可用 <code>CODEGRAPH_MCP_TOOLS</code> 重新開放，或以 <code>projectPath</code> 查其他專案。</li> <li>Telemetry 為匿名統計且可關閉；發行版以 trusted publishing 與 SLSA attestation 驗證，2026 年 7 月前的版本不適用。</li> <li>Windows 升級前務必先結束 <code>codegraph serve --mcp</code> 程序，升級後用 <code>codegraph --version</code> 驗證。</li> </ul>  </div> <nav class="cnav" data-astro-cid-mw7aashj> <a href="/codegraph/ch08-search-impact" class="prev" data-astro-cid-mw7aashj> <span class="nd" data-astro-cid-mw7aashj>← 上一章</span> <span class="nt" data-astro-cid-mw7aashj>搜尋與影響力分析實踐</span> </a> <a href="/codegraph/ch10-alternatives" class="next" data-astro-cid-mw7aashj> <span class="nd" data-astro-cid-mw7aashj>下一章 →</span> <span class="nt" data-astro-cid-mw7aashj>CodeGraph 與同類工具比較</span> </a> </nav> </main> </div> <script>
+    // Theme
+    const html = document.documentElement;
+    const tt = document.getElementById('tt');
+    const isun = document.getElementById('isun');
+    const imoon = document.getElementById('imoon');
+    function syncIcons() {
+      const dk = html.classList.contains('dark');
+      isun.style.display = dk ? 'block' : 'none';
+      imoon.style.display = dk ? 'none' : 'block';
+    }
+    syncIcons();
+    tt?.addEventListener('click', () => {
+      html.classList.toggle('dark');
+      localStorage.setItem('cc-theme', html.classList.contains('dark') ? 'dark' : 'light');
+      syncIcons();
+    });
+
+    // Progress
+    const pb = document.getElementById('pb');
+    window.addEventListener('scroll', () => {
+      const t = document.documentElement.scrollHeight - window.innerHeight;
+      pb.style.width = t > 0 ? `${(window.scrollY / t) * 100}%` : '0%';
+    }, { passive: true });
+
+    // Sidebar part toggles
+    document.querySelectorAll('.pt').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.dataset.pid;
+        const list = document.querySelector(`[data-pl="${id}"]`);
+        btn.classList.toggle('open');
+        list?.classList.toggle('closed');
+      });
+    });
+
+    // Mobile menu
+    const sb = document.getElementById('sb');
+    const ov = document.getElementById('ov');
+    const mb = document.getElementById('mbtn');
+    const open = () => { sb.classList.add('open'); ov.classList.add('open'); document.body.style.overflow='hidden'; };
+    const close = () => { sb.classList.remove('open'); ov.classList.remove('open'); document.body.style.overflow=''; };
+    mb?.addEventListener('click', open);
+    ov?.addEventListener('click', close);
+  </script> </body> 
